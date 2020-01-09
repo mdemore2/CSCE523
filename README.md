@@ -1,1 +1,1 @@
-# CSCE523
+# CSCE523 - Intro to AI
