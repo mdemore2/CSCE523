@@ -32,17 +32,26 @@ public class MySearch implements Search {
 		visited.add(theBoard.toString());
 		Move nextMove = theBoard.genMoves();
 		
-		while(nextMove.next != null)
+		while(nextMove.next != null)//add all children to open list
 		{
-			theBoard.makeMove(nextMove);	//check heuristic here?
+			theBoard.makeMove(nextMove);
+			
+			if(theBoard.goalHeur == 0)
+			{
+				return theBoard.move_list;
+			}
+			
 			if(!visited.contains(theBoard.toString()))
 			{
 				open.add(theBoard.toString());
 			}
+			
 			theBoard.reverseMove(nextMove);
 			nextMove = nextMove.next;
 		}
-			
+		
+		//find element in open with lowest cost, iterate again over that
+		
 		return null;
 		//return move list
 	}
