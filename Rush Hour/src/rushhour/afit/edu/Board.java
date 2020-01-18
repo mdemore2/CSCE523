@@ -23,6 +23,9 @@ public class Board
     public Piece piece_list[];
     public int piece_count = 0;
     public Move move_list;
+    
+    public int goalHeur = 1;
+    public int blockHeur = 1;
 
     /**
      * Board constructor
@@ -65,6 +68,8 @@ public class Board
     	    ptr.next = temp;
     	    ptr = temp;
     	  }
+    	//update heuristics
+    	calcHeuristics();
     	}
     	// Need to capture everything because after a move one of the pieces and
     	// the board will no longer be the same.
@@ -365,6 +370,7 @@ public class Board
       Move temp = new Move(m);
       temp.next = move_list;
       move_list = temp;
+      calcHeuristics();
     }
 
     /**
@@ -405,5 +411,42 @@ public class Board
       
       // take the last move off the move_list
       move_list = move_list.next;
+      calcHeuristics();
+    }
+    
+    public void calcHeuristics()
+    {
+    	Piece car = new Piece();
+    	for(int i = 0; i < piece_list.length; i++)//find where the caor is on the board
+    	{
+    		if(piece_list[i].name == "X")
+    		{
+    			car = piece_list[i];
+    			i = piece_list.length;
+    			i++;
+    		}
+    	}
+    	//if in goal state, goal = 0, else goal = 1
+    	if(car.x == BOARD_EXIT_X && car.y == BOARD_EXIT_Y)
+    	{
+    		goalHeur = 0;
+    		blockHeur = 0;
+    		return;
+    	}
+    	else
+    	{
+    		goalHeur = 1;
+    		blockHeur = 1;
+    		//check car.x+1 to board_exit_x along board_exit_y
+    		for(int i = car.x+(car.dx-1); i < BOARD_EXIT_X;i++)
+    		{
+    			if(theBoard[i][BOARD_EXIT_Y] > 0)//not sure if this is the right check to see if a car is in the position
+    			{
+    				blockHeur++;
+    			}
+    		}
+    	}
+    	
+    	//if in goal state, block = 0, else block = 1 + #cars in way
     }
 }

@@ -1,9 +1,19 @@
 package rushhour.afit.edu;
+import java.util.*;
 
 public class MySearch implements Search {
+	
+	public int node_count = 0;
+	public Board theBoard;
+	public Move path;
+	
+	public LinkedList<String> open;
+	public LinkedList<String> visited;
 
 	public MySearch(Board board) {
 		// TODO Auto-generated constructor stub
+		theBoard = board;
+		open.add(board.toString());
 	}
 
 	
@@ -17,7 +27,22 @@ public class MySearch implements Search {
      */
 	@Override
 	public Move findMoves() {
-		// TODO Auto-generated method stub
+		
+		open.remove();
+		visited.add(theBoard.toString());
+		Move nextMove = theBoard.genMoves();
+		
+		while(nextMove.next != null)
+		{
+			theBoard.makeMove(nextMove);	//check heuristic here?
+			if(!visited.contains(theBoard.toString()))
+			{
+				open.add(theBoard.toString());
+			}
+			theBoard.reverseMove(nextMove);
+			nextMove = nextMove.next;
+		}
+			
 		return null;
 		//return move list
 	}

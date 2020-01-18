@@ -45,7 +45,7 @@ public class RushHour
             in.read(x,0,2);
             newBoard[i][j] = new String(x);
           }
-          in.read(); //carrige return
+          in.read(); //carriage return
         }
 
         //decrement boards counter
