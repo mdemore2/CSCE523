@@ -26,6 +26,8 @@ public class Board
     
     public int goalHeur = 1;
     public int blockHeur = 1;
+    
+    public int cost = goalHeur + blockHeur;
 
     /**
      * Board constructor
