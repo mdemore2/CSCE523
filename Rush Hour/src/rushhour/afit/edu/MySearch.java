@@ -7,10 +7,10 @@ public class MySearch implements Search {
 	public Board theBoard;
 	public Move path;
 	
-	public LinkedList<Pair<String,Integer>> open;
-	public LinkedList<Pair<String,Integer>> visited;
+	public LinkedList<Pair<String,Integer>> open = new LinkedList<Pair<String,Integer>>();
+	public LinkedList<Pair<String,Integer>> visited = new LinkedList<Pair<String,Integer>>();
 	
-	public HashMap<String,Board> boardmap;
+	public HashMap<String,Board> boardmap = new HashMap<String,Board>();
 
 	public MySearch(Board board) {
 		// TODO Auto-generated constructor stub

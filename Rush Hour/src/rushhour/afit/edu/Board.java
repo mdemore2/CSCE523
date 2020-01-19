@@ -421,12 +421,17 @@ public class Board
     	Piece car = new Piece();
     	for(int i = 0; i < piece_list.length; i++)//find where the caor is on the board
     	{
-    		if(piece_list[i].name == "X")
+    		if(piece_list[i] != null)
     		{
-    			car = piece_list[i];
-    			i = piece_list.length;
-    			i++;
+    			if(piece_list[i].name == (String)"X0")
+    			{
+        			car = piece_list[i];
+        			i = piece_list.length;
+        			i++;
+        		}
     		}
+    		
+    		
     	}
     	//if in goal state, goal = 0, else goal = 1
     	if(car.x == BOARD_EXIT_X && car.y == BOARD_EXIT_Y)
