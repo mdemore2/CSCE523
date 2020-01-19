@@ -419,7 +419,7 @@ public class Board
     public void calcHeuristics()
     {
     	Piece car = new Piece();
-    	for(int i = 0; i < piece_list.length; i++)//find where the caor is on the board
+    	for(int i = 0; i < piece_list.length; i++)//find where the car is on the board
     	{
     		if(piece_list[i] != null)
     		{
@@ -439,26 +439,26 @@ public class Board
     		
     	}
     	//if in goal state, goal = 0, else goal = 1
-    	if(car.x == BOARD_EXIT_X && car.y == BOARD_EXIT_Y)
+    	if(car.x == (BOARD_EXIT_X-1) && car.y == BOARD_EXIT_Y)
     	{
     		goalHeur = 0;
     		blockHeur = 0;
-    		return;
     	}
     	else
     	{
     		goalHeur = 1;
     		blockHeur = 1;
     		//check car.x+1 to board_exit_x along board_exit_y
-    		for(int i = car.x+(car.dx-1); i < BOARD_EXIT_X;i++)
+    		for(int i = car.x+car.dx; i < BOARD_EXIT_X;i++)
     		{
-    			if(theBoard[i][BOARD_EXIT_Y] > 0)//not sure if this is the right check to see if a car is in the position
+    			if(theBoard[i][BOARD_EXIT_Y] >= 0)//not sure if this is the right check to see if a car is in the position
     			{
     				blockHeur++;
     			}
     		}
-    		cost = goalHeur + blockHeur;
     	}
+    	cost = goalHeur + blockHeur;
+
     	
     	//if in goal state, block = 0, else block = 1 + #cars in way
     }

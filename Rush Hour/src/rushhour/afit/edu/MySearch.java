@@ -31,7 +31,6 @@ public class MySearch implements Search {
 	@Override
 	public Move findMoves() {
 		
-		node_count = 0;
 		
 		open.remove((Pair.of(toString(currentBoard),currentBoard.cost)));
 		visited.add(Pair.of(toString(currentBoard),currentBoard.cost));
