@@ -4,7 +4,7 @@ import java.util.*;
 public class MySearch implements Search {
 	
 	public int node_count = 0;
-	public Board theBoard;
+	public Board currentBoard;
 	public Move path;
 	
 	public LinkedList<Pair<String,Integer>> open = new LinkedList<Pair<String,Integer>>();
@@ -14,9 +14,9 @@ public class MySearch implements Search {
 
 	public MySearch(Board board) {
 		// TODO Auto-generated constructor stub
-		theBoard = board;
-		open.add(Pair.of(board.toString(),board.cost));
-		boardmap.put(board.toString(),board);
+		currentBoard = board;
+		open.add(Pair.of(toString(board),board.cost));
+		boardmap.put(toString(board),board);
 	}
 
 	
@@ -31,28 +31,36 @@ public class MySearch implements Search {
 	@Override
 	public Move findMoves() {
 		
-		open.remove((Pair.of(theBoard.toString(),theBoard.cost)));
-		visited.add(Pair.of(theBoard.toString(),theBoard.cost));
+		node_count = 0;
 		
-		Move nextMove = theBoard.genMoves();
+		open.remove((Pair.of(toString(currentBoard),currentBoard.cost)));
+		visited.add(Pair.of(toString(currentBoard),currentBoard.cost));
 		
-		while(nextMove.next != null)//add all children to open list
+		Move nextMove = currentBoard.genMoves();
+		
+		while(nextMove != null)//add all children to open list
 		{
-			theBoard.makeMove(nextMove);
+			currentBoard.makeMove(nextMove);
 			
-			if(theBoard.cost == 0)
+			if(currentBoard.cost == 0)
 			{
-				return theBoard.move_list;
+				return currentBoard.move_list;
 			}
 			
-			if(!visited.contains(Pair.of(theBoard.toString(),theBoard.cost)))
+			if(!visited.contains(Pair.of(toString(currentBoard),currentBoard.cost)))
 			{
-				open.add(Pair.of(theBoard.toString(),theBoard.cost));
-				boardmap.put(theBoard.toString(),theBoard);
+				open.add(Pair.of(toString(currentBoard),currentBoard.cost));
+				node_count++;
+				boardmap.put(toString(currentBoard),currentBoard);
 			}
 			
-			theBoard.reverseMove(nextMove);
+			currentBoard.reverseMove(nextMove);
 			nextMove = nextMove.next;
+		}
+		
+		if(open.size() < 1 )
+		{
+			return null;
 		}
 		
 		Pair<String,Integer> iterBoard = open.getFirst();
@@ -68,7 +76,13 @@ public class MySearch implements Search {
 		}
 		
 		//search on new board
-		theBoard = boardmap.get(nextBoard.first);
+		currentBoard = boardmap.get(nextBoard.first);
+		
+		if(currentBoard == null)
+		{
+			return null;
+		}
+		
 		findMoves();
 		
 		return null;
@@ -84,9 +98,21 @@ public class MySearch implements Search {
 	@Override
 	public long nodeCount() {
 		// TODO Auto-generated method stub
-		return 0;
+		return node_count;
 		//return count of nodes (aka moves) made
 	}
 	
+	/*
+	  * creates string representation of board for the visited list
+	  *
+	  * @return String resultant String representation of the board
+	  */
+	 public String toString(Board b) {
+	   String outString = new String();
+
+	    for ( int i = 0; i < Board.BOARD_SIZE+1; i++ )
+	      for ( int j = 0; j < Board.BOARD_SIZE; j++ )  outString = outString.concat(String.valueOf(b.theBoard[i][j]));
+	    return outString;
+	   }
 
 }

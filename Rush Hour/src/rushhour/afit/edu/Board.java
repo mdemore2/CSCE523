@@ -423,12 +423,17 @@ public class Board
     	{
     		if(piece_list[i] != null)
     		{
-    			if(piece_list[i].name == (String)"X0")
+    			if(piece_list[i].name.equals("X0"))
     			{
         			car = piece_list[i];
         			i = piece_list.length;
         			i++;
         		}
+    		}
+    		else
+    		{
+    			i = piece_list.length;
+    			i++;
     		}
     		
     		
@@ -452,8 +457,10 @@ public class Board
     				blockHeur++;
     			}
     		}
+    		cost = goalHeur + blockHeur;
     	}
     	
     	//if in goal state, block = 0, else block = 1 + #cars in way
     }
+    
 }
