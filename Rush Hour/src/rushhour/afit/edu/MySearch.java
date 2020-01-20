@@ -3,7 +3,7 @@ import java.util.*;
 
 public class MySearch implements Search {
 	
-	public int node_count = 0;
+	public int node_count;
 	public Board currentBoard;
 	public Move path;
 	
@@ -17,6 +17,7 @@ public class MySearch implements Search {
 		currentBoard = board;
 		open.add(Pair.of(toString(board),board.cost));
 		boardmap.put(toString(board),board);
+		node_count = 0;
 	}
 
 	
