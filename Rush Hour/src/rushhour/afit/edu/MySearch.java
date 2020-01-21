@@ -7,16 +7,33 @@ public class MySearch implements Search {
 	public Board currentBoard;
 	public Move path;
 	
-	public LinkedList<Pair<String,Integer>> open = new LinkedList<Pair<String,Integer>>();
-	public LinkedList<Pair<String,Integer>> visited = new LinkedList<Pair<String,Integer>>();
+
+	public PriorityQueue<Board> open = new PriorityQueue<Board>(new Board_Comparator());
+	public HashMap<String,Board> visited = new HashMap<String,Board>();
+	public HashMap<String,Board> openHash = new HashMap<String,Board>();
 	
-	public HashMap<String,Board> boardmap = new HashMap<String,Board>();
+	
+	class Board_Comparator implements Comparator<Board>{
+		public int compare(Board b1, Board b2)
+		{
+			if(b1.cost > b2.cost)
+			{
+				return 1;
+			}
+			else if(b1.cost < b2.cost)
+			{
+				return -1;
+			}
+			else
+			{
+				return 0;
+			}
+		}
+	}
 
 	public MySearch(Board board) {
-		// TODO Auto-generated constructor stub
 		currentBoard = board;
-		open.add(Pair.of(toString(board),board.cost));
-		boardmap.put(toString(board),board);
+		open.add(board);
 		node_count = 0;
 	}
 
@@ -32,61 +49,45 @@ public class MySearch implements Search {
 	@Override
 	public Move findMoves() {
 		
+		Board nextBoard = currentBoard;
 		
-		open.remove((Pair.of(toString(currentBoard),currentBoard.cost)));
-		visited.add(Pair.of(toString(currentBoard),currentBoard.cost));
-		
-		Move nextMove = currentBoard.genMoves();
-		
-		while(nextMove != null)//add all children to open list
+		while(!open.isEmpty())
 		{
-			currentBoard.makeMove(nextMove);
 			
-			if(currentBoard.cost == 0)
+			nextBoard = new Board(open.poll());
+			visited.put(toString(nextBoard),nextBoard);
+			
+
+			
+			Move nextMove = nextBoard.genMoves();
+			node_count++;
+			
+			while(nextMove != null)//add all children to open list
 			{
-				return currentBoard.move_list;
+				Board childBoard = new Board(nextBoard);
+				childBoard.makeMove(nextMove);
+				
+				if(childBoard.cost == 0)
+				{
+					return childBoard.move_list;
+				}
+				
+				if(!visited.containsKey(toString(childBoard)) && !openHash.containsKey(toString(childBoard)))
+				{
+					childBoard.setNodeCount(node_count);
+					open.add(childBoard);
+					openHash.put(toString(childBoard), childBoard);
+					
+				}
+				
+				nextMove = nextMove.next;
 			}
 			
-			if(!visited.contains(Pair.of(toString(currentBoard),currentBoard.cost)))
-			{
-				open.add(Pair.of(toString(currentBoard),currentBoard.cost));
-				node_count++;
-				boardmap.put(toString(currentBoard),currentBoard);
-			}
-			
-			currentBoard.reverseMove(nextMove);
-			nextMove = nextMove.next;
+				
 		}
-		
-		if(open.size() < 1 )
-		{
-			return null;
-		}
-		
-		Pair<String,Integer> iterBoard = open.getFirst();
-		Pair<String,Integer> nextBoard = open.getFirst();
-		//find element in open with lowest cost, iterate again over that
-		for(int i = 0; i < open.size(); i++)
-		{
-			iterBoard = open.get(i);
-			if(iterBoard.second < nextBoard.second)
-			{
-				nextBoard = iterBoard;
-			}
-		}
-		
-		//search on new board
-		currentBoard = boardmap.get(nextBoard.first);
-		
-		if(currentBoard == null)
-		{
-			return null;
-		}
-		
-		findMoves();
 		
 		return null;
-		//return move list
+		
 	}
 	
 	 /**
@@ -97,7 +98,6 @@ public class MySearch implements Search {
      */
 	@Override
 	public long nodeCount() {
-		// TODO Auto-generated method stub
 		return node_count;
 		//return count of nodes (aka moves) made
 	}

@@ -27,6 +27,8 @@ public class Board
     public int goalHeur = 1;
     public int blockHeur = 1;
     
+    public int node_count;
+    
     public int cost = goalHeur + blockHeur;
 
     /**
@@ -457,10 +459,16 @@ public class Board
     			}
     		}
     	}
-    	cost = goalHeur + blockHeur;
+    	cost = goalHeur + blockHeur + node_count;
 
     	
     	//if in goal state, block = 0, else block = 1 + #cars in way
+    }
+    
+    public void setNodeCount(int count)
+    {
+    	node_count = count;
+    	calcHeuristics();
     }
     
 }
