@@ -4,7 +4,6 @@ import java.util.*;
 public class MySearch implements Search {
 	
 	public int node_count;
-	public Board currentBoard;
 	public Move path;
 	
 
@@ -14,6 +13,8 @@ public class MySearch implements Search {
 	
 	
 	class Board_Comparator implements Comparator<Board>{
+	//comparator for open priority queue, lowest cost at head	
+		
 		public int compare(Board b1, Board b2)
 		{
 			if(b1.cost > b2.cost)
@@ -32,9 +33,8 @@ public class MySearch implements Search {
 	}
 
 	public MySearch(Board board) {
-		currentBoard = board;
-		open.add(board);
-		node_count = 0;
+		open.add(board); //add starting node to open queue
+		node_count = 0; //reset node count
 	}
 
 	
@@ -49,44 +49,44 @@ public class MySearch implements Search {
 	@Override
 	public Move findMoves() {
 		
-		Board nextBoard = currentBoard;
+		Board nextBoard;
 		
 		while(!open.isEmpty())
 		{
 			
-			nextBoard = new Board(open.poll());
-			visited.put(toString(nextBoard),nextBoard);
-			
+			nextBoard = new Board(open.poll()); //pop lowest cost next move from open
+			visited.put(toString(nextBoard),nextBoard); //add to visited list
+			node_count++; //increment node count for this visited parent
+
 
 			
-			Move nextMove = nextBoard.genMoves();
-			node_count++;
+			Move nextMove = nextBoard.genMoves(); //get transition to new states (moves from current node)
 			
-			while(nextMove != null)//add all children to open list
+			while(nextMove != null)
 			{
-				Board childBoard = new Board(nextBoard);
+				Board childBoard = new Board(nextBoard);//make copy of board to look at child states
 				childBoard.makeMove(nextMove);
 				
 				if(childBoard.cost == 0)
 				{
-					return childBoard.move_list;
+					return childBoard.move_list; //if this is a goal, return moves
 				}
 				
-				if(!visited.containsKey(toString(childBoard)) && !openHash.containsKey(toString(childBoard)))
+				if(!visited.containsKey(toString(childBoard)) && !openHash.containsKey(toString(childBoard))) //check if board config seen already
 				{
-					childBoard.setNodeCount(node_count);
-					open.add(childBoard);
-					openHash.put(toString(childBoard), childBoard);
+					childBoard.setNodeCount(node_count); //if not, set node count of board for cost calculation
+					open.add(childBoard); //add to open queue
+					openHash.put(toString(childBoard), childBoard); //track seen boards
 					
 				}
 				
-				nextMove = nextMove.next;
+				nextMove = nextMove.next; //look at neighbor
 			}
 			
 				
 		}
 		
-		return null;
+		return null; //no path found
 		
 	}
 	

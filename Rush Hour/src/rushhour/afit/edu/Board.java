@@ -450,22 +450,19 @@ public class Board
     	{
     		goalHeur = 1;
     		blockHeur = 1;
-    		//check car.x+1 to board_exit_x along board_exit_y
     		for(int i = car.x+car.dx; i < BOARD_EXIT_X;i++)
     		{
-    			if(theBoard[i][BOARD_EXIT_Y] >= 0)//not sure if this is the right check to see if a car is in the position
+    			if(theBoard[i][BOARD_EXIT_Y] >= 0) //check for blocked spaces between car and goal
     			{
     				blockHeur++;
     			}
     		}
     	}
-    	cost = goalHeur + blockHeur + node_count;
+    	cost = goalHeur + blockHeur + node_count; //cost is sum of all heuristics
 
-    	
-    	//if in goal state, block = 0, else block = 1 + #cars in way
     }
     
-    public void setNodeCount(int count)
+    public void setNodeCount(int count) //include node count for heuristics so least moves is prioritized
     {
     	node_count = count;
     	calcHeuristics();
