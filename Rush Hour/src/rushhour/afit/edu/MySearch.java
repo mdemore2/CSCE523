@@ -4,7 +4,6 @@ import java.util.*;
 public class MySearch implements Search {
 	
 	public int node_count;
-	public Move path;
 	
 
 	public PriorityQueue<Board> open = new PriorityQueue<Board>(new Board_Comparator());
