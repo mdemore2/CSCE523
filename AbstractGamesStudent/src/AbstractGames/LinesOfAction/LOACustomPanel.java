@@ -45,7 +45,7 @@ public class LOACustomPanel extends JPanel {
   private String computer;
 
   // Set SELF_PLAY to true to play by yourself (also, always select black when you start)
-  private boolean SELF_PLAY = false;
+  private boolean SELF_PLAY = true;
 
   /**
    * Select the evaluator and search algorithm here
