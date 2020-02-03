@@ -53,6 +53,7 @@ public class MinimaxSearch<BOARD extends Board, MOVE extends Move> implements Se
    * @return best move found at this node
    */
   private MOVE Minimax(int depth) {
+    //maximizing player is board.getcurrentplayer
     return null;
   }
 }

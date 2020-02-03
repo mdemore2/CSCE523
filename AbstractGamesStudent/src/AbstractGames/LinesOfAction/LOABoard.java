@@ -1,6 +1,7 @@
 package AbstractGames.LinesOfAction;
 
 import AbstractGames.*;
+import java.lang.*;
 
 /**
  *
@@ -390,7 +391,32 @@ public class LOABoard extends Board {
    */
   public double heuristicEvaluation(){
 
-    return 0;
+      int side = getCurrentPlayer();
+      int eulerHeur = 0, quadHeur = 0;
+      double value = 0;
+
+      if(connected(side))
+      {
+          return -1; //win state
+      }
+      eulerHeur = (quadcount[side][1]-quadcount[side][3]-2*quadcount[side][5])/4;
+      //lower euler is better
+
+      //quadheuristic, favor quad 3 or 4
+      for (int i = 0; i < BOARD_SIZE+1; i++) {
+          for (int j = 0; j < BOARD_SIZE + 1; j++) {
+              if( quadValue(i, j,side) == 3 || quadValue(i, j,side) == 4) // # of pieces in quad, 5 for diagonals per side
+              {
+                  quadHeur--;
+              }
+          }
+      }
+
+      value = Math.tanh(quadHeur+eulerHeur);
+      //add depth/node count?
+
+
+    return value;
   }
 
   /**
