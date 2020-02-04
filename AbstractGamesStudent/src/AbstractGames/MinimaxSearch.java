@@ -6,6 +6,9 @@ public class MinimaxSearch<BOARD extends Board, MOVE extends Move> implements Se
   int totalNodesSearched;
   int totalLeafNodes;
 
+  static final int PLAYER_WHITE = 0;
+  static final int PLAYER_BLACK = 1;
+
   @Override
   public MOVE findBestMove(BOARD board, int depth) {
     MOVE best_move = null;
@@ -54,6 +57,23 @@ public class MinimaxSearch<BOARD extends Board, MOVE extends Move> implements Se
    */
   private MOVE Minimax(int depth) {
     //maximizing player is board.getcurrentplayer
+    //minimizing player is board.opponent
+    int Max = board.getCurrentPlayer();
+    int Min = 0;
+    double alpha = Double.NEGATIVE_INFINITY, beta = Double.POSITIVE_INFINITY;
+
+    if(Max == PLAYER_BLACK)
+    {
+      Min = PLAYER_WHITE;
+    }
+    else
+    {
+      Min = PLAYER_BLACK;
+    }
+
+
+
+
     return null;
   }
 }

@@ -397,9 +397,10 @@ public class LOABoard extends Board {
 
       if(connected(side))
       {
-          return -1; //win state
+          return 1; //win state
       }
-      eulerHeur = (quadcount[side][1]-quadcount[side][3]-2*quadcount[side][5])/4;
+
+      //eulerHeur = (quadcount[side][1]-quadcount[side][3]-2*quadcount[side][5])/4;
       //lower euler is better
 
       //quadheuristic, favor quad 3 or 4
@@ -407,12 +408,12 @@ public class LOABoard extends Board {
           for (int j = 0; j < BOARD_SIZE + 1; j++) {
               if( quadValue(i, j,side) == 3 || quadValue(i, j,side) == 4) // # of pieces in quad, 5 for diagonals per side
               {
-                  quadHeur--;
+                  quadHeur++;
               }
           }
       }
 
-      value = Math.tanh(quadHeur+eulerHeur);
+      value = Math.tanh(quadHeur);
       //add depth/node count?
 
 
