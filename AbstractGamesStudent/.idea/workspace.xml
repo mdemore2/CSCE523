@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="491ae37c-c5d7-4c07-80fb-2c4437b06fe5" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/AbstractGames/LinesOfAction/LOABoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/AbstractGames/LinesOfAction/LOABoard.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/AbstractGames/MinimaxSearch.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/AbstractGames/MinimaxSearch.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -248,7 +247,7 @@
       <workItem from="1580309132337" duration="460000" />
       <workItem from="1580317601155" duration="85000" />
       <workItem from="1580736092342" duration="10965000" />
-      <workItem from="1580827899048" duration="4492000" />
+      <workItem from="1580827899048" duration="12782000" />
     </task>
     <servers />
   </component>
@@ -300,6 +299,10 @@
     </state>
     <state x="470" y="237" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1580306554552" />
     <state x="588" y="299" key="com.intellij.ide.util.TipDialog/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1580827903626" />
+    <state x="-1542" y="0" width="1558" height="1025" key="dock-window-1" timestamp="1580850545640">
+      <screen x="-1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="-1542" y="0" width="1558" height="1025" key="dock-window-1/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1580850545640" />
   </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />

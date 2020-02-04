@@ -1,6 +1,9 @@
 package AbstractGames;
 
 
+import AbstractGames.LinesOfAction.LOABoard;
+import AbstractGames.LinesOfAction.LOAMove;
+
 public class MinimaxSearch<BOARD extends Board, MOVE extends Move> implements Search<BOARD,MOVE>  {
   BOARD board;
   int totalNodesSearched;
@@ -8,6 +11,9 @@ public class MinimaxSearch<BOARD extends Board, MOVE extends Move> implements Se
 
   static final int PLAYER_WHITE = 0;
   static final int PLAYER_BLACK = 1;
+
+  //int Max = 0, Min = 0;
+  //double alpha = Double.NEGATIVE_INFINITY, beta = Double.POSITIVE_INFINITY;
 
   @Override
   public MOVE findBestMove(BOARD board, int depth) {
@@ -19,7 +25,19 @@ public class MinimaxSearch<BOARD extends Board, MOVE extends Move> implements Se
     long previousPeriod = 0;
     int i = 1;
 
-    this.board = board;
+    /*this.board = board;
+    alpha = Double.NEGATIVE_INFINITY;
+    beta = Double.POSITIVE_INFINITY;
+
+    this.Max = board.getCurrentPlayer();
+    if(Max == PLAYER_BLACK)
+    {
+      Min = PLAYER_WHITE;
+    }
+    else
+    {
+      Min = PLAYER_BLACK;
+    }*/
 
     // Including the iterative deepening for consistency.
     while ( i <= depth ) {
@@ -56,24 +74,82 @@ public class MinimaxSearch<BOARD extends Board, MOVE extends Move> implements Se
    * @return best move found at this node
    */
   private MOVE Minimax(int depth) {
-    //maximizing player is board.getcurrentplayer
-    //minimizing player is board.opponent
-    int Max = board.getCurrentPlayer();
-    int Min = 0;
-    double alpha = Double.NEGATIVE_INFINITY, beta = Double.POSITIVE_INFINITY;
 
-    if(Max == PLAYER_BLACK)
+    if(depth == 0)
     {
-      Min = PLAYER_WHITE;
+      return null;//return the move to get to this board?
+    }
+
+    MOVE child = (MOVE) this.board.generateMoves();
+    MOVE bestMove = child;
+    this.board.makeMove(child);
+    double best = this.board.heuristicEvaluation();
+    this.board.reverseMove(child);
+
+    double eval = 0;
+
+    while(child != null)
+    {
+      eval = recursiveMinimaxAB(this.board,depth,true,Double.NEGATIVE_INFINITY,Double.POSITIVE_INFINITY);
+      if(eval > best)
+      {
+        best = eval;
+        bestMove = child;
+      }
+
+      child = (MOVE) child.next;
+    }
+
+    return bestMove;
+  }
+
+
+  private double recursiveMinimaxAB(Board board, int depth, boolean maxPlayer, double alpha, double beta)
+  {
+    if(depth == 0)
+    {
+      return board.heuristicEvaluation();
+    }
+
+    double maxEval = Double.NEGATIVE_INFINITY, minEval = Double.POSITIVE_INFINITY;
+    double eval = 0;
+    MOVE child = (MOVE) board.generateMoves();
+
+    if(maxPlayer)
+    {
+      while(child != null)
+      {
+        board.makeMove(child);
+        eval = recursiveMinimaxAB(board,depth-1,false, alpha, beta);
+        board.reverseMove(child);
+        maxEval = Math.max(maxEval,eval);
+        alpha = Math.max(alpha,eval);
+        if(beta <= alpha)
+        {
+          break;
+        }
+        child = (MOVE) child.next;
+      }
+      return maxEval;
+
     }
     else
     {
-      Min = PLAYER_BLACK;
+      while(child != null)
+      {
+        board.makeMove(child);
+        eval = recursiveMinimaxAB(board,depth-1,true, alpha, beta);
+        board.reverseMove(child);
+        minEval = Math.min(minEval,eval);
+        beta = Math.min(beta,eval);
+        if(beta <= alpha)
+        {
+          break;
+        }
+        child = (MOVE) child.next;
+      }
+      return minEval;
     }
 
-
-
-
-    return null;
   }
 }
