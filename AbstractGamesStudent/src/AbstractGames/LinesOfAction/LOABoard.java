@@ -389,7 +389,8 @@ public class LOABoard extends Board {
    */
   public double heuristicEvaluation(){
 
-      int side = getCurrentPlayer();
+      //int side = getCurrentPlayer();
+      int side = to_move;
       double eulerHeur = 0, quadHeur = 0, value = 0;
       //double negEuler = 0;// negQuad = 0;
 
