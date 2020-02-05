@@ -9,8 +9,8 @@ public class MinimaxSearch<BOARD extends Board, MOVE extends Move> implements Se
   int totalNodesSearched;
   int totalLeafNodes;
 
-  static final int PLAYER_WHITE = 0;
-  static final int PLAYER_BLACK = 1;
+  //static final int PLAYER_WHITE = 0;
+  //static final int PLAYER_BLACK = 1;
 
   //int Max = 0, Min = 0;
   //double alpha = Double.NEGATIVE_INFINITY, beta = Double.POSITIVE_INFINITY;
@@ -25,8 +25,8 @@ public class MinimaxSearch<BOARD extends Board, MOVE extends Move> implements Se
     long previousPeriod = 0;
     int i = 1;
 
-    /*this.board = board;
-    alpha = Double.NEGATIVE_INFINITY;
+    this.board = board;
+    /*alpha = Double.NEGATIVE_INFINITY;
     beta = Double.POSITIVE_INFINITY;
 
     this.Max = board.getCurrentPlayer();
@@ -75,10 +75,10 @@ public class MinimaxSearch<BOARD extends Board, MOVE extends Move> implements Se
    */
   private MOVE Minimax(int depth) {
 
-    if(depth == 0)
+    /*if(depth == 0)
     {
       return null;//return the move to get to this board?
-    }
+    }*/
 
     MOVE child = (MOVE) this.board.generateMoves();
     MOVE bestMove = child;
