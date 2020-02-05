@@ -82,15 +82,17 @@ public class MinimaxSearch<BOARD extends Board, MOVE extends Move> implements Se
 
     MOVE child = (MOVE) this.board.generateMoves();
     MOVE bestMove = child;
-    this.board.makeMove(child);
-    double best = this.board.heuristicEvaluation();
-    this.board.reverseMove(child);
+    //this.board.makeMove(child);
+    double best = Double.NEGATIVE_INFINITY;
+   //this.board.reverseMove(child);
 
     double eval = 0;
 
     while(child != null)
     {
-      eval = recursiveMinimaxAB(this.board,depth,true,Double.NEGATIVE_INFINITY,Double.POSITIVE_INFINITY);
+      this.board.makeMove(child);
+      eval = recursiveMinimaxAB(this.board,depth,false,Double.NEGATIVE_INFINITY,Double.POSITIVE_INFINITY);
+      this.board.reverseMove(child);
       if(eval > best)
       {
         best = eval;

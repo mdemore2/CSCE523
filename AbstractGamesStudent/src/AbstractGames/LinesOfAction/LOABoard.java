@@ -392,28 +392,36 @@ public class LOABoard extends Board {
   public double heuristicEvaluation(){
 
       int side = getCurrentPlayer();
-      int eulerHeur = 0, quadHeur = 0;
-      double value = 0;
+      double eulerHeur = 0, quadHeur = 0, value = 0;
 
       if(connected(side))
       {
           return 1; //win state
       }
 
-      //eulerHeur = (quadcount[side][1]-quadcount[side][3]-2*quadcount[side][5])/4;
+      eulerHeur = (quadcount[side][1]-quadcount[side][3]-2*quadcount[side][5])/4;
       //lower euler is better
+      eulerHeur = Math.tanh(eulerHeur);
+      eulerHeur = 1 - eulerHeur;
 
       //quadheuristic, favor quad 3 or 4
       for (int i = 0; i < BOARD_SIZE+1; i++) {
           for (int j = 0; j < BOARD_SIZE + 1; j++) {
               if( quadValue(i, j,side) == 3 || quadValue(i, j,side) == 4) // # of pieces in quad, 5 for diagonals per side
               {
-                  quadHeur++;
+                  quadHeur+= 2;
+              }
+              else if( quadValue(i, j,side) == 2 || quadValue(i, j,side) == 5)
+              {
+                quadHeur++;
               }
           }
       }
 
-      value = Math.tanh(quadHeur);
+      quadHeur = Math.tanh(quadHeur);
+      eulerHeur *= 2;
+
+      value = Math.tanh(quadHeur + eulerHeur);
       //add depth/node count?
 
 
