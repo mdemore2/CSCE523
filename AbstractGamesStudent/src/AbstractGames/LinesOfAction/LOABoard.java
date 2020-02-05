@@ -441,7 +441,8 @@ public class LOABoard extends Board {
     }*/
 
       quadHeur = Math.tanh(quadHeur);
-      eulerHeur *= 2;
+      //quadHeur *= 2;
+      //eulerHeur *= 2;
 
       //negQuad = Math.tanh(negQuad);
       //negEuler *= 2;
