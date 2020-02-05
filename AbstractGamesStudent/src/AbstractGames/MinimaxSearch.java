@@ -68,30 +68,23 @@ public class MinimaxSearch<BOARD extends Board, MOVE extends Move> implements Se
   }
 
   /**
-   * TODO Write Minimax here!
+   * Search for the best move
    *
    * @param depth Depth to search to
    * @return best move found at this node
    */
   private MOVE Minimax(int depth) {
 
-    /*if(depth == 0)
-    {
-      return null;//return the move to get to this board?
-    }*/
-
     MOVE child = (MOVE) this.board.generateMoves();
     MOVE bestMove = child;
-    //this.board.makeMove(child);
     double best = Double.NEGATIVE_INFINITY;
-   //this.board.reverseMove(child);
 
     double eval = 0;
 
     while(child != null)
     {
       this.board.makeMove(child);
-      eval = recursiveMinimaxAB(this.board,depth,false,Double.NEGATIVE_INFINITY,Double.POSITIVE_INFINITY);
+      eval = recursiveMinimaxAB(this.board,depth-1,false,Double.NEGATIVE_INFINITY,Double.POSITIVE_INFINITY);
       this.board.reverseMove(child);
       if(eval > best)
       {
@@ -105,13 +98,21 @@ public class MinimaxSearch<BOARD extends Board, MOVE extends Move> implements Se
     return bestMove;
   }
 
-
+  /**
+  *   helper function for minimax with alpha-beta pruning
+   * @return value for potential move
+  *
+   */
   private double recursiveMinimaxAB(Board board, int depth, boolean maxPlayer, double alpha, double beta)
   {
-    if(depth == 0)
+    totalNodesSearched++;
+    if(depth == 0 || board.endGame() > -3)
     {
+      totalLeafNodes++;
       return board.heuristicEvaluation();
     }
+
+
 
     double maxEval = Double.NEGATIVE_INFINITY, minEval = Double.POSITIVE_INFINITY;
     double eval = 0;

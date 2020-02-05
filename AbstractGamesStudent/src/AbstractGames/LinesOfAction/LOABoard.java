@@ -385,8 +385,6 @@ public class LOABoard extends Board {
   /**
    * Evaluate the winning potential of the current game state.
    *
-   * TODO: Your Heuristic Function will go HERE!
-   *
    * @return evaluation of the state
    */
   public double heuristicEvaluation(){
@@ -394,9 +392,13 @@ public class LOABoard extends Board {
       int side = getCurrentPlayer();
       double eulerHeur = 0, quadHeur = 0, value = 0;
 
-      if(connected(side))
+      if(connected(side))//check for win
       {
-          return 1; //win state
+          return 1;
+      }
+      if(connected(opponent(side)))//check for loss
+      {
+        return -1;
       }
 
       eulerHeur = (quadcount[side][1]-quadcount[side][3]-2*quadcount[side][5])/4;
