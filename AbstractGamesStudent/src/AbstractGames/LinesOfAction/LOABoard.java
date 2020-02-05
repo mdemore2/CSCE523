@@ -391,6 +391,7 @@ public class LOABoard extends Board {
 
       int side = getCurrentPlayer();
       double eulerHeur = 0, quadHeur = 0, value = 0;
+      //double negEuler = 0;// negQuad = 0;
 
       if(connected(side))//check for win
       {
@@ -406,22 +407,44 @@ public class LOABoard extends Board {
       eulerHeur = Math.tanh(eulerHeur);
       eulerHeur = 1 - eulerHeur;
 
+      //negEuler = (quadcount[opponent(side)][1]-quadcount[opponent(side)][3]-2*quadcount[opponent(side)][5])/4;
+      //higher negeuler is better, but subtracting at end so keep positive
+      //negEuler = Math.tanh(negEuler);
+      //negEuler = 1 - negEuler;
+
       //quadheuristic, favor quad 3 or 4
-      for (int i = 0; i < BOARD_SIZE+1; i++) {
-          for (int j = 0; j < BOARD_SIZE + 1; j++) {
-              if( quadValue(i, j,side) == 3 || quadValue(i, j,side) == 4) // # of pieces in quad, 5 for diagonals per side
-              {
-                  quadHeur+= 2;
-              }
-              else if( quadValue(i, j,side) == 2 || quadValue(i, j,side) == 5)
-              {
-                quadHeur++;
-              }
-          }
+    for (int i = 0; i < BOARD_SIZE+1; i++) {
+      for (int j = 0; j < BOARD_SIZE + 1; j++) {
+        if( quadValue(i, j,side) == 3 || quadValue(i, j,side) == 4) // # of pieces in quad, 5 for diagonals per side
+        {
+          quadHeur+= 2;
+        }
+        else if( quadValue(i, j,side) == 2 || quadValue(i, j,side) == 5)
+        {
+          quadHeur++;
+        }
       }
+    }
+
+    //calc opponent position
+    /*for (int i = 0; i < BOARD_SIZE+1; i++) {
+      for (int j = 0; j < BOARD_SIZE + 1; j++) {
+        if( quadValue(i, j,opponent(side)) == 3 || quadValue(i, j,opponent(side)) == 4) // # of pieces in quad, 5 for diagonals per side
+        {
+          negQuad+= 2;
+        }
+        else if( quadValue(i, j,opponent(side)) == 2 || quadValue(i, j,opponent(side)) == 5)
+        {
+          negQuad++;
+        }
+      }
+    }*/
 
       quadHeur = Math.tanh(quadHeur);
       eulerHeur *= 2;
+
+      //negQuad = Math.tanh(negQuad);
+      //negEuler *= 2;
 
       value = Math.tanh(quadHeur + eulerHeur);
       //add depth/node count?
