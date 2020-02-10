@@ -1,0 +1,612 @@
+
+WARNING, with splitting, max_seconds is checked against the wall clock.
+----- Otter 3.3, August 2003 -----
+The process was started by mccune on gyro.thornwood,
+Wed Aug  6 14:26:37 2003
+The command was "../../bin/otter".  The process ID is 6078.
+
+set(prolog_style_variables).
+set(auto2).
+   dependent: set(process_input).
+   dependent: clear(print_kept).
+   dependent: clear(print_new_demod).
+   dependent: clear(print_back_demod).
+   dependent: clear(print_back_sub).
+   dependent: set(control_memory).
+   dependent: assign(max_mem, 20000).
+   dependent: assign(pick_given_ratio, 4).
+   dependent: assign(stats_level, 1).
+   dependent: assign(max_seconds, 10800).
+set(tptp_eq).
+set(split_when_given).
+   dependent: set(back_unit_deletion).
+   dependent: set(unit_deletion).
+set(split_pos).
+assign(split_depth,10).
+
+list(usable).
+0 [] equal(A,A).
+0 [] equidistant(A,B,B,A).
+0 [] -equidistant(A,B,C,D)| -equidistant(A,B,E,F)|equidistant(C,D,E,F).
+0 [] -equidistant(A,B,C,C)|equal(A,B).
+0 [] between(A,B,extension(A,B,C,D)).
+0 [] equidistant(A,extension(B,A,C,D),C,D).
+0 [] -equidistant(A,B,C,D)| -equidistant(B,E,D,F)| -equidistant(A,G,C,H)| -equidistant(B,G,D,H)| -between(A,B,E)| -between(C,D,F)|equal(A,B)|equidistant(E,G,F,H).
+0 [] -between(A,B,A)|equal(A,B).
+0 [] -between(A,B,C)| -between(D,E,C)|between(B,inner_pasch(A,B,C,E,D),D).
+0 [] -between(A,B,C)| -between(D,E,C)|between(E,inner_pasch(A,B,C,E,D),A).
+0 [] -between(lower_dimension_point_1,lower_dimension_point_2,lower_dimension_point_3).
+0 [] -between(lower_dimension_point_2,lower_dimension_point_3,lower_dimension_point_1).
+0 [] -between(lower_dimension_point_3,lower_dimension_point_1,lower_dimension_point_2).
+0 [] -equidistant(A,B,A,C)| -equidistant(D,B,D,C)| -equidistant(E,B,E,C)|between(A,D,E)|between(D,E,A)|between(E,A,D)|equal(B,C).
+0 [] -between(A,B,C)| -between(D,B,E)|equal(A,B)|between(A,D,euclid1(A,D,B,E,C)).
+0 [] -between(A,B,C)| -between(D,B,E)|equal(A,B)|between(A,E,euclid2(A,D,B,E,C)).
+0 [] -between(A,B,C)| -between(D,B,E)|equal(A,B)|between(euclid1(A,D,B,E,C),C,euclid2(A,D,B,E,C)).
+0 [] -equidistant(A,B,A,C)| -equidistant(A,D,A,E)| -between(A,B,D)| -between(B,F,D)|between(C,continuous(A,B,C,F,D,E),E).
+0 [] -equidistant(A,B,A,C)| -equidistant(A,D,A,E)| -between(A,B,D)| -between(B,F,D)|equidistant(A,F,A,continuous(A,B,C,F,D,E)).
+0 [] -between(A,B,C)|colinear(A,B,C).
+0 [] -between(A,B,C)|colinear(C,A,B).
+0 [] -between(A,B,C)|colinear(B,C,A).
+0 [] -colinear(A,B,C)|between(A,B,C)|between(B,C,A)|between(C,A,B).
+end_of_list.
+
+list(sos).
+0 [] colinear(a,b,c).
+0 [] -colinear(a,c,b)| -colinear(b,a,c)| -colinear(b,c,a)| -colinear(c,a,b)| -colinear(c,b,a).
+end_of_list.
+
+Every positive clause in sos is ground (or sos is empty);
+therefore we move all positive usable clauses to sos.
+
+Properties of input clauses: prop=0, horn=0, equality=1, symmetry=0, max_lits=8.
+
+Setting hyper_res, because there are nonunits.
+   dependent: set(hyper_res).
+Setting ur_res, because this is a nonunit set containing
+either equality literals or non-Horn clauses.
+   dependent: set(ur_res).
+Setting factor and  unit_deletion, because there are non-Horn clauses.
+   dependent: set(factor).
+Equality is present, so we set the knuth_bendix flag.
+   dependent: set(knuth_bendix).
+   dependent: set(anl_eq).
+   dependent: set(para_from).
+   dependent: set(para_into).
+   dependent: clear(para_from_right).
+   dependent: clear(para_into_right).
+   dependent: set(para_from_vars).
+   dependent: set(eq_units_both_ways).
+   dependent: set(dynamic_demod_all).
+   dependent: set(dynamic_demod).
+   dependent: set(order_eq).
+   dependent: set(back_demod).
+   dependent: set(lrpo).
+As an incomplete heuristic, we paramodulate with units only.
+   dependent: set(para_from_units_only).
+   dependent: set(para_into_units_only).
+
+------------> process usable:
+** KEPT (pick-wt=15): 1 [] -equidistant(A,B,C,D)| -equidistant(A,B,E,F)|equidistant(C,D,E,F).
+** KEPT (pick-wt=8): 2 [] -equidistant(A,B,C,C)|equal(A,B).
+** KEPT (pick-wt=36): 3 [] -equidistant(A,B,C,D)| -equidistant(B,E,D,F)| -equidistant(A,G,C,H)| -equidistant(B,G,D,H)| -between(A,B,E)| -between(C,D,F)|equal(A,B)|equidistant(E,G,F,H).
+** KEPT (pick-wt=7): 4 [] -between(A,B,A)|equal(A,B).
+** KEPT (pick-wt=17): 5 [] -between(A,B,C)| -between(D,E,C)|between(B,inner_pasch(A,B,C,E,D),D).
+** KEPT (pick-wt=17): 6 [] -between(A,B,C)| -between(D,E,C)|between(E,inner_pasch(A,B,C,E,D),A).
+** KEPT (pick-wt=4): 7 [] -between(lower_dimension_point_1,lower_dimension_point_2,lower_dimension_point_3).
+** KEPT (pick-wt=4): 8 [] -between(lower_dimension_point_2,lower_dimension_point_3,lower_dimension_point_1).
+** KEPT (pick-wt=4): 9 [] -between(lower_dimension_point_3,lower_dimension_point_1,lower_dimension_point_2).
+** KEPT (pick-wt=30): 10 [] -equidistant(A,B,A,C)| -equidistant(D,B,D,C)| -equidistant(E,B,E,C)|between(A,D,E)|between(D,E,A)|between(E,A,D)|equal(B,C).
+** KEPT (pick-wt=20): 11 [] -between(A,B,C)| -between(D,B,E)|equal(A,B)|between(A,D,euclid1(A,D,B,E,C)).
+** KEPT (pick-wt=20): 12 [] -between(A,B,C)| -between(D,B,E)|equal(A,B)|between(A,E,euclid2(A,D,B,E,C)).
+** KEPT (pick-wt=25): 13 [] -between(A,B,C)| -between(D,B,E)|equal(A,B)|between(euclid1(A,D,B,E,C),C,euclid2(A,D,B,E,C)).
+** KEPT (pick-wt=28): 14 [] -equidistant(A,B,A,C)| -equidistant(A,D,A,E)| -between(A,B,D)| -between(B,F,D)|between(C,continuous(A,B,C,F,D,E),E).
+** KEPT (pick-wt=29): 15 [] -equidistant(A,B,A,C)| -equidistant(A,D,A,E)| -between(A,B,D)| -between(B,F,D)|equidistant(A,F,A,continuous(A,B,C,F,D,E)).
+** KEPT (pick-wt=8): 16 [] -between(A,B,C)|colinear(A,B,C).
+** KEPT (pick-wt=8): 17 [] -between(A,B,C)|colinear(C,A,B).
+** KEPT (pick-wt=8): 18 [] -between(A,B,C)|colinear(B,C,A).
+** KEPT (pick-wt=16): 19 [] -colinear(A,B,C)|between(A,B,C)|between(B,C,A)|between(C,A,B).
+>>>> Starting back unit deletion with 7.
+>>>> Starting back unit deletion with 8.
+>>>> Starting back unit deletion with 9.
+
+------------> process sos:
+** KEPT (pick-wt=4): 39 [] colinear(a,b,c).
+** KEPT (pick-wt=20): 40 [] -colinear(a,c,b)| -colinear(b,a,c)| -colinear(b,c,a)| -colinear(c,a,b)| -colinear(c,b,a).
+** KEPT (pick-wt=3): 41 [] equal(A,A).
+** KEPT (pick-wt=5): 42 [] equidistant(A,B,B,A).
+** KEPT (pick-wt=8): 43 [] between(A,B,extension(A,B,C,D)).
+** KEPT (pick-wt=9): 44 [] equidistant(A,extension(B,A,C,D),C,D).
+>>>> Starting back unit deletion with 39.
+  Following clause subsumed by 41 during input processing: 0 [copy,41,flip.1] equal(A,A).
+>>>> Starting back unit deletion with 41.
+42 back subsumes 36.
+>>>> Starting back unit deletion with 42.
+0 [back_unit_del,42.1,35.3] -equidistant(E2518,F2518,E2518,F2518)| -equidistant(F2518,G2518,F2518,G2518)| -between(E2518,F2518,G2518)|equal(E2518,F2518)|equidistant(G2518,F2518,G2518,F2518).
+** KEPT (pick-wt=22): 45 [back_unit_del,42.1,35.3] -equidistant(A,B,A,B)| -equidistant(B,C,B,C)| -between(A,B,C)|equal(A,B)|equidistant(C,B,C,B).
+>>>> Starting back unit deletion with 43.
+>>>> Starting back unit deletion with 44.
+45 back subsumes 35.
+
+======= end of input processing =======
+
+=========== start of search ===========
+
+given clause #1: (wt=4) 39 [] colinear(a,b,c).
+
+given clause #2: (wt=3) 41 [] equal(A,A).
+
+given clause #3: (wt=5) 42 [] equidistant(A,B,B,A).
+0 [back_unit_del,47.1,23.2] -equidistant(E2518,F2518,E2518,F2518)| -equidistant(E2518,H2518,E2518,I2518)| -equidistant(F2518,H2518,F2518,I2518)| -between(E2518,F2518,G2518)|equal(E2518,F2518)|equidistant(G2518,H2518,G2518,I2518).
+0 [back_unit_del,47.1,23.1] -equidistant(F2518,G2518,F2518,G2518)| -equidistant(E2518,H2518,E2518,I2518)| -equidistant(F2518,H2518,F2518,I2518)| -between(E2518,F2518,G2518)|equal(E2518,F2518)|equidistant(G2518,H2518,G2518,I2518).
+
+given clause #4: (wt=5) 47 [hyper,42,20] equidistant(A,B,A,B).
+
+given clause #5: (wt=8) 43 [] between(A,B,extension(A,B,C,D)).
+
+given clause #6: (wt=20) 40 [] -colinear(a,c,b)| -colinear(b,a,c)| -colinear(b,c,a)| -colinear(c,a,b)| -colinear(c,b,a).
+
+given clause #7: (wt=8) 55 [hyper,43,18] colinear(A,extension(B,A,C,D),B).
+
+given clause #8: (wt=8) 56 [hyper,43,17] colinear(extension(A,B,C,D),A,B).
+
+given clause #9: (wt=8) 57 [hyper,43,16] colinear(A,B,extension(A,B,C,D)).
+
+given clause #10: (wt=9) 44 [] equidistant(A,extension(B,A,C,D),C,D).
+
+given clause #11: (wt=12) 46 [hyper,39,19] between(a,b,c)|between(b,c,a)|between(c,a,b).
+
+Splitting on clause 46 [hyper,39,19] between(a,b,c)|between(b,c,a)|between(c,a,b).
+
+Case [1]   (process 6079):
+Assumption: 71 [46,split.1] between(a,b,c).
+
+given clause #12: (wt=4) 71 [46,split.1] between(a,b,c).
+0 [back_unit_del,77.1,40.3] -colinear(a,c,b)| -colinear(b,a,c)| -colinear(c,a,b)| -colinear(c,b,a).
+0 [back_unit_del,78.1,40.4] -colinear(a,c,b)| -colinear(b,a,c)| -colinear(b,c,a)| -colinear(c,b,a).
+
+given clause #13: (wt=4) 77 [hyper,71,18] colinear(b,c,a).
+
+given clause #14: (wt=4) 78 [hyper,71,17] colinear(c,a,b).
+
+given clause #15: (wt=7) 66 [hyper,44,2,flip.1] equal(extension(A,B,C,C),B).
+0 [back_unit_del,87.1,34.1] between(E2518,E2518,E2518).
+0 [back_unit_del,88.1,21.3] -equidistant(E2518,F2518,G2518,H2518)| -equidistant(F2518,I2518,H2518,J2518)| -between(E2518,F2518,I2518)| -between(G2518,H2518,J2518)|equal(E2518,F2518)|equidistant(I2518,F2518,J2518,H2518).
+0 [back_unit_del,89.1,34.1] between(E2518,E2518,E2518).
+0 [back_unit_del,90.1,34.1] between(E2518,E2518,E2518).
+0 [back_unit_del,91.1,38.2] -equidistant(E2518,E2518,E2518,F2518)|equidistant(E2518,E2518,E2518,continuous(E2518,E2518,F2518,E2518,E2518,F2518)).
+0 [back_unit_del,91.1,37.2] -equidistant(E2518,E2518,E2518,F2518)|between(F2518,continuous(E2518,E2518,F2518,E2518,E2518,F2518),F2518).
+0 [back_unit_del,91.1,32.2] -equidistant(E2518,F2518,E2518,G2518)| -between(F2518,H2518,F2518)|equidistant(E2518,H2518,E2518,continuous(E2518,F2518,G2518,H2518,F2518,G2518)).
+0 [back_unit_del,91.1,30.2] -equidistant(E2518,F2518,E2518,G2518)| -between(F2518,H2518,F2518)|between(G2518,continuous(E2518,F2518,G2518,H2518,F2518,G2518),G2518).
+
+given clause #16: (wt=19) 49 [hyper,43,33,47,47] equidistant(A,A,A,continuous(A,A,A,A,extension(A,A,B,C),extension(A,A,B,C))).
+
+given clause #17: (wt=4) 87 [para_from,66.1.1,55.1.2] colinear(A,A,B).
+
+given clause #18: (wt=4) 89 [para_from,66.1.1,57.1.3] colinear(A,B,B).
+
+given clause #19: (wt=4) 90 [para_from,66.1.1,56.1.1] colinear(A,B,A).
+
+given clause #20: (wt=4) 91 [para_from,66.1.1,43.1.3] between(A,B,B).
+
+given clause #21: (wt=22) 50 [hyper,43,31,47,47] between(A,continuous(A,A,A,A,extension(A,A,B,C),extension(A,A,B,C)),extension(A,A,B,C)).
+
+given clause #22: (wt=5) 88 [para_from,66.1.1,44.1.2] equidistant(A,A,B,B).
+
+given clause #23: (wt=9) 68 [hyper,44,1,42] equidistant(extension(A,B,C,D),B,C,D).
+
+given clause #24: (wt=9) 69 [hyper,44,1,47] equidistant(A,B,C,extension(D,C,A,B)).
+
+given clause #25: (wt=9) 70 [hyper,44,1,42] equidistant(A,B,extension(C,D,A,B),D).
+
+given clause #26: (wt=13) 54 [hyper,43,24] between(A,inner_pasch(B,A,extension(B,A,C,D),A,B),B).
+
+given clause #27: (wt=9) 75 [hyper,71,24] between(b,inner_pasch(a,b,c,b,a),a).
+
+given clause #28: (wt=9) 151 [hyper,91,6,91] between(A,inner_pasch(B,A,A,A,C),B).
+
+given clause #29: (wt=8) 672 [hyper,151,4,flip.1] equal(inner_pasch(A,A,A,A,B),A).
+
+given clause #30: (wt=9) 152 [hyper,91,6,71] between(c,inner_pasch(a,b,c,c,A),a).
+
+given clause #31: (wt=37) 58 [hyper,43,13,43] equal(A,B)|between(euclid1(A,C,B,extension(C,B,D,E),extension(A,B,F,G)),extension(A,B,F,G),euclid2(A,C,B,extension(C,B,D,E),extension(A,B,F,G))).
+
+given clause #32: (wt=9) 154 [hyper,91,6,71] between(b,inner_pasch(A,c,c,b,a),A).
+
+given clause #33: (wt=8) 884 [hyper,154,4,flip.1] equal(inner_pasch(b,c,c,b,a),b).
+
+given clause #34: (wt=9) 156 [hyper,91,5,91] between(A,inner_pasch(B,A,A,A,C),C).
+0 [back_unit_del,1143.1,33.3] -equidistant(E2518,E2518,E2518,F2518)| -equidistant(E2518,G2518,E2518,H2518)|equidistant(E2518,E2518,E2518,continuous(E2518,E2518,F2518,E2518,G2518,H2518)).
+0 [back_unit_del,1143.1,31.3] -equidistant(E2518,E2518,E2518,F2518)| -equidistant(E2518,G2518,E2518,H2518)|between(F2518,continuous(E2518,E2518,F2518,E2518,G2518,H2518),H2518).
+
+given clause #35: (wt=4) 1143 [para_into,156.1.2,672.1.1] between(A,A,B).
+
+given clause #36: (wt=24) 59 [hyper,43,12,43] equal(A,B)|between(A,extension(C,B,D,E),euclid2(A,C,B,extension(C,B,D,E),extension(A,B,F,G))).
+
+given clause #37: (wt=8) 1133 [hyper,156,4,flip.1] equal(inner_pasch(A,B,B,B,B),B).
+
+given clause #38: (wt=9) 157 [hyper,91,5,71] between(b,inner_pasch(a,b,c,c,A),A).
+
+given clause #39: (wt=8) 1548 [hyper,157,4,flip.1] equal(inner_pasch(a,b,c,c,b),b).
+
+given clause #40: (wt=4) 1558 [para_from,1548.1.1,152.1.2] between(c,b,a).
+
+--- refuted case [1]
+0 [back_unit_del,1562.1,86.2] -colinear(a,c,b)| -colinear(c,b,a).
+
+-----> EMPTY CLAUSE at   0.66 sec ----> 1696 [back_unit_del,1562.1,86.2,unit_del,1563,1564] $F.
+
+Length of proof is 14.  Level of proof is 6.  Case [1]
+
+---------------- PROOF ----------------
+
+2 [] -equidistant(A,B,C,C)|equal(A,B).
+4 [] -between(A,B,A)|equal(A,B).
+5 [] -between(A,B,C)| -between(D,E,C)|between(B,inner_pasch(A,B,C,E,D),D).
+6 [] -between(A,B,C)| -between(D,E,C)|between(E,inner_pasch(A,B,C,E,D),A).
+16 [] -between(A,B,C)|colinear(A,B,C).
+17 [] -between(A,B,C)|colinear(C,A,B).
+18 [] -between(A,B,C)|colinear(B,C,A).
+19 [] -colinear(A,B,C)|between(A,B,C)|between(B,C,A)|between(C,A,B).
+39 [] colinear(a,b,c).
+40 [] -colinear(a,c,b)| -colinear(b,a,c)| -colinear(b,c,a)| -colinear(c,a,b)| -colinear(c,b,a).
+43 [] between(A,B,extension(A,B,C,D)).
+44 [] equidistant(A,extension(B,A,C,D),C,D).
+46 [hyper,39,19] between(a,b,c)|between(b,c,a)|between(c,a,b).
+66 [hyper,44,2,flip.1] equal(extension(A,B,C,C),B).
+71 [46,split.1] between(a,b,c).
+77 [hyper,71,18] colinear(b,c,a).
+78 [hyper,71,17] colinear(c,a,b).
+86 [back_unit_del,77.1,40.3,unit_del,78] -colinear(a,c,b)| -colinear(b,a,c)| -colinear(c,b,a).
+91 [para_from,66.1.1,43.1.3] between(A,B,B).
+152 [hyper,91,6,71] between(c,inner_pasch(a,b,c,c,A),a).
+157 [hyper,91,5,71] between(b,inner_pasch(a,b,c,c,A),A).
+1548 [hyper,157,4,flip.1] equal(inner_pasch(a,b,c,c,b),b).
+1558 [para_from,1548.1.1,152.1.2] between(c,b,a).
+1562 [hyper,1558,18] colinear(b,a,c).
+1563 [hyper,1558,17] colinear(a,c,b).
+1564 [hyper,1558,16] colinear(c,b,a).
+1696 [back_unit_del,1562.1,86.2,unit_del,1563,1564] $F.
+
+------------ end of proof -------------
+
+
+
+
+------- statistics (process 6079) -------
+clauses given                 40
+clauses generated           7573
+clauses kept                1689
+clauses forward subsumed    5970
+clauses back subsumed        218
+Kbytes malloced             2363
+
+----------- times (seconds) -----------
+user CPU time          0.66          (0 hr, 0 min, 0 sec)
+system CPU time        0.04          (0 hr, 0 min, 0 sec)
+wall-clock time        1             (0 hr, 0 min, 1 sec)
+hyper_res time         0.08
+UR_res time            0.23
+para_into time         0.00
+para_from time         0.00
+for_sub time           0.09
+back_sub time          0.03
+conflict time          0.00
+demod time             0.03
+
+Process 6079 finished Wed Aug  6 14:26:38 2003
+Refuted case [1].
+
+Case [2]   (process 6080):
+Assumption: 72 [46,split.2] between(b,c,a).
+
+given clause #12: (wt=4) 71 [46,split_neg.2] -between(a,b,c).
+
+given clause #13: (wt=4) 72 [46,split.2] between(b,c,a).
+0 [back_unit_del,78.1,40.4] -colinear(a,c,b)| -colinear(b,a,c)| -colinear(b,c,a)| -colinear(c,b,a).
+0 [back_unit_del,79.1,40.3] -colinear(a,c,b)| -colinear(b,a,c)| -colinear(c,a,b)| -colinear(c,b,a).
+
+given clause #14: (wt=4) 78 [hyper,72,18] colinear(c,a,b).
+
+given clause #15: (wt=4) 79 [hyper,72,16] colinear(b,c,a).
+
+given clause #16: (wt=19) 49 [hyper,43,33,47,47] equidistant(A,A,A,continuous(A,A,A,A,extension(A,A,B,C),extension(A,A,B,C))).
+
+given clause #17: (wt=7) 66 [hyper,44,2,flip.1] equal(extension(A,B,C,C),B).
+0 [back_unit_del,96.1,34.1] between(E2518,E2518,E2518).
+0 [back_unit_del,97.1,21.3] -equidistant(E2518,F2518,G2518,H2518)| -equidistant(F2518,I2518,H2518,J2518)| -between(E2518,F2518,I2518)| -between(G2518,H2518,J2518)|equal(E2518,F2518)|equidistant(I2518,F2518,J2518,H2518).
+0 [back_unit_del,98.1,34.1] between(E2518,E2518,E2518).
+0 [back_unit_del,99.1,34.1] between(E2518,E2518,E2518).
+0 [back_unit_del,100.1,38.2] -equidistant(E2518,E2518,E2518,F2518)|equidistant(E2518,E2518,E2518,continuous(E2518,E2518,F2518,E2518,E2518,F2518)).
+0 [back_unit_del,100.1,37.2] -equidistant(E2518,E2518,E2518,F2518)|between(F2518,continuous(E2518,E2518,F2518,E2518,E2518,F2518),F2518).
+0 [back_unit_del,100.1,32.2] -equidistant(E2518,F2518,E2518,G2518)| -between(F2518,H2518,F2518)|equidistant(E2518,H2518,E2518,continuous(E2518,F2518,G2518,H2518,F2518,G2518)).
+0 [back_unit_del,100.1,30.2] -equidistant(E2518,F2518,E2518,G2518)| -between(F2518,H2518,F2518)|between(G2518,continuous(E2518,F2518,G2518,H2518,F2518,G2518),G2518).
+
+given clause #18: (wt=4) 96 [para_from,66.1.1,55.1.2] colinear(A,A,B).
+
+given clause #19: (wt=4) 98 [para_from,66.1.1,57.1.3] colinear(A,B,B).
+
+given clause #20: (wt=4) 99 [para_from,66.1.1,56.1.1] colinear(A,B,A).
+
+given clause #21: (wt=22) 50 [hyper,43,31,47,47] between(A,continuous(A,A,A,A,extension(A,A,B,C),extension(A,A,B,C)),extension(A,A,B,C)).
+
+given clause #22: (wt=4) 100 [para_from,66.1.1,43.1.3] between(A,B,B).
+
+given clause #23: (wt=5) 97 [para_from,66.1.1,44.1.2] equidistant(A,A,B,B).
+
+given clause #24: (wt=9) 68 [hyper,44,1,42] equidistant(extension(A,B,C,D),B,C,D).
+
+given clause #25: (wt=9) 69 [hyper,44,1,47] equidistant(A,B,C,extension(D,C,A,B)).
+
+given clause #26: (wt=13) 54 [hyper,43,24] between(A,inner_pasch(B,A,extension(B,A,C,D),A,B),B).
+
+given clause #27: (wt=9) 70 [hyper,44,1,42] equidistant(A,B,extension(C,D,A,B),D).
+
+given clause #28: (wt=9) 76 [hyper,72,24] between(c,inner_pasch(b,c,a,c,b),b).
+
+given clause #29: (wt=9) 193 [hyper,100,6,100] between(A,inner_pasch(B,A,A,A,C),B).
+
+given clause #30: (wt=8) 683 [hyper,193,4,flip.1] equal(inner_pasch(A,A,A,A,B),A).
+
+given clause #31: (wt=37) 58 [hyper,43,13,43] equal(A,B)|between(euclid1(A,C,B,extension(C,B,D,E),extension(A,B,F,G)),extension(A,B,F,G),euclid2(A,C,B,extension(C,B,D,E),extension(A,B,F,G))).
+
+given clause #32: (wt=9) 194 [hyper,100,6,72] between(a,inner_pasch(b,c,a,a,A),b).
+
+given clause #33: (wt=9) 197 [hyper,100,6,72] between(c,inner_pasch(A,a,a,c,b),A).
+
+given clause #34: (wt=8) 895 [hyper,197,4,flip.1] equal(inner_pasch(c,a,a,c,b),c).
+
+given clause #35: (wt=9) 200 [hyper,100,5,100] between(A,inner_pasch(B,A,A,A,C),C).
+0 [back_unit_del,1154.1,33.3] -equidistant(E2518,E2518,E2518,F2518)| -equidistant(E2518,G2518,E2518,H2518)|equidistant(E2518,E2518,E2518,continuous(E2518,E2518,F2518,E2518,G2518,H2518)).
+0 [back_unit_del,1154.1,31.3] -equidistant(E2518,E2518,E2518,F2518)| -equidistant(E2518,G2518,E2518,H2518)|between(F2518,continuous(E2518,E2518,F2518,E2518,G2518,H2518),H2518).
+
+given clause #36: (wt=24) 59 [hyper,43,12,43] equal(A,B)|between(A,extension(C,B,D,E),euclid2(A,C,B,extension(C,B,D,E),extension(A,B,F,G))).
+
+given clause #37: (wt=4) 1154 [para_into,200.1.2,683.1.1] between(A,A,B).
+
+given clause #38: (wt=8) 1144 [hyper,200,4,flip.1] equal(inner_pasch(A,B,B,B,B),B).
+
+given clause #39: (wt=9) 201 [hyper,100,5,72] between(c,inner_pasch(b,c,a,a,A),A).
+
+given clause #40: (wt=8) 1559 [hyper,201,4,flip.1] equal(inner_pasch(b,c,a,a,c),c).
+
+given clause #41: (wt=20) 60 [hyper,43,11,43] equal(A,B)|between(A,C,euclid1(A,C,B,extension(C,B,D,E),extension(A,B,F,G))).
+
+given clause #42: (wt=4) 1569 [para_from,1559.1.1,194.1.2] between(a,c,b).
+
+--- refuted case [2]
+0 [back_unit_del,1573.1,87.3] -colinear(a,c,b)| -colinear(b,a,c).
+
+-----> EMPTY CLAUSE at   0.65 sec ----> 1707 [back_unit_del,1573.1,87.3,unit_del,1575,1574] $F.
+
+Length of proof is 14.  Level of proof is 6.  Case [2]
+
+---------------- PROOF ----------------
+
+2 [] -equidistant(A,B,C,C)|equal(A,B).
+4 [] -between(A,B,A)|equal(A,B).
+5 [] -between(A,B,C)| -between(D,E,C)|between(B,inner_pasch(A,B,C,E,D),D).
+6 [] -between(A,B,C)| -between(D,E,C)|between(E,inner_pasch(A,B,C,E,D),A).
+16 [] -between(A,B,C)|colinear(A,B,C).
+17 [] -between(A,B,C)|colinear(C,A,B).
+18 [] -between(A,B,C)|colinear(B,C,A).
+19 [] -colinear(A,B,C)|between(A,B,C)|between(B,C,A)|between(C,A,B).
+39 [] colinear(a,b,c).
+40 [] -colinear(a,c,b)| -colinear(b,a,c)| -colinear(b,c,a)| -colinear(c,a,b)| -colinear(c,b,a).
+43 [] between(A,B,extension(A,B,C,D)).
+44 [] equidistant(A,extension(B,A,C,D),C,D).
+46 [hyper,39,19] between(a,b,c)|between(b,c,a)|between(c,a,b).
+66 [hyper,44,2,flip.1] equal(extension(A,B,C,C),B).
+72 [46,split.2] between(b,c,a).
+78 [hyper,72,18] colinear(c,a,b).
+79 [hyper,72,16] colinear(b,c,a).
+87 [back_unit_del,78.1,40.4,unit_del,79] -colinear(a,c,b)| -colinear(b,a,c)| -colinear(c,b,a).
+100 [para_from,66.1.1,43.1.3] between(A,B,B).
+194 [hyper,100,6,72] between(a,inner_pasch(b,c,a,a,A),b).
+201 [hyper,100,5,72] between(c,inner_pasch(b,c,a,a,A),A).
+1559 [hyper,201,4,flip.1] equal(inner_pasch(b,c,a,a,c),c).
+1569 [para_from,1559.1.1,194.1.2] between(a,c,b).
+1573 [hyper,1569,18] colinear(c,b,a).
+1574 [hyper,1569,17] colinear(b,a,c).
+1575 [hyper,1569,16] colinear(a,c,b).
+1707 [back_unit_del,1573.1,87.3,unit_del,1575,1574] $F.
+
+------------ end of proof -------------
+
+
+
+
+------- statistics (process 6080) -------
+clauses given                 42
+clauses generated           7574
+clauses kept                1700
+clauses forward subsumed    5961
+clauses back subsumed        228
+Kbytes malloced             2363
+
+----------- times (seconds) -----------
+user CPU time          0.65          (0 hr, 0 min, 0 sec)
+system CPU time        0.05          (0 hr, 0 min, 0 sec)
+wall-clock time        2             (0 hr, 0 min, 2 sec)
+hyper_res time         0.07
+UR_res time            0.27
+para_into time         0.00
+para_from time         0.00
+for_sub time           0.04
+back_sub time          0.03
+conflict time          0.02
+demod time             0.05
+
+Process 6080 finished Wed Aug  6 14:26:39 2003
+Refuted case [2].
+
+Case [3]   (process 6081):
+Assumption: 73 [46,split.3] between(c,a,b).
+
+given clause #12: (wt=4) 71 [46,split_neg.3] -between(a,b,c).
+
+given clause #13: (wt=4) 72 [46,split_neg.3] -between(b,c,a).
+
+given clause #14: (wt=4) 73 [46,split.3] between(c,a,b).
+0 [back_unit_del,79.1,40.3] -colinear(a,c,b)| -colinear(b,a,c)| -colinear(c,a,b)| -colinear(c,b,a).
+0 [back_unit_del,80.1,40.4] -colinear(a,c,b)| -colinear(b,a,c)| -colinear(b,c,a)| -colinear(c,b,a).
+
+given clause #15: (wt=4) 79 [hyper,73,17] colinear(b,c,a).
+
+given clause #16: (wt=19) 49 [hyper,43,33,47,47] equidistant(A,A,A,continuous(A,A,A,A,extension(A,A,B,C),extension(A,A,B,C))).
+
+given clause #17: (wt=4) 80 [hyper,73,16] colinear(c,a,b).
+
+given clause #18: (wt=7) 66 [hyper,44,2,flip.1] equal(extension(A,B,C,C),B).
+0 [back_unit_del,97.1,34.1] between(E2518,E2518,E2518).
+0 [back_unit_del,98.1,21.3] -equidistant(E2518,F2518,G2518,H2518)| -equidistant(F2518,I2518,H2518,J2518)| -between(E2518,F2518,I2518)| -between(G2518,H2518,J2518)|equal(E2518,F2518)|equidistant(I2518,F2518,J2518,H2518).
+0 [back_unit_del,99.1,34.1] between(E2518,E2518,E2518).
+0 [back_unit_del,100.1,34.1] between(E2518,E2518,E2518).
+0 [back_unit_del,101.1,38.2] -equidistant(E2518,E2518,E2518,F2518)|equidistant(E2518,E2518,E2518,continuous(E2518,E2518,F2518,E2518,E2518,F2518)).
+0 [back_unit_del,101.1,37.2] -equidistant(E2518,E2518,E2518,F2518)|between(F2518,continuous(E2518,E2518,F2518,E2518,E2518,F2518),F2518).
+0 [back_unit_del,101.1,32.2] -equidistant(E2518,F2518,E2518,G2518)| -between(F2518,H2518,F2518)|equidistant(E2518,H2518,E2518,continuous(E2518,F2518,G2518,H2518,F2518,G2518)).
+0 [back_unit_del,101.1,30.2] -equidistant(E2518,F2518,E2518,G2518)| -between(F2518,H2518,F2518)|between(G2518,continuous(E2518,F2518,G2518,H2518,F2518,G2518),G2518).
+
+given clause #19: (wt=4) 97 [para_from,66.1.1,55.1.2] colinear(A,A,B).
+
+given clause #20: (wt=4) 99 [para_from,66.1.1,57.1.3] colinear(A,B,B).
+
+given clause #21: (wt=22) 50 [hyper,43,31,47,47] between(A,continuous(A,A,A,A,extension(A,A,B,C),extension(A,A,B,C)),extension(A,A,B,C)).
+
+given clause #22: (wt=4) 100 [para_from,66.1.1,56.1.1] colinear(A,B,A).
+
+given clause #23: (wt=4) 101 [para_from,66.1.1,43.1.3] between(A,B,B).
+
+given clause #24: (wt=5) 98 [para_from,66.1.1,44.1.2] equidistant(A,A,B,B).
+
+given clause #25: (wt=9) 68 [hyper,44,1,42] equidistant(extension(A,B,C,D),B,C,D).
+
+given clause #26: (wt=13) 54 [hyper,43,24] between(A,inner_pasch(B,A,extension(B,A,C,D),A,B),B).
+
+given clause #27: (wt=9) 69 [hyper,44,1,47] equidistant(A,B,C,extension(D,C,A,B)).
+
+given clause #28: (wt=9) 70 [hyper,44,1,42] equidistant(A,B,extension(C,D,A,B),D).
+
+given clause #29: (wt=9) 77 [hyper,73,24] between(a,inner_pasch(c,a,b,a,c),c).
+
+given clause #30: (wt=9) 194 [hyper,101,6,101] between(A,inner_pasch(B,A,A,A,C),B).
+
+given clause #31: (wt=37) 58 [hyper,43,13,43] equal(A,B)|between(euclid1(A,C,B,extension(C,B,D,E),extension(A,B,F,G)),extension(A,B,F,G),euclid2(A,C,B,extension(C,B,D,E),extension(A,B,F,G))).
+
+given clause #32: (wt=8) 668 [hyper,194,4,flip.1] equal(inner_pasch(A,A,A,A,B),A).
+
+given clause #33: (wt=9) 195 [hyper,101,6,73] between(b,inner_pasch(c,a,b,b,A),c).
+
+given clause #34: (wt=9) 198 [hyper,101,6,73] between(a,inner_pasch(A,b,b,a,c),A).
+
+given clause #35: (wt=8) 880 [hyper,198,4,flip.1] equal(inner_pasch(a,b,b,a,c),a).
+
+given clause #36: (wt=24) 59 [hyper,43,12,43] equal(A,B)|between(A,extension(C,B,D,E),euclid2(A,C,B,extension(C,B,D,E),extension(A,B,F,G))).
+
+given clause #37: (wt=9) 201 [hyper,101,5,101] between(A,inner_pasch(B,A,A,A,C),C).
+0 [back_unit_del,1139.1,33.3] -equidistant(E2518,E2518,E2518,F2518)| -equidistant(E2518,G2518,E2518,H2518)|equidistant(E2518,E2518,E2518,continuous(E2518,E2518,F2518,E2518,G2518,H2518)).
+0 [back_unit_del,1139.1,31.3] -equidistant(E2518,E2518,E2518,F2518)| -equidistant(E2518,G2518,E2518,H2518)|between(F2518,continuous(E2518,E2518,F2518,E2518,G2518,H2518),H2518).
+
+given clause #38: (wt=4) 1139 [para_into,201.1.2,668.1.1] between(A,A,B).
+
+given clause #39: (wt=8) 1129 [hyper,201,4,flip.1] equal(inner_pasch(A,B,B,B,B),B).
+
+given clause #40: (wt=9) 202 [hyper,101,5,73] between(a,inner_pasch(c,a,b,b,A),A).
+
+given clause #41: (wt=20) 60 [hyper,43,11,43] equal(A,B)|between(A,C,euclid1(A,C,B,extension(C,B,D,E),extension(A,B,F,G))).
+
+given clause #42: (wt=8) 1544 [hyper,202,4,flip.1] equal(inner_pasch(c,a,b,b,a),a).
+
+given clause #43: (wt=4) 1554 [para_from,1544.1.1,195.1.2] between(b,a,c).
+
+--- refuted case [3]
+0 [back_unit_del,1558.1,88.1] -colinear(b,a,c)| -colinear(c,b,a).
+
+-----> EMPTY CLAUSE at   0.58 sec ----> 1692 [back_unit_del,1558.1,88.1,unit_del,1560,1559] $F.
+
+Length of proof is 14.  Level of proof is 6.  Case [3]
+
+---------------- PROOF ----------------
+
+2 [] -equidistant(A,B,C,C)|equal(A,B).
+4 [] -between(A,B,A)|equal(A,B).
+5 [] -between(A,B,C)| -between(D,E,C)|between(B,inner_pasch(A,B,C,E,D),D).
+6 [] -between(A,B,C)| -between(D,E,C)|between(E,inner_pasch(A,B,C,E,D),A).
+16 [] -between(A,B,C)|colinear(A,B,C).
+17 [] -between(A,B,C)|colinear(C,A,B).
+18 [] -between(A,B,C)|colinear(B,C,A).
+19 [] -colinear(A,B,C)|between(A,B,C)|between(B,C,A)|between(C,A,B).
+39 [] colinear(a,b,c).
+40 [] -colinear(a,c,b)| -colinear(b,a,c)| -colinear(b,c,a)| -colinear(c,a,b)| -colinear(c,b,a).
+43 [] between(A,B,extension(A,B,C,D)).
+44 [] equidistant(A,extension(B,A,C,D),C,D).
+46 [hyper,39,19] between(a,b,c)|between(b,c,a)|between(c,a,b).
+66 [hyper,44,2,flip.1] equal(extension(A,B,C,C),B).
+73 [46,split.3] between(c,a,b).
+79 [hyper,73,17] colinear(b,c,a).
+80 [hyper,73,16] colinear(c,a,b).
+88 [back_unit_del,79.1,40.3,unit_del,80] -colinear(a,c,b)| -colinear(b,a,c)| -colinear(c,b,a).
+101 [para_from,66.1.1,43.1.3] between(A,B,B).
+195 [hyper,101,6,73] between(b,inner_pasch(c,a,b,b,A),c).
+202 [hyper,101,5,73] between(a,inner_pasch(c,a,b,b,A),A).
+1544 [hyper,202,4,flip.1] equal(inner_pasch(c,a,b,b,a),a).
+1554 [para_from,1544.1.1,195.1.2] between(b,a,c).
+1558 [hyper,1554,18] colinear(a,c,b).
+1559 [hyper,1554,17] colinear(c,b,a).
+1560 [hyper,1554,16] colinear(b,a,c).
+1692 [back_unit_del,1558.1,88.1,unit_del,1560,1559] $F.
+
+------------ end of proof -------------
+
+
+
+
+------- statistics (process 6081) -------
+clauses given                 43
+clauses generated           7581
+clauses kept                1685
+clauses forward subsumed    5974
+clauses back subsumed        222
+Kbytes malloced             2363
+
+----------- times (seconds) -----------
+user CPU time          0.58          (0 hr, 0 min, 0 sec)
+system CPU time        0.13          (0 hr, 0 min, 0 sec)
+wall-clock time        2             (0 hr, 0 min, 2 sec)
+hyper_res time         0.06
+UR_res time            0.23
+para_into time         0.00
+para_from time         0.00
+for_sub time           0.05
+back_sub time          0.03
+conflict time          0.00
+demod time             0.03
+
+Process 6081 finished Wed Aug  6 14:26:39 2003
+Refuted case [3].
+
+That finishes the proof of the theorem.
+
+That finishes the proof of the theorem.
+
+------- statistics (process 6078) -------
+clauses given                 11
+clauses generated            275
+clauses kept                  69
+clauses forward subsumed     222
+clauses back subsumed          9
+Kbytes malloced              287
+
+----------- times (seconds) -----------
+user CPU time          0.03          (0 hr, 0 min, 0 sec)
+system CPU time        0.00          (0 hr, 0 min, 0 sec)
+wall-clock time        2             (0 hr, 0 min, 2 sec)
+hyper_res time         0.01
+UR_res time            0.00
+para_into time         0.00
+para_from time         0.00
+for_sub time           0.01
+back_sub time          0.00
+conflict time          0.00
+demod time             0.00
+
+Process 6078 finished Wed Aug  6 14:26:39 2003
