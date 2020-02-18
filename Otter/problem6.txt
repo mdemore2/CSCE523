@@ -1,0 +1,30 @@
+set(ur_res).
+set(hyper_res).
+
+formula_list(usable).
+
+uncle(John, Jack).
+aunt(Mary, Amy).
+female(Amy).
+brother(Jack, Amy).
+brother(Bill, Jack).
+
+sister(x,y) -> siblings(x,y).
+brother(x,y) -> siblings(x,y).
+brother(x,y) & female(y) -> sister(y,x).
+siblings(x,y) & uncle(z,y) -> uncle(z,x).
+siblings(x,y) -> siblings(y,x).
+uncle(x,y) & aunt(z,y) -> married(x,z).
+uncle(x,y) & married(z,x) -> aunt(z,y).
+married(x,y) -> married(y,x).
+
+end_of_list.
+
+
+formula_list(sos).
+
+married(John, Mary).
+aunt(Mary, Jack).
+exists x [siblings(Jack, x) & uncle(John, x)].
+
+end_of_list.
