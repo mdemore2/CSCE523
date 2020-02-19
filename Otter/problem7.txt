@@ -43,5 +43,8 @@ all y (with(y, magic) -> (-with(y, sword) & -with(y, bow))).
 all y (with(y, sword) -> (-with(y, magic) & -with(y, bow))).
 all y (with(y, bow) -> (-with(y, sword) & -with(y, magic))).
 
+all x all y all z all q (with(x, y) -> (-with(z, y) & -with(q, y))).
+all x all y all z all q (has(x, y) -> (-has(z, y) & -has(q, y))).
+all x all y all z all q (fight(x, y) -> (-fight(z, y) & -fight(q, y))).
 
 end_of_list.

@@ -1,6 +1,6 @@
 ----- Otter 3.2, August 2001 -----
 The process was started by ??? on ???,
-Wed Feb 19 08:39:59 2020
+Wed Feb 19 09:17:26 2020
 The command was "C:\GitRepos\CSCE523\Otter\otter.exe".
 
 set(ur_res).
@@ -33,7 +33,7 @@ brother(Bill,Jack).
 all x y z (-siblings(x,y)| -uncle(z,y)|uncle(z,x)).
 all x y (-siblings(x,y)|siblings(y,x)).
 all x y (-brother(x,y)|siblings(x,y)).
--siblings(Jack,x)| -uncle(John,x).
+all x (-siblings(Jack,x)| -uncle(John,x)).
 end_of_list.
 
 -------> sos clausifies to:
@@ -84,50 +84,69 @@ given clause #11: (wt=3) 18 [hyper,13,10] siblings(Bill,Jack).
 given clause #12: (wt=3) 19 [hyper,18,12] siblings(Jack,Bill).
 
 given clause #13: (wt=6) 14 [] -siblings(Jack,x)| -uncle(John,x).
+** KEPT (pick-wt=3): 20 [ur,14,6] -siblings(Jack,Jack).
+** KEPT (pick-wt=3): 21 [ur,14,19] -uncle(John,Bill).
+** KEPT (pick-wt=3): 22 [ur,14,17] -uncle(John,Amy).
 
-given clause #14: (wt=9) 11 [] -siblings(x,y)| -uncle(z,y)|uncle(z,x).
-** KEPT (pick-wt=3): 20 [hyper,11,18,6] uncle(John,Bill).
-** KEPT (pick-wt=3): 21 [hyper,11,16,6] uncle(John,Amy).
+given clause #14: (wt=3) 20 [ur,14,6] -siblings(Jack,Jack).
+** KEPT (pick-wt=3): 23 [ur,20,13] -brother(Jack,Jack).
+** KEPT (pick-wt=3): 24 [ur,20,1] -sister(Jack,Jack).
 
-given clause #15: (wt=3) 20 [hyper,11,18,6] uncle(John,Bill).
+given clause #15: (wt=3) 21 [ur,14,19] -uncle(John,Bill).
 
-given clause #16: (wt=3) 21 [hyper,11,16,6] uncle(John,Amy).
-** KEPT (pick-wt=3): 22 [hyper,21,2,7] married(John,Mary).
+given clause #16: (wt=3) 22 [ur,14,17] -uncle(John,Amy).
 
-given clause #17: (wt=3) 22 [hyper,21,2,7] married(John,Mary).
-** KEPT (pick-wt=3): 23 [hyper,22,4] married(Mary,John).
+given clause #17: (wt=3) 23 [ur,20,13] -brother(Jack,Jack).
 
-given clause #18: (wt=3) 23 [hyper,22,4] married(Mary,John).
-** KEPT (pick-wt=3): 24 [hyper,23,3,20] aunt(Mary,Bill).
-** KEPT (pick-wt=3): 25 [hyper,23,3,6] aunt(Mary,Jack).
+given clause #18: (wt=3) 24 [ur,20,1] -sister(Jack,Jack).
 
-given clause #19: (wt=3) 24 [hyper,23,3,20] aunt(Mary,Bill).
+given clause #19: (wt=9) 11 [] -siblings(x,y)| -uncle(z,y)|uncle(z,x).
+** KEPT (pick-wt=3): 25 [hyper,11,18,6] uncle(John,Bill).
 
-given clause #20: (wt=3) 25 [hyper,23,3,6] aunt(Mary,Jack).
+----> UNIT CONFLICT at   0.00 sec ----> 26 [binary,25.1,21.1] $F.
 
-Search stopped because sos empty.
+Length of proof is 4.  Level of proof is 3.
+
+---------------- PROOF ----------------
+
+6 [] uncle(John,Jack).
+10 [] brother(Bill,Jack).
+11 [] -siblings(x,y)| -uncle(z,y)|uncle(z,x).
+12 [] -siblings(x,y)|siblings(y,x).
+13 [] -brother(x,y)|siblings(x,y).
+14 [] -siblings(Jack,x)| -uncle(John,x).
+18 [hyper,13,10] siblings(Bill,Jack).
+19 [hyper,18,12] siblings(Jack,Bill).
+21 [ur,14,19] -uncle(John,Bill).
+25 [hyper,11,18,6] uncle(John,Bill).
+26 [binary,25.1,21.1] $F.
+
+------------ end of proof -------------
+
+
+Search stopped by max_proofs option.
 
 ============ end of search ============
 
 -------------- statistics -------------
-clauses given                 20
-clauses generated             40
-  hyper_res generated         20
-  ur_res generated            20
+clauses given                 19
+clauses generated             23
+  hyper_res generated          9
+  ur_res generated            14
 demod & eval rewrites          0
 clauses wt,lit,sk delete       0
 tautologies deleted            0
-clauses forward subsumed      29
-  (subsumed by sos)           11
+clauses forward subsumed      12
+  (subsumed by sos)            5
 unit deletions                 0
 factor simplifications         0
 clauses kept                  11
 new demodulators               0
-empty clauses                  0
+empty clauses                  1
 clauses back demodulated       0
 clauses back subsumed          0
-usable size                   25
-sos size                       0
+usable size                   24
+sos size                       1
 demodulators size              0
 passive size                   0
 hot size                       0
@@ -164,4 +183,6 @@ post_process time      0.00
   factor time          0.00
   unindex time         0.00
 
-Process 0 finished Wed Feb 19 08:39:59 2020
+That finishes the proof of the theorem.
+
+Process 0 finished Wed Feb 19 09:17:26 2020

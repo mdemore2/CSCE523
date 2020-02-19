@@ -1,6 +1,6 @@
 ----- Otter 3.2, August 2001 -----
 The process was started by ??? on ???,
-Wed Feb 19 09:09:14 2020
+Wed Feb 19 10:08:13 2020
 The command was "C:\GitRepos\CSCE523\Otter\otter.exe".
 
 set(ur_res).
@@ -39,6 +39,9 @@ all x (has(x,bow)-> -has(x,magic)& -has(x,sword)).
 all y (with(y,magic)-> -with(y,sword)& -with(y,bow)).
 all y (with(y,sword)-> -with(y,magic)& -with(y,bow)).
 all y (with(y,bow)-> -with(y,sword)& -with(y,magic)).
+all x y z q (with(x,y)-> -with(z,y)& -with(q,y)).
+all x y z q (has(x,y)-> -has(z,y)& -has(q,y)).
+all x y z q (fight(x,y)-> -fight(z,y)& -fight(q,y)).
 end_of_list.
 
 -------> sos clausifies to:
@@ -71,6 +74,12 @@ list(sos).
 28 [] -with(y,sword)| -with(y,bow).
 29 [] -with(y,bow)| -with(y,sword).
 30 [] -with(y,bow)| -with(y,magic).
+31 [] -with(x,y)| -with(z,y).
+32 [] -with(x,y)| -with(x1,y).
+33 [] -has(x,y)| -has(z,y).
+34 [] -has(x,y)| -has(x2,y).
+35 [] -fight(x,y)| -fight(z,y).
+36 [] -fight(x,y)| -fight(x3,y).
 end_of_list.
 
 ======= end of input processing =======
@@ -90,88 +99,84 @@ given clause #5: (wt=3) 8 [] has(Zelda,bow).
 given clause #6: (wt=3) 9 [] -with(IronKnuckle,magic).
 
 given clause #7: (wt=6) 13 [] -fight(x,Octorock)| -fight(x,IronKnuckle).
-** KEPT (pick-wt=3): 31 [ur,13,5] -fight(Zelda,IronKnuckle).
 
-given clause #8: (wt=3) 31 [ur,13,5] -fight(Zelda,IronKnuckle).
+given clause #8: (wt=6) 14 [] -fight(x,Octorock)| -fight(x,Poe).
 
-given clause #9: (wt=6) 14 [] -fight(x,Octorock)| -fight(x,Poe).
-** KEPT (pick-wt=3): 32 [ur,14,5] -fight(Zelda,Poe).
+given clause #9: (wt=6) 15 [] -fight(x,IronKnuckle)| -fight(x,Octorock).
 
-given clause #10: (wt=3) 32 [ur,14,5] -fight(Zelda,Poe).
+given clause #10: (wt=6) 16 [] -fight(x,IronKnuckle)| -fight(x,Poe).
 
-given clause #11: (wt=6) 15 [] -fight(x,IronKnuckle)| -fight(x,Octorock).
+given clause #11: (wt=6) 17 [] -fight(x,Poe)| -fight(x,Octorock).
 
-given clause #12: (wt=6) 16 [] -fight(x,IronKnuckle)| -fight(x,Poe).
+given clause #12: (wt=6) 18 [] -fight(x,Poe)| -fight(x,IronKnuckle).
 
-given clause #13: (wt=6) 17 [] -fight(x,Poe)| -fight(x,Octorock).
+given clause #13: (wt=6) 19 [] -has(x,sword)| -has(x,magic).
 
-given clause #14: (wt=6) 18 [] -fight(x,Poe)| -fight(x,IronKnuckle).
+given clause #14: (wt=6) 20 [] -has(x,sword)| -has(x,bow).
 
-given clause #15: (wt=6) 19 [] -has(x,sword)| -has(x,magic).
-** KEPT (pick-wt=3): 33 [ur,19,6] -has(Link,magic).
+given clause #15: (wt=6) 21 [] -has(x,magic)| -has(x,sword).
 
-given clause #16: (wt=3) 33 [ur,19,6] -has(Link,magic).
+given clause #16: (wt=6) 22 [] -has(x,magic)| -has(x,bow).
 
-given clause #17: (wt=6) 20 [] -has(x,sword)| -has(x,bow).
-** KEPT (pick-wt=3): 34 [ur,20,8] -has(Zelda,sword).
-** KEPT (pick-wt=3): 35 [ur,20,6] -has(Link,bow).
+given clause #17: (wt=6) 23 [] -has(x,bow)| -has(x,magic).
 
-given clause #18: (wt=3) 34 [ur,20,8] -has(Zelda,sword).
+given clause #18: (wt=6) 24 [] -has(x,bow)| -has(x,sword).
 
-given clause #19: (wt=3) 35 [ur,20,6] -has(Link,bow).
+given clause #19: (wt=6) 25 [] -with(y,magic)| -with(y,sword).
 
-given clause #20: (wt=6) 21 [] -has(x,magic)| -has(x,sword).
+given clause #20: (wt=6) 26 [] -with(y,magic)| -with(y,bow).
 
-given clause #21: (wt=6) 22 [] -has(x,magic)| -has(x,bow).
-** KEPT (pick-wt=3): 36 [ur,22,8] -has(Zelda,magic).
+given clause #21: (wt=6) 27 [] -with(y,sword)| -with(y,magic).
 
-given clause #22: (wt=3) 36 [ur,22,8] -has(Zelda,magic).
+given clause #22: (wt=6) 28 [] -with(y,sword)| -with(y,bow).
 
-given clause #23: (wt=6) 23 [] -has(x,bow)| -has(x,magic).
+given clause #23: (wt=6) 29 [] -with(y,bow)| -with(y,sword).
 
-given clause #24: (wt=6) 24 [] -has(x,bow)| -has(x,sword).
+given clause #24: (wt=6) 30 [] -with(y,bow)| -with(y,magic).
 
-given clause #25: (wt=6) 25 [] -with(y,magic)| -with(y,sword).
+given clause #25: (wt=6) 31 [] -with(x,y)| -with(z,y).
 
-given clause #26: (wt=6) 26 [] -with(y,magic)| -with(y,bow).
+given clause #26: (wt=6) 32 [] -with(x,y)| -with(x1,y).
 
-given clause #27: (wt=6) 27 [] -with(y,sword)| -with(y,magic).
+given clause #27: (wt=6) 33 [] -has(x,y)| -has(z,y).
+** KEPT (pick-wt=0): 37 [hyper,33,8,8] $F.
 
-given clause #28: (wt=6) 28 [] -with(y,sword)| -with(y,bow).
+-----> EMPTY CLAUSE at   0.01 sec ----> 37 [hyper,33,8,8] $F.
 
-given clause #29: (wt=6) 29 [] -with(y,bow)| -with(y,sword).
+Length of proof is 0.  Level of proof is 0.
 
-given clause #30: (wt=6) 30 [] -with(y,bow)| -with(y,magic).
+---------------- PROOF ----------------
 
-given clause #31: (wt=9) 10 [] -with(y,z)| -has(x,z)|fight(x,y).
+8 [] has(Zelda,bow).
+33 [] -has(x,y)| -has(z,y).
+37 [hyper,33,8,8] $F.
 
-given clause #32: (wt=9) 11 [] -has(x,z)| -fight(x,y)|with(y,z).
+------------ end of proof -------------
 
-given clause #33: (wt=9) 12 [] -with(y,z)| -fight(x,y)|has(x,z).
 
-Search stopped because sos empty.
+Search stopped by max_proofs option.
 
 ============ end of search ============
 
 -------------- statistics -------------
-clauses given                 33
-clauses generated             12
-  hyper_res generated          0
+clauses given                 27
+clauses generated             13
+  hyper_res generated          1
   ur_res generated            12
 demod & eval rewrites          0
 clauses wt,lit,sk delete       0
 tautologies deleted            0
-clauses forward subsumed       6
-  (subsumed by sos)            0
+clauses forward subsumed      12
+  (subsumed by sos)           12
 unit deletions                 0
 factor simplifications         0
-clauses kept                   6
+clauses kept                   0
 new demodulators               0
-empty clauses                  0
+empty clauses                  1
 clauses back demodulated       0
 clauses back subsumed          0
-usable size                   36
-sos size                       0
+usable size                   30
+sos size                       6
 demodulators size              0
 passive size                   0
 hot size                       0
@@ -208,4 +213,6 @@ post_process time      0.00
   factor time          0.00
   unindex time         0.00
 
-Process 0 finished Wed Feb 19 09:09:14 2020
+That finishes the proof of the theorem.
+
+Process 0 finished Wed Feb 19 10:08:13 2020

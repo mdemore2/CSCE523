@@ -1,11 +1,11 @@
 
 (operator
   PICK-UP
-  (params (<ob1> OBJECT))
+  (params (<ob> OBJECT))
   (preconds 
-	(clear <ob1>) (on-table <ob1>) (arm-empty))
+	(clear <ob>) (on-table <ob>) (arm-empty))
   (effects 
-	(holding <ob1>)))
+	(holding <ob>) (del arm-empty) (del on-table <ob>) (del clear <ob>)))
 
 (operator
   PUT-DOWN
@@ -13,7 +13,7 @@
   (preconds
 	(holding <ob>))
   (effects 
-	 (clear <ob>) (arm-empty) (on-table <ob>)))
+	 (clear <ob>) (arm-empty) (on-table <ob>) (del holding <ob>)))
 
 (operator
  STACK
@@ -21,7 +21,7 @@
  (preconds 
 	(clear <underob>) (holding <ob>))
  (effects 
-       (arm-empty) (clear <ob>) (on <ob> <underob>)))
+       (arm-empty) (clear <ob>) (on <ob> <underob>) (del holding <ob>) (del clear <underob>)))
 
 (operator
  UNSTACK
@@ -29,5 +29,5 @@
  (preconds
 	(on <ob> <underob>) (clear <ob>) (arm-empty))
  (effects 
-        (holding <ob>) (clear <underob>)))
+        (holding <ob>) (clear <underob>) (del arm-empty) (del on <ob> <underob>)))
 
