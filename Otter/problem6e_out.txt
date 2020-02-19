@@ -1,6 +1,6 @@
 ----- Otter 3.2, August 2001 -----
 The process was started by ??? on ???,
-Tue Feb 18 19:23:31 2020
+Tue Feb 18 19:50:50 2020
 The command was "D:\MDemore Git Repo\CSCE523\Otter\otter.exe".
 
 set(ur_res).
@@ -41,94 +41,44 @@ list(usable).
 end_of_list.
 
 formula_list(sos).
--married(John,Mary).
--aunt(Mary,Jack).
--siblings(Jack,x)| -uncle(John,x).
--brother(Bill,Amy).
 -uncle(John,Bill)| -siblings(Bill,Jack).
 end_of_list.
 
 -------> sos clausifies to:
 
 list(sos).
-14 [] -married(John,Mary).
-15 [] -aunt(Mary,Jack).
-16 [] -siblings(Jack,x)| -uncle(John,x).
-17 [] -brother(Bill,Amy).
-18 [] -uncle(John,Bill)| -siblings(Bill,Jack).
+14 [] -uncle(John,Bill)| -siblings(Bill,Jack).
 end_of_list.
 
 ======= end of input processing =======
 
 =========== start of search ===========
 
-given clause #1: (wt=3) 14 [] -married(John,Mary).
-** KEPT (pick-wt=3): 19 [ur,14,13] -married(Mary,John).
-** KEPT (pick-wt=3): 20 [ur,14,11,2] -uncle(John,Amy).
+given clause #1: (wt=6) 14 [] -uncle(John,Bill)| -siblings(Bill,Jack).
 
-given clause #2: (wt=3) 15 [] -aunt(Mary,Jack).
-
-given clause #3: (wt=3) 17 [] -brother(Bill,Amy).
-
-given clause #4: (wt=3) 19 [ur,14,13] -married(Mary,John).
-
-given clause #5: (wt=3) 20 [ur,14,11,2] -uncle(John,Amy).
-** KEPT (pick-wt=3): 21 [ur,20,9,1] -siblings(Amy,Jack).
-
-given clause #6: (wt=3) 21 [ur,20,9,1] -siblings(Amy,Jack).
-** KEPT (pick-wt=3): 22 [ur,21,10] -siblings(Jack,Amy).
-** KEPT (pick-wt=3): 23 [ur,21,7] -brother(Amy,Jack).
-** KEPT (pick-wt=3): 24 [ur,21,6] -sister(Amy,Jack).
-
-given clause #7: (wt=3) 22 [ur,21,10] -siblings(Jack,Amy).
-** KEPT (pick-wt=3): 25 [ur,22,7] -brother(Jack,Amy).
-
-----> UNIT CONFLICT at   0.00 sec ----> 26 [binary,25.1,4.1] $F.
-
-Length of proof is 4.  Level of proof is 4.
-
----------------- PROOF ----------------
-
-1 [] uncle(John,Jack).
-2 [] aunt(Mary,Amy).
-4 [] brother(Jack,Amy).
-7 [] -brother(x,y)|siblings(x,y).
-9 [] -siblings(x,y)| -uncle(z,y)|uncle(z,x).
-10 [] -siblings(x,y)|siblings(y,x).
-11 [] -uncle(x,y)| -aunt(z,y)|married(x,z).
-14 [] -married(John,Mary).
-20 [ur,14,11,2] -uncle(John,Amy).
-21 [ur,20,9,1] -siblings(Amy,Jack).
-22 [ur,21,10] -siblings(Jack,Amy).
-25 [ur,22,7] -brother(Jack,Amy).
-26 [binary,25.1,4.1] $F.
-
------------- end of proof -------------
-
-
-Search stopped by max_proofs option.
+Search stopped because sos empty.
 
 ============ end of search ============
 
 -------------- statistics -------------
-clauses given                  7
-clauses generated             11
+clauses given                  1
+clauses generated              0
   hyper_res generated          0
-  ur_res generated            11
+  ur_res generated             0
 demod & eval rewrites          0
 clauses wt,lit,sk delete       0
 tautologies deleted            0
-clauses forward subsumed       4
-  (subsumed by sos)            2
+clauses forward subsumed       0
+  (subsumed by sos)            0
 unit deletions                 0
 factor simplifications         0
-clauses kept                   7
+clauses kept                   0
 new demodulators               0
-empty clauses                  1
+empty clauses                  0
 clauses back demodulated       0
 clauses back subsumed          0
-usable size                   20
-sos size                       5
+usable size                   14
+sos size                       0
 demodulators size              0
 passive size                   0
 hot size                       0
@@ -165,6 +115,4 @@ post_process time      0.00
   factor time          0.00
   unindex time         0.00
 
-That finishes the proof of the theorem.
-
-Process 0 finished Tue Feb 18 19:23:31 2020
+Process 0 finished Tue Feb 18 19:50:50 2020

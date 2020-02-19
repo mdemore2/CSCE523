@@ -1,6 +1,6 @@
 ----- Otter 3.2, August 2001 -----
 The process was started by ??? on ???,
-Tue Feb 18 19:23:31 2020
+Tue Feb 18 19:49:32 2020
 The command was "D:\MDemore Git Repo\CSCE523\Otter\otter.exe".
 
 set(ur_res).
@@ -41,51 +41,42 @@ list(usable).
 end_of_list.
 
 formula_list(sos).
--married(John,Mary).
 -aunt(Mary,Jack).
--siblings(Jack,x)| -uncle(John,x).
--brother(Bill,Amy).
--uncle(John,Bill)| -siblings(Bill,Jack).
 end_of_list.
 
 -------> sos clausifies to:
 
 list(sos).
-14 [] -married(John,Mary).
-15 [] -aunt(Mary,Jack).
-16 [] -siblings(Jack,x)| -uncle(John,x).
-17 [] -brother(Bill,Amy).
-18 [] -uncle(John,Bill)| -siblings(Bill,Jack).
+14 [] -aunt(Mary,Jack).
 end_of_list.
 
 ======= end of input processing =======
 
 =========== start of search ===========
 
-given clause #1: (wt=3) 14 [] -married(John,Mary).
-** KEPT (pick-wt=3): 19 [ur,14,13] -married(Mary,John).
-** KEPT (pick-wt=3): 20 [ur,14,11,2] -uncle(John,Amy).
+given clause #1: (wt=3) 14 [] -aunt(Mary,Jack).
+** KEPT (pick-wt=3): 15 [ur,14,12,1] -married(Mary,John).
 
-given clause #2: (wt=3) 15 [] -aunt(Mary,Jack).
+given clause #2: (wt=3) 15 [ur,14,12,1] -married(Mary,John).
+** KEPT (pick-wt=3): 16 [ur,15,13] -married(John,Mary).
 
-given clause #3: (wt=3) 17 [] -brother(Bill,Amy).
+given clause #3: (wt=3) 16 [ur,15,13] -married(John,Mary).
+** KEPT (pick-wt=3): 17 [ur,16,11,2] -uncle(John,Amy).
 
-given clause #4: (wt=3) 19 [ur,14,13] -married(Mary,John).
+given clause #4: (wt=3) 17 [ur,16,11,2] -uncle(John,Amy).
+** KEPT (pick-wt=3): 18 [ur,17,9,1] -siblings(Amy,Jack).
 
-given clause #5: (wt=3) 20 [ur,14,11,2] -uncle(John,Amy).
-** KEPT (pick-wt=3): 21 [ur,20,9,1] -siblings(Amy,Jack).
+given clause #5: (wt=3) 18 [ur,17,9,1] -siblings(Amy,Jack).
+** KEPT (pick-wt=3): 19 [ur,18,10] -siblings(Jack,Amy).
+** KEPT (pick-wt=3): 20 [ur,18,7] -brother(Amy,Jack).
+** KEPT (pick-wt=3): 21 [ur,18,6] -sister(Amy,Jack).
 
-given clause #6: (wt=3) 21 [ur,20,9,1] -siblings(Amy,Jack).
-** KEPT (pick-wt=3): 22 [ur,21,10] -siblings(Jack,Amy).
-** KEPT (pick-wt=3): 23 [ur,21,7] -brother(Amy,Jack).
-** KEPT (pick-wt=3): 24 [ur,21,6] -sister(Amy,Jack).
+given clause #6: (wt=3) 19 [ur,18,10] -siblings(Jack,Amy).
+** KEPT (pick-wt=3): 22 [ur,19,7] -brother(Jack,Amy).
 
-given clause #7: (wt=3) 22 [ur,21,10] -siblings(Jack,Amy).
-** KEPT (pick-wt=3): 25 [ur,22,7] -brother(Jack,Amy).
+----> UNIT CONFLICT at   0.00 sec ----> 23 [binary,22.1,4.1] $F.
 
-----> UNIT CONFLICT at   0.00 sec ----> 26 [binary,25.1,4.1] $F.
-
-Length of proof is 4.  Level of proof is 4.
+Length of proof is 6.  Level of proof is 6.
 
 ---------------- PROOF ----------------
 
@@ -96,12 +87,16 @@ Length of proof is 4.  Level of proof is 4.
 9 [] -siblings(x,y)| -uncle(z,y)|uncle(z,x).
 10 [] -siblings(x,y)|siblings(y,x).
 11 [] -uncle(x,y)| -aunt(z,y)|married(x,z).
-14 [] -married(John,Mary).
-20 [ur,14,11,2] -uncle(John,Amy).
-21 [ur,20,9,1] -siblings(Amy,Jack).
-22 [ur,21,10] -siblings(Jack,Amy).
-25 [ur,22,7] -brother(Jack,Amy).
-26 [binary,25.1,4.1] $F.
+12 [] -uncle(x,y)| -married(z,x)|aunt(z,y).
+13 [] -married(x,y)|married(y,x).
+14 [] -aunt(Mary,Jack).
+15 [ur,14,12,1] -married(Mary,John).
+16 [ur,15,13] -married(John,Mary).
+17 [ur,16,11,2] -uncle(John,Amy).
+18 [ur,17,9,1] -siblings(Amy,Jack).
+19 [ur,18,10] -siblings(Jack,Amy).
+22 [ur,19,7] -brother(Jack,Amy).
+23 [binary,22.1,4.1] $F.
 
 ------------ end of proof -------------
 
@@ -111,24 +106,24 @@ Search stopped by max_proofs option.
 ============ end of search ============
 
 -------------- statistics -------------
-clauses given                  7
+clauses given                  6
 clauses generated             11
   hyper_res generated          0
   ur_res generated            11
 demod & eval rewrites          0
 clauses wt,lit,sk delete       0
 tautologies deleted            0
-clauses forward subsumed       4
-  (subsumed by sos)            2
+clauses forward subsumed       3
+  (subsumed by sos)            0
 unit deletions                 0
 factor simplifications         0
-clauses kept                   7
+clauses kept                   8
 new demodulators               0
 empty clauses                  1
 clauses back demodulated       0
 clauses back subsumed          0
-usable size                   20
-sos size                       5
+usable size                   19
+sos size                       3
 demodulators size              0
 passive size                   0
 hot size                       0
@@ -167,4 +162,4 @@ post_process time      0.00
 
 That finishes the proof of the theorem.
 
-Process 0 finished Tue Feb 18 19:23:31 2020
+Process 0 finished Tue Feb 18 19:49:32 2020

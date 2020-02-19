@@ -25,10 +25,10 @@ end_of_list.
 
 formula_list(sos).
 
--married(John, Mary).
--aunt(Mary, Jack).
--siblings(Jack, x) | -uncle(John, x).
+%-married(John, Mary).
+%-aunt(Mary, Jack).
+%-siblings(Jack, x) | -uncle(John, x).
 -brother(Bill, Amy).
--uncle(John,Bill) | -siblings(Bill,Jack).
+%-uncle(John,Bill) | -siblings(Bill,Jack).
 
 end_of_list.
