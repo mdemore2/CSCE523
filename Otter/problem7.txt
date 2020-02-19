@@ -3,12 +3,8 @@ set(hyper_res).
 
 formula_list(usable).
 
--fight(Ganondorf,Octorock).
-fight(Zelda, Octorock).
-has(Link,sword).
--fight(Link,Poe).
-has(Zelda,bow).
--with(IronKnuckle,magic).
+
+
 
 [Link,Zelda,Ganondorf].
 [Octorock,IronKnucle,Poe].
@@ -24,6 +20,28 @@ end_of_list.
 
 formula_list(sos).
 
+-fight(Ganondorf,Octorock).
+fight(Zelda, Octorock).
+has(Link,sword).
+-fight(Link,Poe).
+has(Zelda,bow).
+-with(IronKnuckle,magic).
+
+(with(y, z) & has(x, z)) -> fight(x, y).
+(has(x, z) & fight(x, y)) -> with(y, z).
+(with(y, z) & fight(x, y)) -> has(x, z).
+
+all x (fight(x, Octorock) -> (-fight(x, IronKnuckle) & -fight(x, Poe))).
+all x (fight(x, IronKnuckle) -> (-fight(x, Octorock) & -fight(x, Poe))).
+all x (fight(x, Poe) -> (-fight(x, Octorock) & -fight(x, IronKnuckle))).
+
+all x (has(x, sword) -> (-has(x, magic) & -has(x, bow))).
+all x (has(x, magic) -> (-has(x, sword) & -has(x, bow))).
+all x (has(x, bow) -> (-has(x, magic) & -has(x, sword))).
+
+all y (with(y, magic) -> (-with(y, sword) & -with(y, bow))).
+all y (with(y, sword) -> (-with(y, magic) & -with(y, bow))).
+all y (with(y, bow) -> (-with(y, sword) & -with(y, magic))).
 
 
 end_of_list.
