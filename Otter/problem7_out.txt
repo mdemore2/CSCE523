@@ -1,6 +1,6 @@
 ----- Otter 3.2, August 2001 -----
 The process was started by ??? on ???,
-Wed Feb 19 10:08:13 2020
+Wed Feb 19 11:49:22 2020
 The command was "C:\GitRepos\CSCE523\Otter\otter.exe".
 
 set(ur_res).
@@ -30,18 +30,24 @@ has(Zelda,bow).
 with(y,z)&has(x,z)->fight(x,y).
 has(x,z)&fight(x,y)->with(y,z).
 with(y,z)&fight(x,y)->has(x,z).
-all x (fight(x,Octorock)-> -fight(x,IronKnuckle)& -fight(x,Poe)).
-all x (fight(x,IronKnuckle)-> -fight(x,Octorock)& -fight(x,Poe)).
+all x (fight(x,Octorock)<-> -fight(x,IronKnuckle)& -fight(x,Poe)).
+all x (fight(x,IronKnuckle)<-> -fight(x,Octorock)& -fight(x,Poe)).
 all x (fight(x,Poe)-> -fight(x,Octorock)& -fight(x,IronKnuckle)).
-all x (has(x,sword)-> -has(x,magic)& -has(x,bow)).
-all x (has(x,magic)-> -has(x,sword)& -has(x,bow)).
-all x (has(x,bow)-> -has(x,magic)& -has(x,sword)).
-all y (with(y,magic)-> -with(y,sword)& -with(y,bow)).
-all y (with(y,sword)-> -with(y,magic)& -with(y,bow)).
-all y (with(y,bow)-> -with(y,sword)& -with(y,magic)).
-all x y z q (with(x,y)-> -with(z,y)& -with(q,y)).
-all x y z q (has(x,y)-> -has(z,y)& -has(q,y)).
-all x y z q (fight(x,y)-> -fight(z,y)& -fight(q,y)).
+all x (has(x,sword)<-> -has(x,magic)& -has(x,bow)).
+all x (has(x,magic)<-> -has(x,sword)& -has(x,bow)).
+all x (has(x,bow)<-> -has(x,magic)& -has(x,sword)).
+all x (with(x,magic)<-> -with(x,sword)& -with(x,bow)).
+all x (with(x,sword)<-> -with(x,magic)& -with(x,bow)).
+all x (with(x,bow)<-> -with(x,sword)& -with(x,magic)).
+all y (with(Octorock,y)<-> -with(IronKnuckle,y)& -with(Poe,y)).
+all y (with(IronKnuckle,y)<-> -with(Octorock,y)& -with(Poe,y)).
+all y (with(Poe,y)<-> -with(Octorock,y)& -with(IronKnuckle,y)).
+all y (has(Link,y)<-> -has(Zelda,y)& -has(Ganondorf,y)).
+all y (has(Zelda,y)<-> -has(Link,y)& -has(Ganondorf,y)).
+all y (has(Ganondorf,y)<-> -has(Link,y)& -has(Zelda,y)).
+all y (fight(Link,y)<-> -fight(Zelda,y)& -fight(Ganondorf,y)).
+all y (fight(Zelda,y)<-> -fight(Link,y)& -fight(Ganondorf,y)).
+all y (fight(Ganondorf,y)<-> -fight(Link,y)& -fight(Zelda,y)).
 end_of_list.
 
 -------> sos clausifies to:
@@ -58,28 +64,57 @@ list(sos).
 12 [] -with(y,z)| -fight(x,y)|has(x,z).
 13 [] -fight(x,Octorock)| -fight(x,IronKnuckle).
 14 [] -fight(x,Octorock)| -fight(x,Poe).
-15 [] -fight(x,IronKnuckle)| -fight(x,Octorock).
-16 [] -fight(x,IronKnuckle)| -fight(x,Poe).
-17 [] -fight(x,Poe)| -fight(x,Octorock).
-18 [] -fight(x,Poe)| -fight(x,IronKnuckle).
-19 [] -has(x,sword)| -has(x,magic).
-20 [] -has(x,sword)| -has(x,bow).
-21 [] -has(x,magic)| -has(x,sword).
-22 [] -has(x,magic)| -has(x,bow).
-23 [] -has(x,bow)| -has(x,magic).
-24 [] -has(x,bow)| -has(x,sword).
-25 [] -with(y,magic)| -with(y,sword).
-26 [] -with(y,magic)| -with(y,bow).
-27 [] -with(y,sword)| -with(y,magic).
-28 [] -with(y,sword)| -with(y,bow).
-29 [] -with(y,bow)| -with(y,sword).
-30 [] -with(y,bow)| -with(y,magic).
-31 [] -with(x,y)| -with(z,y).
-32 [] -with(x,y)| -with(x1,y).
-33 [] -has(x,y)| -has(z,y).
-34 [] -has(x,y)| -has(x2,y).
-35 [] -fight(x,y)| -fight(z,y).
-36 [] -fight(x,y)| -fight(x3,y).
+15 [] fight(x,Octorock)|fight(x,IronKnuckle)|fight(x,Poe).
+16 [] -fight(x,IronKnuckle)| -fight(x,Octorock).
+17 [] -fight(x,IronKnuckle)| -fight(x,Poe).
+18 [] fight(x,IronKnuckle)|fight(x,Octorock)|fight(x,Poe).
+19 [] -fight(x,Poe)| -fight(x,Octorock).
+20 [] -fight(x,Poe)| -fight(x,IronKnuckle).
+21 [] -has(x,sword)| -has(x,magic).
+22 [] -has(x,sword)| -has(x,bow).
+23 [] has(x,sword)|has(x,magic)|has(x,bow).
+24 [] -has(x,magic)| -has(x,sword).
+25 [] -has(x,magic)| -has(x,bow).
+26 [] has(x,magic)|has(x,sword)|has(x,bow).
+27 [] -has(x,bow)| -has(x,magic).
+28 [] -has(x,bow)| -has(x,sword).
+29 [] has(x,bow)|has(x,magic)|has(x,sword).
+30 [] -with(x,magic)| -with(x,sword).
+31 [] -with(x,magic)| -with(x,bow).
+32 [] with(x,magic)|with(x,sword)|with(x,bow).
+33 [] -with(x,sword)| -with(x,magic).
+34 [] -with(x,sword)| -with(x,bow).
+35 [] with(x,sword)|with(x,magic)|with(x,bow).
+36 [] -with(x,bow)| -with(x,sword).
+37 [] -with(x,bow)| -with(x,magic).
+38 [] with(x,bow)|with(x,sword)|with(x,magic).
+39 [] -with(Octorock,y)| -with(IronKnuckle,y).
+40 [] -with(Octorock,y)| -with(Poe,y).
+41 [] with(Octorock,y)|with(IronKnuckle,y)|with(Poe,y).
+42 [] -with(IronKnuckle,y)| -with(Octorock,y).
+43 [] -with(IronKnuckle,y)| -with(Poe,y).
+44 [] with(IronKnuckle,y)|with(Octorock,y)|with(Poe,y).
+45 [] -with(Poe,y)| -with(Octorock,y).
+46 [] -with(Poe,y)| -with(IronKnuckle,y).
+47 [] with(Poe,y)|with(Octorock,y)|with(IronKnuckle,y).
+48 [] -has(Link,y)| -has(Zelda,y).
+49 [] -has(Link,y)| -has(Ganondorf,y).
+50 [] has(Link,y)|has(Zelda,y)|has(Ganondorf,y).
+51 [] -has(Zelda,y)| -has(Link,y).
+52 [] -has(Zelda,y)| -has(Ganondorf,y).
+53 [] has(Zelda,y)|has(Link,y)|has(Ganondorf,y).
+54 [] -has(Ganondorf,y)| -has(Link,y).
+55 [] -has(Ganondorf,y)| -has(Zelda,y).
+56 [] has(Ganondorf,y)|has(Link,y)|has(Zelda,y).
+57 [] -fight(Link,y)| -fight(Zelda,y).
+58 [] -fight(Link,y)| -fight(Ganondorf,y).
+59 [] fight(Link,y)|fight(Zelda,y)|fight(Ganondorf,y).
+60 [] -fight(Zelda,y)| -fight(Link,y).
+61 [] -fight(Zelda,y)| -fight(Ganondorf,y).
+62 [] fight(Zelda,y)|fight(Link,y)|fight(Ganondorf,y).
+63 [] -fight(Ganondorf,y)| -fight(Link,y).
+64 [] -fight(Ganondorf,y)| -fight(Zelda,y).
+65 [] fight(Ganondorf,y)|fight(Link,y)|fight(Zelda,y).
 end_of_list.
 
 ======= end of input processing =======
@@ -99,88 +134,242 @@ given clause #5: (wt=3) 8 [] has(Zelda,bow).
 given clause #6: (wt=3) 9 [] -with(IronKnuckle,magic).
 
 given clause #7: (wt=6) 13 [] -fight(x,Octorock)| -fight(x,IronKnuckle).
+** KEPT (pick-wt=3): 66 [ur,13,5] -fight(Zelda,IronKnuckle).
 
-given clause #8: (wt=6) 14 [] -fight(x,Octorock)| -fight(x,Poe).
+given clause #8: (wt=3) 66 [ur,13,5] -fight(Zelda,IronKnuckle).
 
-given clause #9: (wt=6) 15 [] -fight(x,IronKnuckle)| -fight(x,Octorock).
+given clause #9: (wt=6) 14 [] -fight(x,Octorock)| -fight(x,Poe).
+** KEPT (pick-wt=3): 67 [ur,14,5] -fight(Zelda,Poe).
 
-given clause #10: (wt=6) 16 [] -fight(x,IronKnuckle)| -fight(x,Poe).
+given clause #10: (wt=3) 67 [ur,14,5] -fight(Zelda,Poe).
 
-given clause #11: (wt=6) 17 [] -fight(x,Poe)| -fight(x,Octorock).
+given clause #11: (wt=6) 16 [] -fight(x,IronKnuckle)| -fight(x,Octorock).
 
-given clause #12: (wt=6) 18 [] -fight(x,Poe)| -fight(x,IronKnuckle).
+given clause #12: (wt=6) 17 [] -fight(x,IronKnuckle)| -fight(x,Poe).
 
-given clause #13: (wt=6) 19 [] -has(x,sword)| -has(x,magic).
+given clause #13: (wt=6) 19 [] -fight(x,Poe)| -fight(x,Octorock).
 
-given clause #14: (wt=6) 20 [] -has(x,sword)| -has(x,bow).
+given clause #14: (wt=6) 20 [] -fight(x,Poe)| -fight(x,IronKnuckle).
 
-given clause #15: (wt=6) 21 [] -has(x,magic)| -has(x,sword).
+given clause #15: (wt=6) 21 [] -has(x,sword)| -has(x,magic).
+** KEPT (pick-wt=3): 68 [ur,21,6] -has(Link,magic).
 
-given clause #16: (wt=6) 22 [] -has(x,magic)| -has(x,bow).
+given clause #16: (wt=3) 68 [ur,21,6] -has(Link,magic).
 
-given clause #17: (wt=6) 23 [] -has(x,bow)| -has(x,magic).
+given clause #17: (wt=6) 22 [] -has(x,sword)| -has(x,bow).
+** KEPT (pick-wt=3): 69 [ur,22,8] -has(Zelda,sword).
+** KEPT (pick-wt=3): 70 [ur,22,6] -has(Link,bow).
 
-given clause #18: (wt=6) 24 [] -has(x,bow)| -has(x,sword).
+given clause #18: (wt=3) 69 [ur,22,8] -has(Zelda,sword).
 
-given clause #19: (wt=6) 25 [] -with(y,magic)| -with(y,sword).
+given clause #19: (wt=3) 70 [ur,22,6] -has(Link,bow).
 
-given clause #20: (wt=6) 26 [] -with(y,magic)| -with(y,bow).
+given clause #20: (wt=6) 24 [] -has(x,magic)| -has(x,sword).
 
-given clause #21: (wt=6) 27 [] -with(y,sword)| -with(y,magic).
+given clause #21: (wt=6) 25 [] -has(x,magic)| -has(x,bow).
+** KEPT (pick-wt=3): 71 [ur,25,8] -has(Zelda,magic).
 
-given clause #22: (wt=6) 28 [] -with(y,sword)| -with(y,bow).
+given clause #22: (wt=3) 71 [ur,25,8] -has(Zelda,magic).
 
-given clause #23: (wt=6) 29 [] -with(y,bow)| -with(y,sword).
+given clause #23: (wt=6) 27 [] -has(x,bow)| -has(x,magic).
 
-given clause #24: (wt=6) 30 [] -with(y,bow)| -with(y,magic).
+given clause #24: (wt=6) 28 [] -has(x,bow)| -has(x,sword).
 
-given clause #25: (wt=6) 31 [] -with(x,y)| -with(z,y).
+given clause #25: (wt=6) 30 [] -with(x,magic)| -with(x,sword).
 
-given clause #26: (wt=6) 32 [] -with(x,y)| -with(x1,y).
+given clause #26: (wt=6) 31 [] -with(x,magic)| -with(x,bow).
 
-given clause #27: (wt=6) 33 [] -has(x,y)| -has(z,y).
-** KEPT (pick-wt=0): 37 [hyper,33,8,8] $F.
+given clause #27: (wt=6) 33 [] -with(x,sword)| -with(x,magic).
 
------> EMPTY CLAUSE at   0.01 sec ----> 37 [hyper,33,8,8] $F.
+given clause #28: (wt=6) 34 [] -with(x,sword)| -with(x,bow).
 
-Length of proof is 0.  Level of proof is 0.
+given clause #29: (wt=6) 36 [] -with(x,bow)| -with(x,sword).
 
----------------- PROOF ----------------
+given clause #30: (wt=6) 37 [] -with(x,bow)| -with(x,magic).
 
-8 [] has(Zelda,bow).
-33 [] -has(x,y)| -has(z,y).
-37 [hyper,33,8,8] $F.
+given clause #31: (wt=6) 39 [] -with(Octorock,y)| -with(IronKnuckle,y).
 
------------- end of proof -------------
+given clause #32: (wt=6) 40 [] -with(Octorock,y)| -with(Poe,y).
 
+given clause #33: (wt=6) 42 [] -with(IronKnuckle,y)| -with(Octorock,y).
 
-Search stopped by max_proofs option.
+given clause #34: (wt=6) 43 [] -with(IronKnuckle,y)| -with(Poe,y).
+
+given clause #35: (wt=6) 45 [] -with(Poe,y)| -with(Octorock,y).
+
+given clause #36: (wt=6) 46 [] -with(Poe,y)| -with(IronKnuckle,y).
+
+given clause #37: (wt=6) 48 [] -has(Link,y)| -has(Zelda,y).
+
+given clause #38: (wt=6) 49 [] -has(Link,y)| -has(Ganondorf,y).
+** KEPT (pick-wt=3): 72 [ur,49,6] -has(Ganondorf,sword).
+
+given clause #39: (wt=3) 72 [ur,49,6] -has(Ganondorf,sword).
+
+given clause #40: (wt=6) 51 [] -has(Zelda,y)| -has(Link,y).
+
+given clause #41: (wt=6) 52 [] -has(Zelda,y)| -has(Ganondorf,y).
+** KEPT (pick-wt=3): 73 [ur,52,8] -has(Ganondorf,bow).
+
+given clause #42: (wt=3) 73 [ur,52,8] -has(Ganondorf,bow).
+
+given clause #43: (wt=6) 54 [] -has(Ganondorf,y)| -has(Link,y).
+
+given clause #44: (wt=6) 55 [] -has(Ganondorf,y)| -has(Zelda,y).
+
+given clause #45: (wt=6) 57 [] -fight(Link,y)| -fight(Zelda,y).
+** KEPT (pick-wt=3): 74 [ur,57,5] -fight(Link,Octorock).
+
+given clause #46: (wt=3) 74 [ur,57,5] -fight(Link,Octorock).
+
+given clause #47: (wt=6) 58 [] -fight(Link,y)| -fight(Ganondorf,y).
+
+given clause #48: (wt=6) 60 [] -fight(Zelda,y)| -fight(Link,y).
+
+given clause #49: (wt=6) 61 [] -fight(Zelda,y)| -fight(Ganondorf,y).
+
+given clause #50: (wt=6) 63 [] -fight(Ganondorf,y)| -fight(Link,y).
+
+given clause #51: (wt=6) 64 [] -fight(Ganondorf,y)| -fight(Zelda,y).
+
+given clause #52: (wt=9) 10 [] -with(y,z)| -has(x,z)|fight(x,y).
+
+given clause #53: (wt=9) 11 [] -has(x,z)| -fight(x,y)|with(y,z).
+
+given clause #54: (wt=9) 12 [] -with(y,z)| -fight(x,y)|has(x,z).
+
+given clause #55: (wt=9) 15 [] fight(x,Octorock)|fight(x,IronKnuckle)|fight(x,Poe).
+** KEPT (pick-wt=6): 75 [hyper,15,74] fight(Link,IronKnuckle)|fight(Link,Poe).
+** KEPT (pick-wt=12): 76 [hyper,15,64,15] fight(Zelda,IronKnuckle)|fight(Zelda,Poe)|fight(Ganondorf,IronKnuckle)|fight(Ganondorf,Poe).
+** KEPT (pick-wt=6): 77 [hyper,15,64,5] fight(Ganondorf,IronKnuckle)|fight(Ganondorf,Poe).
+** KEPT (pick-wt=12): 78 [hyper,15,63,15] fight(Link,Octorock)|fight(Link,Poe)|fight(Ganondorf,Octorock)|fight(Ganondorf,Poe).
+** KEPT (pick-wt=12): 79 [hyper,15,63,15] fight(Link,Octorock)|fight(Link,IronKnuckle)|fight(Ganondorf,Octorock)|fight(Ganondorf,IronKnuckle).
+** KEPT (pick-wt=6): 80 [hyper,15,7] fight(Link,Octorock)|fight(Link,IronKnuckle).
+77 back subsumes 76.
+80 back subsumes 79.
+** KEPT (pick-wt=3): 81 [ur,15,74,7] fight(Link,IronKnuckle).
+81 back subsumes 80.
+81 back subsumes 75.
+
+given clause #56: (wt=3) 81 [ur,15,74,7] fight(Link,IronKnuckle).
+** KEPT (pick-wt=6): 82 [hyper,81,63,15] fight(Ganondorf,Octorock)|fight(Ganondorf,Poe).
+82 back subsumes 78.
+** KEPT (pick-wt=3): 83 [ur,81,63] -fight(Ganondorf,IronKnuckle).
+
+given clause #57: (wt=3) 83 [ur,81,63] -fight(Ganondorf,IronKnuckle).
+** KEPT (pick-wt=3): 84 [ur,83,15,4] fight(Ganondorf,Poe).
+84 back subsumes 82.
+84 back subsumes 77.
+
+given clause #58: (wt=3) 84 [ur,83,15,4] fight(Ganondorf,Poe).
+
+given clause #59: (wt=9) 18 [] fight(x,IronKnuckle)|fight(x,Octorock)|fight(x,Poe).
+
+given clause #60: (wt=9) 23 [] has(x,sword)|has(x,magic)|has(x,bow).
+** KEPT (pick-wt=6): 85 [hyper,23,72] has(Ganondorf,magic)|has(Ganondorf,bow).
+** KEPT (pick-wt=6): 86 [hyper,23,73] has(Ganondorf,sword)|has(Ganondorf,magic).
+** KEPT (pick-wt=3): 87 [ur,23,72,73] has(Ganondorf,magic).
+87 back subsumes 86.
+87 back subsumes 85.
+
+given clause #61: (wt=3) 87 [ur,23,72,73] has(Ganondorf,magic).
+
+given clause #62: (wt=9) 26 [] has(x,magic)|has(x,sword)|has(x,bow).
+
+given clause #63: (wt=9) 29 [] has(x,bow)|has(x,magic)|has(x,sword).
+
+given clause #64: (wt=9) 32 [] with(x,magic)|with(x,sword)|with(x,bow).
+** KEPT (pick-wt=12): 88 [hyper,32,46,32] with(IronKnuckle,sword)|with(IronKnuckle,bow)|with(Poe,sword)|with(Poe,bow).
+** KEPT (pick-wt=12): 89 [hyper,32,45,32] with(Octorock,sword)|with(Octorock,bow)|with(Poe,sword)|with(Poe,bow).
+** KEPT (pick-wt=12): 90 [hyper,32,42,32] with(Octorock,sword)|with(Octorock,bow)|with(IronKnuckle,sword)|with(IronKnuckle,bow).
+** KEPT (pick-wt=6): 91 [hyper,32,9] with(IronKnuckle,sword)|with(IronKnuckle,bow).
+** KEPT (pick-wt=12): 92 [hyper,32,46,32] with(IronKnuckle,magic)|with(IronKnuckle,bow)|with(Poe,magic)|with(Poe,bow).
+** KEPT (pick-wt=12): 93 [hyper,32,45,32] with(Octorock,magic)|with(Octorock,bow)|with(Poe,magic)|with(Poe,bow).
+** KEPT (pick-wt=12): 94 [hyper,32,42,32] with(Octorock,magic)|with(Octorock,bow)|with(IronKnuckle,magic)|with(IronKnuckle,bow).
+** KEPT (pick-wt=12): 95 [hyper,32,46,32] with(IronKnuckle,magic)|with(IronKnuckle,sword)|with(Poe,magic)|with(Poe,sword).
+** KEPT (pick-wt=12): 96 [hyper,32,45,32] with(Octorock,magic)|with(Octorock,sword)|with(Poe,magic)|with(Poe,sword).
+** KEPT (pick-wt=12): 97 [hyper,32,42,32] with(Octorock,magic)|with(Octorock,sword)|with(IronKnuckle,magic)|with(IronKnuckle,sword).
+91 back subsumes 90.
+91 back subsumes 88.
+
+given clause #65: (wt=6) 91 [hyper,32,9] with(IronKnuckle,sword)|with(IronKnuckle,bow).
+** KEPT (pick-wt=9): 98 [hyper,91,46,32] with(IronKnuckle,bow)|with(Poe,magic)|with(Poe,bow).
+** KEPT (pick-wt=9): 99 [hyper,91,42,32] with(IronKnuckle,bow)|with(Octorock,magic)|with(Octorock,bow).
+** KEPT (pick-wt=9): 100 [hyper,91,46,32] with(IronKnuckle,sword)|with(Poe,magic)|with(Poe,sword).
+** KEPT (pick-wt=9): 101 [hyper,91,42,32] with(IronKnuckle,sword)|with(Octorock,magic)|with(Octorock,sword).
+98 back subsumes 92.
+99 back subsumes 94.
+100 back subsumes 95.
+101 back subsumes 97.
+
+given clause #66: (wt=9) 35 [] with(x,sword)|with(x,magic)|with(x,bow).
+
+given clause #67: (wt=9) 38 [] with(x,bow)|with(x,sword)|with(x,magic).
+
+given clause #68: (wt=9) 41 [] with(Octorock,y)|with(IronKnuckle,y)|with(Poe,y).
+** KEPT (pick-wt=9): 102 [hyper,41,37,91] with(Octorock,magic)|with(Poe,magic)|with(IronKnuckle,sword).
+** KEPT (pick-wt=9): 103 [hyper,41,33,91] with(Octorock,magic)|with(Poe,magic)|with(IronKnuckle,bow).
+** KEPT (pick-wt=6): 104 [hyper,41,9] with(Octorock,magic)|with(Poe,magic).
+104 back subsumes 103.
+104 back subsumes 102.
+104 back subsumes 96.
+104 back subsumes 93.
+
+given clause #69: (wt=6) 104 [hyper,41,9] with(Octorock,magic)|with(Poe,magic).
+
+given clause #70: (wt=9) 44 [] with(IronKnuckle,y)|with(Octorock,y)|with(Poe,y).
+
+given clause #71: (wt=9) 47 [] with(Poe,y)|with(Octorock,y)|with(IronKnuckle,y).
+
+given clause #72: (wt=9) 50 [] has(Link,y)|has(Zelda,y)|has(Ganondorf,y).
+
+given clause #73: (wt=9) 53 [] has(Zelda,y)|has(Link,y)|has(Ganondorf,y).
+
+given clause #74: (wt=9) 56 [] has(Ganondorf,y)|has(Link,y)|has(Zelda,y).
+
+given clause #75: (wt=9) 59 [] fight(Link,y)|fight(Zelda,y)|fight(Ganondorf,y).
+
+given clause #76: (wt=9) 62 [] fight(Zelda,y)|fight(Link,y)|fight(Ganondorf,y).
+
+given clause #77: (wt=9) 65 [] fight(Ganondorf,y)|fight(Link,y)|fight(Zelda,y).
+
+given clause #78: (wt=9) 98 [hyper,91,46,32] with(IronKnuckle,bow)|with(Poe,magic)|with(Poe,bow).
+
+given clause #79: (wt=9) 99 [hyper,91,42,32] with(IronKnuckle,bow)|with(Octorock,magic)|with(Octorock,bow).
+
+given clause #80: (wt=9) 100 [hyper,91,46,32] with(IronKnuckle,sword)|with(Poe,magic)|with(Poe,sword).
+
+given clause #81: (wt=9) 101 [hyper,91,42,32] with(IronKnuckle,sword)|with(Octorock,magic)|with(Octorock,sword).
+
+given clause #82: (wt=12) 89 [hyper,32,45,32] with(Octorock,sword)|with(Octorock,bow)|with(Poe,sword)|with(Poe,bow).
+
+Search stopped because sos empty.
 
 ============ end of search ============
 
 -------------- statistics -------------
-clauses given                 27
-clauses generated             13
-  hyper_res generated          1
-  ur_res generated            12
+clauses given                 82
+clauses generated           4881
+  hyper_res generated       4800
+  ur_res generated            81
 demod & eval rewrites          0
 clauses wt,lit,sk delete       0
 tautologies deleted            0
-clauses forward subsumed      12
-  (subsumed by sos)           12
+clauses forward subsumed    4842
+  (subsumed by sos)          543
 unit deletions                 0
 factor simplifications         0
-clauses kept                   0
+clauses kept                  39
 new demodulators               0
-empty clauses                  1
+empty clauses                  0
 clauses back demodulated       0
-clauses back subsumed          0
-usable size                   30
-sos size                       6
+clauses back subsumed         19
+usable size                   85
+sos size                       0
 demodulators size              0
 passive size                   0
 hot size                       0
-Kbytes malloced               95
+Kbytes malloced              127
 
 ----------- times (seconds) -----------
 user CPU time          0.01          (0 hr, 0 min, 0 sec)
@@ -213,6 +402,4 @@ post_process time      0.00
   factor time          0.00
   unindex time         0.00
 
-That finishes the proof of the theorem.
-
-Process 0 finished Wed Feb 19 10:08:13 2020
+Process 0 finished Wed Feb 19 11:49:22 2020

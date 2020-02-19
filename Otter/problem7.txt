@@ -3,9 +3,6 @@ set(hyper_res).
 
 formula_list(usable).
 
-
-
-
 [Link,Zelda,Ganondorf].
 [Octorock,IronKnucle,Poe].
 [bow,magic,sword].
@@ -31,20 +28,33 @@ has(Zelda,bow).
 (has(x, z) & fight(x, y)) -> with(y, z).
 (with(y, z) & fight(x, y)) -> has(x, z).
 
-all x (fight(x, Octorock) -> (-fight(x, IronKnuckle) & -fight(x, Poe))).
-all x (fight(x, IronKnuckle) -> (-fight(x, Octorock) & -fight(x, Poe))).
+all x (fight(x, Octorock) <-> (-fight(x, IronKnuckle) & -fight(x, Poe))).
+all x (fight(x, IronKnuckle) <-> (-fight(x, Octorock) & -fight(x, Poe))).
 all x (fight(x, Poe) -> (-fight(x, Octorock) & -fight(x, IronKnuckle))).
 
-all x (has(x, sword) -> (-has(x, magic) & -has(x, bow))).
-all x (has(x, magic) -> (-has(x, sword) & -has(x, bow))).
-all x (has(x, bow) -> (-has(x, magic) & -has(x, sword))).
+all x (has(x, sword) <-> (-has(x, magic) & -has(x, bow))).
+all x (has(x, magic) <-> (-has(x, sword) & -has(x, bow))).
+all x (has(x, bow) <-> (-has(x, magic) & -has(x, sword))).
 
-all y (with(y, magic) -> (-with(y, sword) & -with(y, bow))).
-all y (with(y, sword) -> (-with(y, magic) & -with(y, bow))).
-all y (with(y, bow) -> (-with(y, sword) & -with(y, magic))).
+all x (with(x, magic) <-> (-with(x, sword) & -with(x, bow))).
+all x (with(x, sword) <-> (-with(x, magic) & -with(x, bow))).
+all x (with(x, bow) <-> (-with(x, sword) & -with(x, magic))).
 
-all x all y all z all q (with(x, y) -> (-with(z, y) & -with(q, y))).
-all x all y all z all q (has(x, y) -> (-has(z, y) & -has(q, y))).
-all x all y all z all q (fight(x, y) -> (-fight(z, y) & -fight(q, y))).
+all y (with(Octorock, y) <-> (-with(IronKnuckle, y) & -with(Poe, y))).
+all y (with(IronKnuckle, y) <-> (-with(Octorock, y) & -with(Poe, y))).
+all y (with(Poe, y) <-> (-with(Octorock, y) & -with(IronKnuckle, y))).
+
+all y (has(Link, y) <-> (-has(Zelda, y) & -has(Ganondorf, y))).
+all y (has(Zelda, y) <-> (-has(Link, y) & -has(Ganondorf, y))).
+all y (has(Ganondorf, y) <-> (-has(Link, y) & -has(Zelda, y))).
+
+all y (fight(Link, y) <-> (-fight(Zelda, y) & -fight(Ganondorf, y))).
+all y (fight(Zelda, y) <-> (-fight(Link, y) & -fight(Ganondorf, y))).
+all y (fight(Ganondorf, y) <-> (-fight(Link, y) & -fight(Zelda, y))).
+
+%all x all y all z all q (with(x, y) <-> (-with(z, y) & -with(q, y))).
+%all x all y all z all q (has(x, y) <-> (-has(z, y) & -has(q, y))).
+%all x all y all z all q (fight(x, y) <-> (-fight(z, y) & -fight(q, y))).
+
 
 end_of_list.
