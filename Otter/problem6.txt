@@ -9,22 +9,24 @@ female(Amy).
 brother(Jack, Amy).
 brother(Bill, Jack).
 
-sister(x,y) -> siblings(x,y).
-brother(x,y) -> siblings(x,y).
-brother(x,y) & female(y) -> sister(y,x).
-siblings(x,y) & uncle(z,y) -> uncle(z,x).
-siblings(x,y) -> siblings(y,x).
-uncle(x,y) & aunt(z,y) -> married(x,z).
-uncle(x,y) & married(z,x) -> aunt(z,y).
-married(x,y) -> married(y,x).
+all x all y (-sister(x,y) | siblings(x,y)).
+all x all y (-brother(x,y) | siblings(x,y)).
+all x all y (-brother(x,y) | -female(y) | sister(y,x)).
+all x all y all z (-siblings(x,y) | -uncle(z,y) | uncle(z,x)).
+all x all y (-siblings(x,y) | siblings(y,x)).
+all x all y all z (-uncle(x,y) | -aunt(z,y) | married(x,z)).
+all x all y all z (-uncle(x,y) | -married(z,x) | aunt(z,y)).
+all x all y (-married(x,y) | married(y,x)).
+
+%all x all y (sister(x,y) -> siblings(x,y)).
 
 end_of_list.
 
 
 formula_list(sos).
 
-married(John, Mary).
-aunt(Mary, Jack).
-exists x [siblings(Jack, x) & uncle(John, x)].
+-married(John, Mary).
+-aunt(Mary, Jack).
+-siblings(Jack, x) | -uncle(John, x).
 
 end_of_list.

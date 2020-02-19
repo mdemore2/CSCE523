@@ -1,0 +1,164 @@
+----- Otter 3.2, August 2001 -----
+The process was started by ??? on ???,
+Tue Feb 18 19:21:16 2020
+The command was "D:\MDemore Git Repo\CSCE523\Otter\otter.exe".
+
+set(ur_res).
+set(hyper_res).
+
+formula_list(usable).
+uncle(John,Jack).
+aunt(Mary,Amy).
+female(Amy).
+brother(Jack,Amy).
+brother(Bill,Jack).
+all x y (-sister(x,y)|siblings(x,y)).
+all x y (-brother(x,y)|siblings(x,y)).
+all x y (-brother(x,y)| -female(y)|sister(y,x)).
+all x y z (-siblings(x,y)| -uncle(z,y)|uncle(z,x)).
+all x y (-siblings(x,y)|siblings(y,x)).
+all x y z (-uncle(x,y)| -aunt(z,y)|married(x,z)).
+all x y z (-uncle(x,y)| -married(z,x)|aunt(z,y)).
+all x y (-married(x,y)|married(y,x)).
+end_of_list.
+
+-------> usable clausifies to:
+
+list(usable).
+1 [] uncle(John,Jack).
+2 [] aunt(Mary,Amy).
+3 [] female(Amy).
+4 [] brother(Jack,Amy).
+5 [] brother(Bill,Jack).
+6 [] -sister(x,y)|siblings(x,y).
+7 [] -brother(x,y)|siblings(x,y).
+8 [] -brother(x,y)| -female(y)|sister(y,x).
+9 [] -siblings(x,y)| -uncle(z,y)|uncle(z,x).
+10 [] -siblings(x,y)|siblings(y,x).
+11 [] -uncle(x,y)| -aunt(z,y)|married(x,z).
+12 [] -uncle(x,y)| -married(z,x)|aunt(z,y).
+13 [] -married(x,y)|married(y,x).
+end_of_list.
+
+formula_list(sos).
+-married(John,Mary).
+-aunt(Mary,Jack).
+-siblings(Jack,x)| -uncle(John,x).
+end_of_list.
+
+-------> sos clausifies to:
+
+list(sos).
+14 [] -married(John,Mary).
+15 [] -aunt(Mary,Jack).
+16 [] -siblings(Jack,x)| -uncle(John,x).
+end_of_list.
+
+======= end of input processing =======
+
+=========== start of search ===========
+
+given clause #1: (wt=3) 14 [] -married(John,Mary).
+** KEPT (pick-wt=3): 17 [ur,14,13] -married(Mary,John).
+** KEPT (pick-wt=3): 18 [ur,14,11,2] -uncle(John,Amy).
+
+given clause #2: (wt=3) 15 [] -aunt(Mary,Jack).
+
+given clause #3: (wt=3) 17 [ur,14,13] -married(Mary,John).
+
+given clause #4: (wt=3) 18 [ur,14,11,2] -uncle(John,Amy).
+** KEPT (pick-wt=3): 19 [ur,18,9,1] -siblings(Amy,Jack).
+
+given clause #5: (wt=3) 19 [ur,18,9,1] -siblings(Amy,Jack).
+** KEPT (pick-wt=3): 20 [ur,19,10] -siblings(Jack,Amy).
+** KEPT (pick-wt=3): 21 [ur,19,7] -brother(Amy,Jack).
+** KEPT (pick-wt=3): 22 [ur,19,6] -sister(Amy,Jack).
+
+given clause #6: (wt=3) 20 [ur,19,10] -siblings(Jack,Amy).
+** KEPT (pick-wt=3): 23 [ur,20,7] -brother(Jack,Amy).
+
+----> UNIT CONFLICT at   0.00 sec ----> 24 [binary,23.1,4.1] $F.
+
+Length of proof is 4.  Level of proof is 4.
+
+---------------- PROOF ----------------
+
+1 [] uncle(John,Jack).
+2 [] aunt(Mary,Amy).
+4 [] brother(Jack,Amy).
+7 [] -brother(x,y)|siblings(x,y).
+9 [] -siblings(x,y)| -uncle(z,y)|uncle(z,x).
+10 [] -siblings(x,y)|siblings(y,x).
+11 [] -uncle(x,y)| -aunt(z,y)|married(x,z).
+14 [] -married(John,Mary).
+18 [ur,14,11,2] -uncle(John,Amy).
+19 [ur,18,9,1] -siblings(Amy,Jack).
+20 [ur,19,10] -siblings(Jack,Amy).
+23 [ur,20,7] -brother(Jack,Amy).
+24 [binary,23.1,4.1] $F.
+
+------------ end of proof -------------
+
+
+Search stopped by max_proofs option.
+
+============ end of search ============
+
+-------------- statistics -------------
+clauses given                  6
+clauses generated             11
+  hyper_res generated          0
+  ur_res generated            11
+demod & eval rewrites          0
+clauses wt,lit,sk delete       0
+tautologies deleted            0
+clauses forward subsumed       4
+  (subsumed by sos)            2
+unit deletions                 0
+factor simplifications         0
+clauses kept                   7
+new demodulators               0
+empty clauses                  1
+clauses back demodulated       0
+clauses back subsumed          0
+usable size                   19
+sos size                       4
+demodulators size              0
+passive size                   0
+hot size                       0
+Kbytes malloced               95
+
+----------- times (seconds) -----------
+user CPU time          0.00          (0 hr, 0 min, 0 sec)
+system CPU time        0.00          (0 hr, 0 min, 0 sec)
+wall-clock time        0             (0 hr, 0 min, 0 sec)
+input time             0.00
+  clausify time        0.00
+pick given time        0.00
+hyper_res time         0.00
+ur_res time            0.00
+pre_process time       0.00
+  renumber time        0.00
+  demod time           0.00
+  order equalities     0.00
+  unit deleletion      0.00
+  factor simplify      0.00
+  weigh cl time        0.00
+  hints keep time      0.00
+  sort lits time       0.00
+  forward subsume      0.00
+  delete cl time       0.00
+  keep cl time         0.00
+    hints time         0.00
+  print_cl time        0.00
+  conflict time        0.00
+  new demod time       0.00
+post_process time      0.00
+  back demod time      0.00
+  back subsume         0.00
+  factor time          0.00
+  unindex time         0.00
+
+That finishes the proof of the theorem.
+
+Process 0 finished Tue Feb 18 19:21:16 2020
