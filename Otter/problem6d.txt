@@ -3,11 +3,7 @@ set(hyper_res).
 
 formula_list(usable).
 
-uncle(John, Jack).
-aunt(Mary, Amy).
-female(Amy).
-brother(Jack, Amy).
-brother(Bill, Jack).
+
 
 all x all y (-sister(x,y) | siblings(x,y)).
 all x all y (-brother(x,y) | siblings(x,y)).
@@ -24,6 +20,12 @@ end_of_list.
 
 
 formula_list(sos).
+
+uncle(John, Jack).
+aunt(Mary, Amy).
+female(Amy).
+brother(Jack, Amy).
+brother(Bill, Jack).
 
 %-married(John, Mary).
 %-aunt(Mary, Jack).
