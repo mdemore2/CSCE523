@@ -1,0 +1,29 @@
+set(ur_res).
+set(hyper_res).
+
+formula_list(usable).
+
+-fight(Ganondorf,Octorock).
+fight(Zelda, Octorock).
+has(Link,sword).
+-fight(Link,Poe).
+has(Zelda,bow).
+-with(IronKnuckle,magic).
+
+[Link,Zelda,Ganondorf].
+[Octorock,IronKnucle,Poe].
+[bow,magic,sword].
+
+%weapons are bow, magic and sword
+%good are Link, Zelda, Ganondorf
+%bad are Octorock, Iron Knuckle, Poe
+
+
+end_of_list.
+
+
+formula_list(sos).
+
+
+
+end_of_list.
