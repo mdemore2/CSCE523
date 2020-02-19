@@ -24,9 +24,9 @@ has(Link,sword).
 has(Zelda,bow).
 -with(IronKnuckle,magic).
 
-(with(y, z) & has(x, z)) -> fight(x, y).
-(has(x, z) & fight(x, y)) -> with(y, z).
-(with(y, z) & fight(x, y)) -> has(x, z).
+all x all y all z ((with(y, z) & has(x, z)) -> fight(x, y)).
+all x all y all z ((has(x, z) & fight(x, y)) -> with(y, z)).
+all x all y all z ((with(y, z) & fight(x, y)) -> has(x, z)).
 
 all x (fight(x, Octorock) <-> (-fight(x, IronKnuckle) & -fight(x, Poe))).
 all x (fight(x, IronKnuckle) <-> (-fight(x, Octorock) & -fight(x, Poe))).
