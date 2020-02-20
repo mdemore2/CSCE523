@@ -1,0 +1,32 @@
+(goalcar Car)
+(space00 Space)
+(space01 Space)
+(space02 Space)
+(space03 Space)
+(space04 Space)
+(space05 Space)
+(space10 Space)
+(space11 Space)
+(space12 Space)
+(space13 Space)
+(space14 Space)
+(space15 Space)
+(space20 Space)
+(space21 Space)
+(space22 Space)
+(space23 Space)
+(space24 Space)
+(space25 Space)
+
+(preconds
+(nose goalcar space21) (tail goalcar space20) 
+(empty space00) (empty space01) (empty space02) (empty space03) (empty space04) 
+(empty space05) (empty space10)
+(empty space11) (empty space12) (empty space13)
+
+(east space01 space00) (east space02 space01) (east space03 space02)
+)
+
+(effects
+(nose goalcar space25)
+)
