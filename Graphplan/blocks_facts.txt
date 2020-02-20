@@ -4,16 +4,17 @@
 (blockD OBJECT)
 
 (preconds
+	(on-table blockB)
 	(on-table blockA)
-	(on blockB blockA)
-	(on blockC blockB)
-	(on blockD blockC)
-	(clear blockD)
+	(on blockD blockA)
+	(on blockC blockD)
+	(clear blockC)
+	(clear blockB)
 	(arm-empty))
 
 (effects
-	(on blockB blockA)
-	(on blockC blockB)
-	(on blockA blockD))
+	(on blockA blockB)
+	(on blockC blockA)
+	(on blockD blockC))
 
 
