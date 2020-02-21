@@ -6,7 +6,7 @@
 	(empty <dest>) (nose <car> <noseLoc>) (tail <car> <tailLoc>) (east <tailLoc> <dest>) (east <noseLoc> <tailLoc>)
   )
   (effects 
-	(empty <noseLoc>) (nose <car> <tailLoc>) (tail <car> <dest>)
+	(empty <noseLoc>) (nose <car> <tailLoc>) (tail <car> <dest>) (del empty <dest>)
   )
 )
 
@@ -18,7 +18,7 @@
 	(empty <dest>) (nose <car> <noseLoc>) (tail <car> <tailLoc>) (east <dest> <noseLoc>) (east <noseLoc> <tailLoc>)
   )
   (effects 
-	(empty <tailLoc>) (nose <car> <dest>) (tail <car> <noseLoc>)
+	(empty <tailLoc>) (nose <car> <dest>) (tail <car> <noseLoc>) (del empty <dest>)
   )
 )
 
@@ -29,7 +29,7 @@
 	(empty <dest>) (nose <car> <noseLoc>) (tail <car> <tailLoc>) (south <noseLoc> <dest>) (south <tailLoc> <noseLoc>)
   )
   (effects 
-	(empty <tailLoc>) (nose <car> <dest>) (tail <car> <noseLoc>)
+	(empty <tailLoc>) (nose <car> <dest>) (tail <car> <noseLoc>) (del empty <dest>)
   )
 )
 
@@ -40,6 +40,6 @@
 	(empty <dest>) (nose <car> <noseLoc>) (tail <car> <tailLoc>) (south <dest> <tailLoc>) (south <tailLoc> <noseLoc>)
   )
   (effects 
-	(empty <noseLoc>) (tail <car> <dest>) (nose <car> <tailLoc>)
+	(empty <noseLoc>) (tail <car> <dest>) (nose <car> <tailLoc>) (del empty <dest>)
   )
 )
