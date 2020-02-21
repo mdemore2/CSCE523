@@ -9,3 +9,37 @@
 	(empty <noseLoc>) (nose <car> <tailLoc>) (tail <car> <dest>)
   )
 )
+
+
+(operator
+  MOVE-EAST
+  (params (<car> Car) (<noseLoc> Space) (<tailLoc> Space) (<dest> Space))
+  (preconds 
+	(empty <dest>) (nose <car> <noseLoc>) (tail <car> <tailLoc>) (east <dest> <tailLoc>) (east <noseLoc> <tailLoc>)
+  )
+  (effects 
+	(empty <tailLoc>) (nose <car> <dest>) (tail <car> <noseLoc>)
+  )
+)
+
+(operator
+  MOVE-NORTH
+  (params (<car> Car) (<noseLoc> Space) (<tailLoc> Space) (<dest> Space))
+  (preconds 
+	(empty <dest>) (nose <car> <noseLoc>) (tail <car> <tailLoc>) (south <noseLoc> <dest>) (south <tailLoc> <noseLoc>)
+  )
+  (effects 
+	(empty <tailLoc>) (nose <car> <dest>) (tail <car> <noseLoc>)
+  )
+)
+
+(operator
+  MOVE-SOUTH
+  (params (<car> Car) (<noseLoc> Space) (<tailLoc> Space) (<dest> Space))
+  (preconds 
+	(empty <dest>) (nose <car> <noseLoc>) (tail <car> <tailLoc>) (south <dest> <tailLoc>) (south <tailLoc> <noseLoc>)
+  )
+  (effects 
+	(empty <noseLoc>) (tail <car> <dest>) (nose <car> <tailLoc>)
+  )
+)
