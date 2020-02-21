@@ -3,6 +3,8 @@ set(hyper_res).
 
 formula_list(usable).
 
+
+
 [Link,Zelda,Ganondorf].
 [Octorock,IronKnucle,Poe].
 [bow,magic,sword].
@@ -24,9 +26,10 @@ has(Link,sword).
 has(Zelda,bow).
 -with(IronKnuckle,magic).
 
-all x all y all z ((with(y, z) & has(x, z)) -> fight(x, y)).
-all x all y all z ((has(x, z) & fight(x, y)) -> with(y, z)).
-all x all y all z ((with(y, z) & fight(x, y)) -> has(x, z)).
+
+all x all y exists z ((with(y, z) & has(x, z)) -> fight(x, y)).
+all x all y exists z ((has(x, z) & fight(x, y)) -> with(y, z)).
+all x all y exists z ((with(y, z) & fight(x, y)) -> has(x, z)).
 
 all x (fight(x, Octorock) <-> (-fight(x, IronKnuckle) & -fight(x, Poe))).
 all x (fight(x, IronKnuckle) <-> (-fight(x, Octorock) & -fight(x, Poe))).
@@ -40,9 +43,9 @@ all x (with(x, magic) <-> (-with(x, sword) & -with(x, bow))).
 all x (with(x, sword) <-> (-with(x, magic) & -with(x, bow))).
 all x (with(x, bow) <-> (-with(x, sword) & -with(x, magic))).
 
-all y (with(Octorock, y) <-> (-with(IronKnuckle, y) & -with(Poe, y))).
-all y (with(IronKnuckle, y) <-> (-with(Octorock, y) & -with(Poe, y))).
-all y (with(Poe, y) <-> (-with(Octorock, y) & -with(IronKnuckle, y))).
+exists y (with(Octorock, y) <-> (-with(IronKnuckle, y) & -with(Poe, y))).
+exists y (with(IronKnuckle, y) <-> (-with(Octorock, y) & -with(Poe, y))).
+exists y (with(Poe, y) <-> (-with(Octorock, y) & -with(IronKnuckle, y))).
 
 all y (has(Link, y) <-> (-has(Zelda, y) & -has(Ganondorf, y))).
 all y (has(Zelda, y) <-> (-has(Link, y) & -has(Ganondorf, y))).
@@ -52,9 +55,9 @@ all y (fight(Link, y) <-> (-fight(Zelda, y) & -fight(Ganondorf, y))).
 all y (fight(Zelda, y) <-> (-fight(Link, y) & -fight(Ganondorf, y))).
 all y (fight(Ganondorf, y) <-> (-fight(Link, y) & -fight(Zelda, y))).
 
-%all x all y all z all q (with(x, y) <-> (-with(z, y) & -with(q, y))).
-%all x all y all z all q (has(x, y) <-> (-has(z, y) & -has(q, y))).
-%all x all y all z all q (fight(x, y) <-> (-fight(z, y) & -fight(q, y))).
+fight(Zelda, Octorock) & has(Zelda, bow) -> with(Octorock, bow).
+fight(Link, IronKnuckle) & has(Link, sword) -> with(IronKnuckle, sword).
+fight(Ganondorf, Poe) & has(Ganondorf, magic) -> with(Poe, magic).
 
 
 end_of_list.
