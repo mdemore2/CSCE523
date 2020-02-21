@@ -15,7 +15,7 @@
   MOVE-EAST
   (params (<car> Car) (<noseLoc> Space) (<tailLoc> Space) (<dest> Space))
   (preconds 
-	(empty <dest>) (nose <car> <noseLoc>) (tail <car> <tailLoc>) (east <dest> <tailLoc>) (east <noseLoc> <tailLoc>)
+	(empty <dest>) (nose <car> <noseLoc>) (tail <car> <tailLoc>) (east <dest> <noseLoc>) (east <noseLoc> <tailLoc>)
   )
   (effects 
 	(empty <tailLoc>) (nose <car> <dest>) (tail <car> <noseLoc>)

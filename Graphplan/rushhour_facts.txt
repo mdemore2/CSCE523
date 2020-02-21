@@ -6,12 +6,10 @@
 (space40 Space) (space41 Space) (space42 Space) (space43 Space) (space44 Space) (space45 Space)
 (space50 Space) (space51 Space) (space52 Space) (space53 Space) (space54 Space) (space55 Space)
 
-(preconds
-(nose goalcar space21) (tail goalcar space20)
- 
+(preconds 
 (empty space00) (empty space01) (empty space02) (empty space03) (empty space04) (empty space05) 
 (empty space10) (empty space11) (empty space12) (empty space13) (empty space14) (empty space15)
-				(empty space22) (empty space23) (empty space24) (empty space25)
+(nose goalcar space21) (tail goalcar space20) (empty space22) (empty space23) (empty space24) (empty space25)
 (empty space30) (empty space31) (empty space32) (empty space33) (empty space34) (empty space35)
 (empty space40) (empty space41) (empty space42) (empty space43) (empty space44) (empty space45)
 (empty space50) (empty space51) (empty space52) (empty space53) (empty space54) (empty space55)
