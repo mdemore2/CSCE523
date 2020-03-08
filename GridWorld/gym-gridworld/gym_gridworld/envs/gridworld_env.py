@@ -11,6 +11,7 @@ class GridWorldEnv(discrete.DiscreteEnv):
     ACTION = ["N", "S", "E", "W"]
 
     def __init__(self, mapfile, startpos):
+        self.nA = 4
         self.xdim = 3
         self.ydim = 3
         self.mapfile = open(mapfile, 'r')
@@ -29,7 +30,9 @@ class GridWorldEnv(discrete.DiscreteEnv):
         initial_states = np.zeroes(self.nS)
         startstate = int(str(self.location.x) + str(self.location.y))
         initial_states[startstate] = 1
-        transitions = {}
+        self.isd = initial_states
+
+        self.P = self.genTransitions(self)
 
     def readin(self):
         dimensions = self.mapfile.readline()  # read first line of mapfile
@@ -37,16 +40,21 @@ class GridWorldEnv(discrete.DiscreteEnv):
         self.xdim = int(dimensions[0])
         self.ydim = int(dimensions[1])
         dictx, dicty = {}
-        for row in range(0, self.xdim):  # read in each row
+        for row in range(0, self.xdim - 1):  # read in each row
             newrow = self.mapfile.readline()
             newrow = newrow.split()
-            for col in range(0, self.ydim):
+            for col in range(0, self.ydim - 1):
                 dicty[col] = newrow[col]
             dictx[row] = dicty
         self.nS = self.xdim * self.ydim
         return dictx
 
-    def step(self, action):
+#need to determine how to treat blocked squares
+
+    def genTransitions(self):
+
+    #shouldn't need template below, implemented in super class
+    '''def step(self, action):
         ...
 
     def reset(self):
@@ -57,3 +65,4 @@ class GridWorldEnv(discrete.DiscreteEnv):
 
     def close(self):
         ...
+    '''
