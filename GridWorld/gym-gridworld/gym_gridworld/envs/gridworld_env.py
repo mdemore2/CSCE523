@@ -38,7 +38,7 @@ class GridWorldEnv(discrete.DiscreteEnv):
                 self.location.y = np.random.randint(0, self.y_dim)
 
         initial_states = np.zeroes(self.nS)
-        start_state = int(str(self.location.x) + str(self.location.y))
+        start_state = (self.location.y * self.y_dim) + self.location.x
         initial_states[start_state] = 1
         self.isd = initial_states
 
