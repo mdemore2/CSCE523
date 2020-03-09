@@ -38,7 +38,7 @@ class GridWorldEnv(discrete.DiscreteEnv):
                 self.location.y = np.random.randint(0, self.y_dim)
 
         initial_states = np.zeroes(self.nS)
-        start_state = (self.location.y * self.y_dim) + self.location.x
+        start_state = (self.location.y * self.x_dim) + self.location.x
         initial_states[start_state] = 1
         self.isd = initial_states
 
@@ -62,7 +62,7 @@ class GridWorldEnv(discrete.DiscreteEnv):
                 elif new_row[col] == "G":
                     self.goal.x = col
                     self.goal.y = row
-                    self.goal.state = (self.y_dim * row) + col
+                    self.goal.state = (self.x_dim * row) + col
             dict_y[row] = dict_x
         self.nS = self.x_dim * self.y_dim
         return dict_y
@@ -77,32 +77,32 @@ class GridWorldEnv(discrete.DiscreteEnv):
             for action in range(0, 3):
                 next_state7 = state
                 if action == GridWorldEnv.ACTION_UP:
-                    next_state90 = state - self.y_dim
-                    next_state3 = state + self.y_dim
+                    next_state90 = state - self.x_dim
+                    next_state3 = state + self.x_dim
                     if (next_state90 > self.nS - 1) or next_state90 < 0:
                         next_state90 = state
                     if (next_state3 > self.nS - 1) or next_state3 < 0:
                         next_state3 = state
                 elif action == GridWorldEnv.ACTION_DOWN:
-                    next_state90 = state + self.y_dim
-                    next_state3 = state - self.y_dim
+                    next_state90 = state + self.x_dim
+                    next_state3 = state - self.x_dim
                     if (next_state90 > self.nS - 1) or next_state90 < 0:
                         next_state90 = state
                     if (next_state3 > self.nS - 1) or next_state3 < 0:
                         next_state3 = state
                 elif action == GridWorldEnv.ACTION_RIGHT:
-                    next_state90 = state +
-                    next_state3 = state - 11
-                    if (next_state90 % self.y_dim) == 0:
+                    next_state90 = state + 1
+                    next_state3 = state - 1
+                    if (next_state90 % self.x_dim) == 0:
                         next_state90 = state
-                    if (next_state3 % self.y_dim) == 0:
+                    if (next_state3 % self.x_dim) == 0:
                         next_state3 = state
                 else:  # action == GridWorldEnv.ACTION_LEFT
                     next_state90 = state - 1
                     next_state3 = state + 1
-                    if (next_state90 % self.y_dim) == 0:
+                    if (next_state90 % self.x_dim) == 0:
                         next_state90 = state
-                    if (next_state3 % self.y_dim) == 0:
+                    if (next_state3 % self.x_dim) == 0:
                         next_state3 = state
                 if next_state90 == self.goal.state:
                     p[state][action] = [(0.9, next_state90, 100, 1), (0.07, next_state7, 0, 0), (0.03, next_state3, 0, 0)]
