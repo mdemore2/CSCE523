@@ -25,11 +25,10 @@ class GridWorldEnv(discrete.DiscreteEnv):
 
         self.location = Position
         self.goal = Position
-        # self.mapfile = "basic_gridworld.txt"
-        self.mapfile = input('Enter map file name:\n')
-        # self.startpos = (2, 2)
-        self.startpos = input('Enter agent start position (x y) or r to randomly assign start position:\n')
-
+        self.mapfile = "basic_gridworld.txt"
+        #self.mapfile = input('Enter map file name:\n')
+        self.startpos = (2, 2)
+        #self.startpos = input('Enter agent start position (x y) or r to randomly assign start position:\n')
 
         self.nA = 4
         self.x_dim = 3
@@ -42,7 +41,7 @@ class GridWorldEnv(discrete.DiscreteEnv):
         self.read_in()
         # map is accessible [y][x]
 
-        if self.startpos == 'r':
+        '''if self.startpos == 'r':
             self.location.x = np.random.randint(0, self.x_dim)
             self.location.y = np.random.randint(0, self.y_dim)
             while self.map[self.location.x][self.location.y] != "V":
@@ -51,7 +50,9 @@ class GridWorldEnv(discrete.DiscreteEnv):
         else:
             self.startpos.split()
             self.location.x = int(self.startpos[0])
-            self.location.y = int(self.startpos[2])
+            self.location.y = int(self.startpos[2])'''
+        self.location.x = self.startpos[0]
+        self.location.y = self.startpos[1]
 
         initial_states = np.zeros(self.nS)
         start_state = (self.location.y * self.x_dim) + self.location.x
@@ -78,7 +79,7 @@ class GridWorldEnv(discrete.DiscreteEnv):
                 # dict_x[col] = new_row[col]
                 if new_row_split[col] == "O":
                     self.obstructed.append((col, row))
-                    print("Blocked state: ", col, row,  "\n")
+                    print("Blocked state: ", col, row, "\n")
                 elif new_row_split[col] == "G":
                     self.goal.x = col
                     self.goal.y = row
@@ -133,6 +134,10 @@ class GridWorldEnv(discrete.DiscreteEnv):
                 # check if move is obstructed
                 for obstacle in self.obstructed:
                     obstacle_state = (self.x_dim * obstacle[1]) + obstacle[0]
+                    if state == obstacle_state:
+                        next_state3 = state
+                        next_state7 = state
+                        next_state90 = state
                     if next_state3 == obstacle_state:
                         next_state3 = state
                     if next_state7 == obstacle_state:
@@ -140,22 +145,32 @@ class GridWorldEnv(discrete.DiscreteEnv):
                     if next_state90 == obstacle_state:
                         next_state90 = state
 
+                if state == self.goal.state:
+                    next_state90 = state
+                    next_state7 = state
+                    next_state3 = state
+
                 # check for goal, build transition table
                 if next_state90 == self.goal.state:
-                    p[state][action] = [(0.9, next_state90, 100, 1), (0.07, next_state7, 0, 0),
-                                        (0.03, next_state3, 0, 0)]
-                elif next_state7 == self.goal.state:
-                    p[state][action] = [(0.9, next_state90, 0, 0), (0.07, next_state7, 100, 1),
-                                        (0.03, next_state3, 0, 0)]
-                elif next_state3 == self.goal.state:
-                    p[state][action] = [(0.9, next_state90, 0, 0), (0.07, next_state7, 0, 0),
-                                        (0.03, next_state3, 100, 1)]
+                    next_state90_list = (0.9,next_state90,100,1)
                 else:
-                    p[state][action] = [(0.9, next_state90, 0, 0), (0.07, next_state7, 0, 0), (0.03, next_state3, 0, 0)]
+                    next_state90_list = (0.9,next_state90,-1, 0)
+                if next_state7 == self.goal.state:
+                    next_state7_list = (0.07, next_state7, 100, 1)
+                else:
+                    next_state7_list = (0.07, next_state7, -1, 0)
+                if next_state3 == self.goal.state:
+                    next_state3_list = (0.03, next_state3, 100, 1)
+                else:
+                    next_state3_list = (0.03, next_state3, -1, 0)
+
+                p[state][action] = [next_state90_list, next_state7_list, next_state3_list]
+
         return p
 
     def render(self, mode='human'):
         print()
+
     # shouldn't need template below, implemented in super class
 
     '''def step(self, action):
