@@ -4,6 +4,7 @@ import gym
 from gym import error, spaces, utils
 from gym.utils import seeding
 from gym.envs.toy_text import discrete
+from _collections import defaultdict
 
 
 class Position():
@@ -33,7 +34,8 @@ class GridWorldEnv(discrete.DiscreteEnv):
         self.goal.y = 0
         self.obstructed = []
         self.map_file = open(self.mapfile, 'r')
-        self.map = self.read_in()
+        # self.map = self.read_in()
+        self.read_in()
         # map is accessible [y][x]
         '''if startpos:
             self.location.x = self.startpos[0]
@@ -45,12 +47,12 @@ class GridWorldEnv(discrete.DiscreteEnv):
                 self.location.x = np.random.randint(0, self.x_dim)
                 self.location.y = np.random.randint(0, self.y_dim)'''
 
-        initial_states = np.zeroes(self.nS)
+        initial_states = np.zeros(self.nS)
         start_state = (self.location.y * self.x_dim) + self.location.x
         initial_states[start_state] = 1
         self.isd = initial_states
 
-        self.P = self.gen_transitions(self)
+        self.P = self.gen_transitions()
 
         super().__init__(self.nS, self.nA, self.P, self.isd)
 
@@ -65,23 +67,23 @@ class GridWorldEnv(discrete.DiscreteEnv):
             new_row = self.map_file.readline()
             new_row = new_row.split()
             for col in range(0, self.y_dim - 1):
-                dict_x[col] = new_row[col]
+                # dict_x[col] = new_row[col]
                 if new_row[col] == "O":
                     self.obstructed.append((col, row))
                 elif new_row[col] == "G":
                     self.goal.x = col
                     self.goal.y = row
                     self.goal.state = (self.x_dim * row) + col
-            dict_y[row] = dict_x
+            # dict_y[row] = dict_x
         self.nS = self.x_dim * self.y_dim
-        return dict_y
+        # return dict_y
 
     # need to determine how to treat blocked squares
     def gen_transitions(self):
         """
         :rtype: object
         """
-        p = None
+        p = defaultdict(dict)
         for state in range(0, self.nS - 1):
             for action in range(0, 3):
 

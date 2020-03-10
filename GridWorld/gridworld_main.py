@@ -4,4 +4,4 @@ from gym import envs
 
 if __name__ == '__main__':
     env = gym.make('gym_gridworld:gridworld-v0')
-    print(envs.registry.all())
+    
