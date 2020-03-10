@@ -120,12 +120,12 @@ class GridWorldEnv(discrete.DiscreteEnv):
                     next_state3 = state - 1
                     if (next_state90 % self.x_dim) == 0:
                         next_state90 = state
-                    if (next_state3 % self.x_dim) == 0:
+                    if (state % self.x_dim) == 0:
                         next_state3 = state
                 else:  # action == GridWorldEnv.ACTION_LEFT
                     next_state90 = state - 1
                     next_state3 = state + 1
-                    if (next_state90 % self.x_dim) == 0:
+                    if (state % self.x_dim) == 0:
                         next_state90 = state
                     if (next_state3 % self.x_dim) == 0:
                         next_state3 = state
