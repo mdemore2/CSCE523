@@ -6,6 +6,12 @@ from gym.utils import seeding
 from gym.envs.toy_text import discrete
 
 
+class Position():
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+
 class GridWorldEnv(discrete.DiscreteEnv):
     metadata = {'render.modes': ['human']}
     # ACTION = ["N", "S", "E", "W"]
@@ -14,28 +20,30 @@ class GridWorldEnv(discrete.DiscreteEnv):
     ACTION_LEFT = 2
     ACTION_RIGHT = 3
 
-    def __init__(self, mapfile, startpos):
+    def __init__(self):
 
-        self.location = None
-        self.goal = None
+        self.location = Position
+        self.goal = Position
+        self.mapfile = "basic_gridworld.txt"
+        self.startpos = (2, 2)
         self.nA = 4
         self.x_dim = 3
         self.y_dim = 3
         self.goal.x = 0
         self.goal.y = 0
         self.obstructed = []
-        self.map_file = open(mapfile, 'r')
+        self.map_file = open(self.mapfile, 'r')
         self.map = self.read_in()
         # map is accessible [y][x]
-        if startpos:
-            self.location.x = startpos[0]
-            self.location.y = startpos[1]
+        '''if startpos:
+            self.location.x = self.startpos[0]
+            self.location.y = self.startpos[1]
         else:
             self.location.x = np.random.randint(0, self.x_dim)
             self.location.y = np.random.randint(0, self.y_dim)
             while self.map[self.location.x][self.location.y] != "V":
                 self.location.x = np.random.randint(0, self.x_dim)
-                self.location.y = np.random.randint(0, self.y_dim)
+                self.location.y = np.random.randint(0, self.y_dim)'''
 
         initial_states = np.zeroes(self.nS)
         start_state = (self.location.y * self.x_dim) + self.location.x
@@ -51,7 +59,8 @@ class GridWorldEnv(discrete.DiscreteEnv):
         dimensions = dimensions.split()  # break x and y vals for gridworld
         self.x_dim = int(dimensions[0])
         self.y_dim = int(dimensions[1])
-        dict_x, dict_y = None
+        dict_x = dict
+        dict_y = dict
         for row in range(0, self.x_dim - 1):  # read in each row
             new_row = self.map_file.readline()
             new_row = new_row.split()
@@ -75,7 +84,10 @@ class GridWorldEnv(discrete.DiscreteEnv):
         p = None
         for state in range(0, self.nS - 1):
             for action in range(0, 3):
+
                 next_state7 = state
+
+                # make moves and check if move valid
                 if action == GridWorldEnv.ACTION_UP:
                     next_state90 = state - self.x_dim
                     next_state3 = state + self.x_dim
@@ -104,12 +116,27 @@ class GridWorldEnv(discrete.DiscreteEnv):
                         next_state90 = state
                     if (next_state3 % self.x_dim) == 0:
                         next_state3 = state
+
+                # check if move is obstructed
+                for obstacle in self.obstructed:
+                    obstacle_state = (self.x_dim * obstacle[1]) + obstacle[0]
+                    if next_state3 == obstacle_state:
+                        next_state3 = state
+                    if next_state7 == obstacle_state:
+                        next_state7 = state
+                    if next_state90 == obstacle_state:
+                        next_state90 = state
+
+                # check for goal, build transition table
                 if next_state90 == self.goal.state:
-                    p[state][action] = [(0.9, next_state90, 100, 1), (0.07, next_state7, 0, 0), (0.03, next_state3, 0, 0)]
+                    p[state][action] = [(0.9, next_state90, 100, 1), (0.07, next_state7, 0, 0),
+                                        (0.03, next_state3, 0, 0)]
                 elif next_state7 == self.goal.state:
-                    p[state][action] = [(0.9, next_state90, 0, 0), (0.07, next_state7, 100, 1), (0.03, next_state3, 0, 0)]
+                    p[state][action] = [(0.9, next_state90, 0, 0), (0.07, next_state7, 100, 1),
+                                        (0.03, next_state3, 0, 0)]
                 elif next_state3 == self.goal.state:
-                    p[state][action] = [(0.9, next_state90, 0, 0), (0.07, next_state7, 0, 0), (0.03, next_state3, 100, 1)]
+                    p[state][action] = [(0.9, next_state90, 0, 0), (0.07, next_state7, 0, 0),
+                                        (0.03, next_state3, 100, 1)]
                 else:
                     p[state][action] = [(0.9, next_state90, 0, 0), (0.07, next_state7, 0, 0), (0.03, next_state3, 0, 0)]
         return p
