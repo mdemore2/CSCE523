@@ -25,8 +25,12 @@ class GridWorldEnv(discrete.DiscreteEnv):
 
         self.location = Position
         self.goal = Position
-        self.mapfile = "basic_gridworld.txt"
-        self.startpos = (2, 2)
+        # self.mapfile = "basic_gridworld.txt"
+        self.mapfile = input('Enter map file name:\n')
+        # self.startpos = (2, 2)
+        self.startpos = input('Enter agent start position (x y) or r to randomly assign start position:\n')
+
+
         self.nA = 4
         self.x_dim = 3
         self.y_dim = 3
@@ -37,15 +41,17 @@ class GridWorldEnv(discrete.DiscreteEnv):
         # self.map = self.read_in()
         self.read_in()
         # map is accessible [y][x]
-        '''if startpos:
-            self.location.x = self.startpos[0]
-            self.location.y = self.startpos[1]
-        else:
+
+        if self.startpos == 'r':
             self.location.x = np.random.randint(0, self.x_dim)
             self.location.y = np.random.randint(0, self.y_dim)
             while self.map[self.location.x][self.location.y] != "V":
                 self.location.x = np.random.randint(0, self.x_dim)
-                self.location.y = np.random.randint(0, self.y_dim)'''
+                self.location.y = np.random.randint(0, self.y_dim)
+        else:
+            self.startpos.split()
+            self.location.x = int(self.startpos[0])
+            self.location.y = int(self.startpos[2])
 
         initial_states = np.zeros(self.nS)
         start_state = (self.location.y * self.x_dim) + self.location.x
@@ -54,26 +60,30 @@ class GridWorldEnv(discrete.DiscreteEnv):
 
         self.P = self.gen_transitions()
 
-        super().__init__(self.nS, self.nA, self.P, self.isd)
+        super(GridWorldEnv, self).__init__(self.nS, self.nA, self.P, self.isd)
 
     def read_in(self):
         dimensions = self.map_file.readline()  # read first line of mapfile
-        dimensions = dimensions.split()  # break x and y vals for gridworld
-        self.x_dim = int(dimensions[0])
-        self.y_dim = int(dimensions[1])
+        dimensions_split = dimensions.split()  # break x and y vals for gridworld
+        self.x_dim = int(dimensions_split[0])
+        print("X Dim: ", self.x_dim, "\n")
+        self.y_dim = int(dimensions_split[1])
+        print("y Dim: ", self.y_dim, "\n")
         dict_x = dict
         dict_y = dict
-        for row in range(0, self.x_dim - 1):  # read in each row
+        for row in range(0, self.x_dim):  # read in each row
             new_row = self.map_file.readline()
-            new_row = new_row.split()
-            for col in range(0, self.y_dim - 1):
+            new_row_split = new_row.split()
+            for col in range(0, self.y_dim):
                 # dict_x[col] = new_row[col]
-                if new_row[col] == "O":
+                if new_row_split[col] == "O":
                     self.obstructed.append((col, row))
-                elif new_row[col] == "G":
+                    print("Blocked state: ", col, row,  "\n")
+                elif new_row_split[col] == "G":
                     self.goal.x = col
                     self.goal.y = row
                     self.goal.state = (self.x_dim * row) + col
+                    print("Goal state: ", self.goal.state, "\n")
             # dict_y[row] = dict_x
         self.nS = self.x_dim * self.y_dim
         # return dict_y
@@ -83,9 +93,10 @@ class GridWorldEnv(discrete.DiscreteEnv):
         """
         :rtype: object
         """
-        p = defaultdict(dict)
-        for state in range(0, self.nS - 1):
-            for action in range(0, 3):
+
+        p = {s: {a: [] for a in range(self.nA)} for s in range(self.nS)}
+        for state in range(0, self.nS):
+            for action in range(0, 4):
 
                 next_state7 = state
 
@@ -143,14 +154,14 @@ class GridWorldEnv(discrete.DiscreteEnv):
                     p[state][action] = [(0.9, next_state90, 0, 0), (0.07, next_state7, 0, 0), (0.03, next_state3, 0, 0)]
         return p
 
+    def render(self, mode='human'):
+        print()
     # shouldn't need template below, implemented in super class
+
     '''def step(self, action):
-        ...
+        super
 
     def reset(self):
-        ...
-
-    def render(self, mode='human'):
         ...
 
     def close(self):
