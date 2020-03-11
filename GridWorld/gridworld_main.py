@@ -6,7 +6,25 @@ from collections import defaultdict
 import matplotlib.pyplot as plt
 
 
-def value_iteration(env, theta=0.001, discount_factor=0.85):
+def one_step_lookahead(env, state, V, gamma):
+    """
+    Helper function to calculate the value for all action in a given state.
+
+    Args:
+        state: The state to consider (int)
+        V: The value to use as an estimator, Vector of length env.nS
+
+    Returns:
+        A vector of length env.nA containing the expected value of each action.
+    """
+
+    A = np.zeros(env.nA)
+    for act in range(env.nA):
+        for prob, next_state, reward, done in env.P[state][act]:
+            A[act] += prob * (gamma * V[next_state])
+    return A
+
+def value_iteration(env, theta=0.001, gamma=0.85):
     """
     Value Iteration Algorithm.
 
@@ -22,24 +40,6 @@ def value_iteration(env, theta=0.001, discount_factor=0.85):
         A tuple (policy, V) of the optimal policy and the optimal value function.
     """
 
-    def one_step_lookahead(state, V):
-        """
-        Helper function to calculate the value for all action in a given state.
-
-        Args:
-            state: The state to consider (int)
-            V: The value to use as an estimator, Vector of length env.nS
-
-        Returns:
-            A vector of length env.nA containing the expected value of each action.
-        """
-
-        A = np.zeros(env.nA)
-        for act in range(env.nA):
-            for prob, next_state, reward, done in env.P[state][act]:
-                A[act] += prob * (discount_factor * V[next_state])
-        return A
-
     V = np.zeros(env.nS)
     while True:
         delta = 0  # checker for improvements across states
@@ -47,7 +47,7 @@ def value_iteration(env, theta=0.001, discount_factor=0.85):
             if state == goal_state:
                 V[state] = 100
             else:
-                act_values = one_step_lookahead(state, V)  # lookahead one step
+                act_values = one_step_lookahead(env,state, V, gamma)  # lookahead one step
                 best_act_value = np.max(act_values)  # get best action value
                 delta = max(delta, np.abs(best_act_value - V[state]))  # find max delta across all states
                 V[state] = best_act_value  # update value to best action value
@@ -55,7 +55,7 @@ def value_iteration(env, theta=0.001, discount_factor=0.85):
             break
     policy = np.zeros([env.nS, env.nA])
     for state in range(env.nS):  # for all states, create deterministic policy
-        act_val = one_step_lookahead(state, V)
+        act_val = one_step_lookahead(env, state, V, gamma)
         best_action = np.argmax(act_val)
         policy[state][best_action] = 1
     # Implement!
@@ -75,16 +75,20 @@ def TDlambda(policy, env, num_eps=100, alpha=.3, lamb=.6, gamma=.85):
 
         observation = env.reset()
         observation = env.observation_space.sample()
-        step_its.append(steps)
-        steps = 0
+
 
         while observation != goal_state:
             prev_state = observation
+            act_vals = one_step_lookahead(env, observation, Vtarg, gamma)
+            act_max = np.max(act_vals)
             for action in range(env.nA):
-                if policy[observation][action] == 1:
+                if act_max == act_vals[action]:
                     break
+            '''for action in range(env.nA):
+                if policy[observation][action] == 1:
+                    break'''
             observation, reward, done, info = env.step(action)
-            steps += 1
+            #steps += 1
             delta = reward + (gamma * V[observation]) - V[prev_state]
             e[prev_state] += 1
 
@@ -94,6 +98,42 @@ def TDlambda(policy, env, num_eps=100, alpha=.3, lamb=.6, gamma=.85):
                 else:'''
                 Vtarg[state] = V[state] + (alpha * delta * e[state])
                 e[state] = lamb * gamma * e[state]
+        '''if(episode > 20):
+            steps = 0
+            observation = env.reset()
+            while observation != goal_state:
+                act_vals = one_step_lookahead(env, observation, Vtarg, gamma)
+                act_max = np.max(act_vals)
+                same_val_count = 0
+                max_act = list()
+                max_act.clear()
+                for action in range(env.nA):
+                    if act_max == act_vals[action]:
+                        max_act.append(action)
+                        same_val_count += 1
+                        take_action = action
+                    if same_val_count > 1:
+                        take_action = max_act[np.random.randint(0, same_val_count)]
+
+                observation, reward, done, info = env.step(take_action)
+                steps += 1
+            step_its.append(steps)'''
+        '''policy = np.zeros([env.nS, env.nA])
+        for state in range(env.nS):  # for all states, create deterministic policy
+            act_val = one_step_lookahead(env, state, V, gamma)
+            best_action = np.argmax(act_val)
+            policy[state][best_action] = 1
+        observation = env.reset()
+        steps = 0
+        while observation != goal_state:
+            for action in range(env.nA):
+                if policy[observation][action] == 1:
+                    break
+            observation, reward, done, info = env.step(action)
+            steps += 1
+        step_its.append(steps)'''
+
+
 
         #prev_v = V
     Vtarg[goal_state] = 100
