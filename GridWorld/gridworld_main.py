@@ -61,35 +61,36 @@ def value_iteration(env, theta=0.001, discount_factor=0.85):
     return policy, V
 
 
-def TDlambda(policy, env, num_eps=100, alpha=.3, lamb=1, gamma=.85):
+def TDlambda(policy, env, num_eps=1000, alpha=.3, lamb=.6, gamma=.85):
     V = np.zeros(env.nS)
     e = np.zeros(env.nS)
-    prev_v = defaultdict(int)
+    #prev_v = V
+    Vtarg = V
     for episode in range(0, num_eps):
-        e = np.zeros(env.nS)
-        V = prev_v
+        #e = np.zeros(env.nS)
+        #V = prev_v
 
         observation = env.reset()
-        prev_state = observation
-
+        observation = env.observation_space.sample()
         while observation != goal_state:
+            prev_state = observation
             for action in range(env.nA):
                 if policy[observation][action] == 1:
                     break
             observation, reward, done, info = env.step(action)
-            delta = reward + gamma * V[observation] - V[prev_state]
-            e[prev_state] = e[prev_state] + 1
+            delta = reward + (gamma * V[observation]) - V[prev_state]
+            e[prev_state] += 1
 
             for state in range(0, env.nS):
-                if state == goal_state:
-                    V[state] = 100
-                else:
-                    V[state] += alpha * delta * e[state]
+                '''if state == goal_state:
+                    Vtarg[state] = 100
+                else:'''
+                Vtarg[state] = V[state] + (alpha * delta * e[state])
                 e[state] = lamb * gamma * e[state]
 
-        prev_v = V
-
-    return V
+        #prev_v = V
+    Vtarg[goal_state] = 100
+    return Vtarg
 
 
 if __name__ == '__main__':
