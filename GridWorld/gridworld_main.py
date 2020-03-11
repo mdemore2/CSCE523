@@ -3,6 +3,7 @@ import gym
 from gym import envs
 import numpy as np
 from collections import defaultdict
+import matplotlib.pyplot as plt
 
 
 def value_iteration(env, theta=0.001, discount_factor=0.85):
