@@ -2,6 +2,7 @@ import gym
 # import gym-gridworld
 from gym import envs
 import numpy as np
+from collections import defaultdict
 
 
 def value_iteration(env, theta=0.001, discount_factor=0.85):
@@ -56,9 +57,39 @@ def value_iteration(env, theta=0.001, discount_factor=0.85):
         act_val = one_step_lookahead(state, V)
         best_action = np.argmax(act_val)
         policy[state][best_action] = 1
-
     # Implement!
     return policy, V
+
+
+def TDlambda(policy, env, num_eps=100, alpha=.3, lamb=1, gamma=.85):
+    V = np.zeros(env.nS)
+    e = np.zeros(env.nS)
+    prev_v = defaultdict(int)
+    for episode in range(0, num_eps):
+        e = np.zeros(env.nS)
+        V = prev_v
+
+        observation = env.reset()
+        prev_state = observation
+
+        while observation != goal_state:
+            for action in range(env.nA):
+                if policy[observation][action] == 1:
+                    break
+            observation, reward, done, info = env.step(action)
+            delta = reward + gamma * V[observation] - V[prev_state]
+            e[prev_state] = e[prev_state] + 1
+
+            for state in range(0, env.nS):
+                if state == goal_state:
+                    V[state] = 100
+                else:
+                    V[state] += alpha * delta * e[state]
+                e[state] = lamb * gamma * e[state]
+
+        prev_v = V
+
+    return V
 
 
 if __name__ == '__main__':
@@ -82,4 +113,8 @@ if __name__ == '__main__':
 
     policy, V = value_iteration(env)
     print(V)
+
+    tdV = TDlambda(policy, env)
+    print(tdV)
+
     env.close()
