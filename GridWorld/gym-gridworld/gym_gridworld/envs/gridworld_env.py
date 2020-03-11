@@ -25,10 +25,10 @@ class GridWorldEnv(discrete.DiscreteEnv):
 
         self.location = Position
         self.goal = Position
-        self.mapfile = "basic_gridworld.txt"
-        #self.mapfile = input('Enter map file name:\n')
-        self.startpos = (2, 2)
-        #self.startpos = input('Enter agent start position (x y) or r to randomly assign start position:\n')
+        #self.mapfile = "basic_gridworld.txt"
+        self.mapfile = input('Enter map file name:\n')
+        #self.startpos = (2, 2)
+        self.startpos = input('Enter agent start position (x y) or r to randomly assign start position:\n')
 
         self.nA = 4
         self.x_dim = 3
@@ -41,7 +41,7 @@ class GridWorldEnv(discrete.DiscreteEnv):
         self.read_in()
         # map is accessible [y][x]
 
-        '''if self.startpos == 'r':
+        if self.startpos == 'r':
             self.location.x = np.random.randint(0, self.x_dim)
             self.location.y = np.random.randint(0, self.y_dim)
             while self.map[self.location.x][self.location.y] != "V":
@@ -50,9 +50,9 @@ class GridWorldEnv(discrete.DiscreteEnv):
         else:
             self.startpos.split()
             self.location.x = int(self.startpos[0])
-            self.location.y = int(self.startpos[2])'''
-        self.location.x = self.startpos[0]
-        self.location.y = self.startpos[1]
+            self.location.y = int(self.startpos[2])
+        #self.location.x = self.startpos[0]
+        #self.location.y = self.startpos[1]
 
         initial_states = np.zeros(self.nS)
         start_state = (self.location.y * self.x_dim) + self.location.x
