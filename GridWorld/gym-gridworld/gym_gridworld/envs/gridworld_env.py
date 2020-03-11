@@ -15,7 +15,7 @@ class Position():
 
 class GridWorldEnv(discrete.DiscreteEnv):
     metadata = {'render.modes': ['human']}
-    # ACTION = ["N", "S", "E", "W"]
+
     ACTION_UP = 0
     ACTION_DOWN = 1
     ACTION_LEFT = 2
@@ -25,9 +25,9 @@ class GridWorldEnv(discrete.DiscreteEnv):
 
         self.location = Position
         self.goal = Position
-        # self.mapfile = "basic_gridworld.txt"
+
         self.mapfile = input('Enter map file name:\n')
-        # self.startpos = (2, 2)
+
         self.startpos = input('Enter agent start position (x y) or r to randomly assign start position:\n')
 
         self.nA = 4
@@ -38,7 +38,7 @@ class GridWorldEnv(discrete.DiscreteEnv):
         self.obstructed = []
         self.map_file = open(self.mapfile, 'r')
         self.map = self.read_in()
-        # self.read_in()
+
         # map is accessible [y][x]
 
         if self.startpos == 'r':
@@ -51,8 +51,6 @@ class GridWorldEnv(discrete.DiscreteEnv):
             read_x, read_y = self.startpos.split()
             self.location.x = int(read_x)
             self.location.y = int(read_y)
-        # self.location.x = self.startpos[0]
-        # self.location.y = self.startpos[1]
 
         initial_states = np.zeros(self.nS)
         start_state = (self.location.y * self.x_dim) + self.location.x
@@ -67,9 +65,7 @@ class GridWorldEnv(discrete.DiscreteEnv):
         dimensions = self.map_file.readline()  # read first line of mapfile
         dimensions_split = dimensions.split()  # break x and y vals for gridworld
         self.x_dim = int(dimensions_split[0])
-        #print("X Dim: ", self.x_dim, "\n")
         self.y_dim = int(dimensions_split[1])
-        #print("y Dim: ", self.y_dim, "\n")
         dict_x = defaultdict(dict)
         dict_y = defaultdict(list)
         for row in range(0, self.x_dim):  # read in each row
@@ -79,17 +75,14 @@ class GridWorldEnv(discrete.DiscreteEnv):
                 dict_x[col] = new_row[col]
                 if new_row_split[col] == "O":
                     self.obstructed.append((col, row))
-                    #print("Blocked state: ", col, row, "\n")
                 elif new_row_split[col] == "G":
                     self.goal.x = col
                     self.goal.y = row
                     self.goal.state = (self.x_dim * row) + col
-                    #print("Goal state: ", self.goal.state, "\n")
             dict_y[row] = dict_x
         self.nS = self.x_dim * self.y_dim
         return dict_y
 
-    # need to determine how to treat blocked squares
     def gen_transitions(self):
         """
         :rtype: object
