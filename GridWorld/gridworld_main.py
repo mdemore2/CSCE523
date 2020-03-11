@@ -6,17 +6,7 @@ from collections import defaultdict
 import matplotlib.pyplot as plt
 
 
-def one_step_lookahead(env, state, V, gamma):
-    """
-    Helper function to calculate the value for all action in a given state.
-
-    Args:
-        state: The state to consider (int)
-        V: The value to use as an estimator, Vector of length env.nS
-
-    Returns:
-        A vector of length env.nA containing the expected value of each action.
-    """
+def lookahead(env, state, V, gamma):
 
     A = np.zeros(env.nA)
     for act in range(env.nA):
@@ -25,20 +15,6 @@ def one_step_lookahead(env, state, V, gamma):
     return A
 
 def value_iteration(env, theta=0.001, gamma=0.85):
-    """
-    Value Iteration Algorithm.
-
-    Args:
-        env: OpenAI env. env.P represents the transition probabilities of the environment.
-            env.P[s][a] is a list of transition tuples (prob, next_state, reward, done).
-            env.nS is a number of states in the environment.
-            env.nA is a number of actions in the environment.
-        theta: We stop evaluation once our value function change is less than theta for all states.
-        discount_factor: Gamma discount factor.
-
-    Returns:
-        A tuple (policy, V) of the optimal policy and the optimal value function.
-    """
 
     V = np.zeros(env.nS)
     while True:
@@ -47,7 +23,7 @@ def value_iteration(env, theta=0.001, gamma=0.85):
             if state == goal_state:
                 V[state] = 100
             else:
-                act_values = one_step_lookahead(env,state, V, gamma)  # lookahead one step
+                act_values = lookahead(env,state, V, gamma)  # lookahead one step
                 best_act_value = np.max(act_values)  # get best action value
                 delta = max(delta, np.abs(best_act_value - V[state]))  # find max delta across all states
                 V[state] = best_act_value  # update value to best action value
@@ -55,7 +31,7 @@ def value_iteration(env, theta=0.001, gamma=0.85):
             break
     policy = np.zeros([env.nS, env.nA])
     for state in range(env.nS):  # for all states, create deterministic policy
-        act_val = one_step_lookahead(env, state, V, gamma)
+        act_val = lookahead(env, state, V, gamma)
         best_action = np.argmax(act_val)
         policy[state][best_action] = 1
     # Implement!
@@ -74,12 +50,12 @@ def TDlambda(policy, env, num_eps=100, alpha=.3, lamb=.6, gamma=.85):
         #V = prev_v
 
         observation = env.reset()
-        observation = env.observation_space.sample()
+        #observation = env.observation_space.sample()
 
 
         while observation != goal_state:
             prev_state = observation
-            act_vals = one_step_lookahead(env, observation, Vtarg, gamma)
+            act_vals = lookahead(env, observation, Vtarg, gamma)
             act_max = np.max(act_vals)
             for action in range(env.nA):
                 if act_max == act_vals[action]:
@@ -89,14 +65,14 @@ def TDlambda(policy, env, num_eps=100, alpha=.3, lamb=.6, gamma=.85):
                     break'''
             observation, reward, done, info = env.step(action)
             #steps += 1
-            delta = reward + (gamma * V[observation]) - V[prev_state]
+            delta = reward + (gamma * Vtarg[observation]) - Vtarg[prev_state]
             e[prev_state] += 1
 
             for state in range(0, env.nS):
                 '''if state == goal_state:
                     Vtarg[state] = 100
                 else:'''
-                Vtarg[state] = V[state] + (alpha * delta * e[state])
+                Vtarg[state] = Vtarg[state] + (alpha * delta * e[state])
                 e[state] = lamb * gamma * e[state]
         '''if(episode > 20):
             steps = 0
@@ -136,7 +112,7 @@ def TDlambda(policy, env, num_eps=100, alpha=.3, lamb=.6, gamma=.85):
 
 
         #prev_v = V
-    Vtarg[goal_state] = 100
+    #Vtarg[goal_state] = 100
     return Vtarg, step_its
 
 
@@ -164,7 +140,8 @@ if __name__ == '__main__':
 
     tdV, steps = TDlambda(policy, env)
     print(tdV)
-    plt.plot(steps)
-    plt.show()
+
+    #plt.plot(steps)
+    #plt.show()
 
     env.close()

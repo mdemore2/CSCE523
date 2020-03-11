@@ -67,9 +67,9 @@ class GridWorldEnv(discrete.DiscreteEnv):
         dimensions = self.map_file.readline()  # read first line of mapfile
         dimensions_split = dimensions.split()  # break x and y vals for gridworld
         self.x_dim = int(dimensions_split[0])
-        print("X Dim: ", self.x_dim, "\n")
+        #print("X Dim: ", self.x_dim, "\n")
         self.y_dim = int(dimensions_split[1])
-        print("y Dim: ", self.y_dim, "\n")
+        #print("y Dim: ", self.y_dim, "\n")
         dict_x = defaultdict(dict)
         dict_y = defaultdict(list)
         for row in range(0, self.x_dim):  # read in each row
@@ -79,12 +79,12 @@ class GridWorldEnv(discrete.DiscreteEnv):
                 dict_x[col] = new_row[col]
                 if new_row_split[col] == "O":
                     self.obstructed.append((col, row))
-                    print("Blocked state: ", col, row, "\n")
+                    #print("Blocked state: ", col, row, "\n")
                 elif new_row_split[col] == "G":
                     self.goal.x = col
                     self.goal.y = row
                     self.goal.state = (self.x_dim * row) + col
-                    print("Goal state: ", self.goal.state, "\n")
+                    #print("Goal state: ", self.goal.state, "\n")
             dict_y[row] = dict_x
         self.nS = self.x_dim * self.y_dim
         return dict_y
