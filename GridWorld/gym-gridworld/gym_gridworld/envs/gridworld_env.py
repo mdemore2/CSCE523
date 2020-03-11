@@ -37,20 +37,20 @@ class GridWorldEnv(discrete.DiscreteEnv):
         self.goal.y = 0
         self.obstructed = []
         self.map_file = open(self.mapfile, 'r')
-        # self.map = self.read_in()
-        self.read_in()
+        self.map = self.read_in()
+        #self.read_in()
         # map is accessible [y][x]
 
         if self.startpos == 'r':
             self.location.x = np.random.randint(0, self.x_dim)
             self.location.y = np.random.randint(0, self.y_dim)
-            while self.map[self.location.x][self.location.y] != "V":
+            while self.map[self.location.y][self.location.x] != "V":
                 self.location.x = np.random.randint(0, self.x_dim)
                 self.location.y = np.random.randint(0, self.y_dim)
         else:
-            self.startpos.split()
-            self.location.x = int(self.startpos[0])
-            self.location.y = int(self.startpos[2])
+            read_x, read_y = self.startpos.split()
+            self.location.x = int(read_x)
+            self.location.y = int(read_y)
         #self.location.x = self.startpos[0]
         #self.location.y = self.startpos[1]
 
@@ -70,13 +70,13 @@ class GridWorldEnv(discrete.DiscreteEnv):
         print("X Dim: ", self.x_dim, "\n")
         self.y_dim = int(dimensions_split[1])
         print("y Dim: ", self.y_dim, "\n")
-        dict_x = dict
-        dict_y = dict
+        dict_x = defaultdict(dict)
+        dict_y = defaultdict(list)
         for row in range(0, self.x_dim):  # read in each row
             new_row = self.map_file.readline()
             new_row_split = new_row.split()
             for col in range(0, self.y_dim):
-                # dict_x[col] = new_row[col]
+                dict_x[col] = new_row[col]
                 if new_row_split[col] == "O":
                     self.obstructed.append((col, row))
                     print("Blocked state: ", col, row, "\n")
@@ -85,9 +85,9 @@ class GridWorldEnv(discrete.DiscreteEnv):
                     self.goal.y = row
                     self.goal.state = (self.x_dim * row) + col
                     print("Goal state: ", self.goal.state, "\n")
-            # dict_y[row] = dict_x
+            dict_y[row] = dict_x
         self.nS = self.x_dim * self.y_dim
-        # return dict_y
+        return dict_y
 
     # need to determine how to treat blocked squares
     def gen_transitions(self):
