@@ -62,23 +62,29 @@ def value_iteration(env, theta=0.001, discount_factor=0.85):
     return policy, V
 
 
-def TDlambda(policy, env, num_eps=1000, alpha=.3, lamb=.6, gamma=.85):
+def TDlambda(policy, env, num_eps=100, alpha=.3, lamb=.6, gamma=.85):
     V = np.zeros(env.nS)
     e = np.zeros(env.nS)
     #prev_v = V
     Vtarg = V
+    step_its = list()
+    steps = 0
     for episode in range(0, num_eps):
         #e = np.zeros(env.nS)
         #V = prev_v
 
         observation = env.reset()
         observation = env.observation_space.sample()
+        step_its.append(steps)
+        steps = 0
+
         while observation != goal_state:
             prev_state = observation
             for action in range(env.nA):
                 if policy[observation][action] == 1:
                     break
             observation, reward, done, info = env.step(action)
+            steps += 1
             delta = reward + (gamma * V[observation]) - V[prev_state]
             e[prev_state] += 1
 
@@ -91,7 +97,7 @@ def TDlambda(policy, env, num_eps=1000, alpha=.3, lamb=.6, gamma=.85):
 
         #prev_v = V
     Vtarg[goal_state] = 100
-    return Vtarg
+    return Vtarg, step_its
 
 
 if __name__ == '__main__':
@@ -116,7 +122,9 @@ if __name__ == '__main__':
     policy, V = value_iteration(env)
     print(V)
 
-    tdV = TDlambda(policy, env)
+    tdV, steps = TDlambda(policy, env)
     print(tdV)
+    plt.plot(steps)
+    plt.show()
 
     env.close()

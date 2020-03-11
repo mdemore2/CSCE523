@@ -25,9 +25,9 @@ class GridWorldEnv(discrete.DiscreteEnv):
 
         self.location = Position
         self.goal = Position
-        #self.mapfile = "basic_gridworld.txt"
+        # self.mapfile = "basic_gridworld.txt"
         self.mapfile = input('Enter map file name:\n')
-        #self.startpos = (2, 2)
+        # self.startpos = (2, 2)
         self.startpos = input('Enter agent start position (x y) or r to randomly assign start position:\n')
 
         self.nA = 4
@@ -38,7 +38,7 @@ class GridWorldEnv(discrete.DiscreteEnv):
         self.obstructed = []
         self.map_file = open(self.mapfile, 'r')
         self.map = self.read_in()
-        #self.read_in()
+        # self.read_in()
         # map is accessible [y][x]
 
         if self.startpos == 'r':
@@ -51,8 +51,8 @@ class GridWorldEnv(discrete.DiscreteEnv):
             read_x, read_y = self.startpos.split()
             self.location.x = int(read_x)
             self.location.y = int(read_y)
-        #self.location.x = self.startpos[0]
-        #self.location.y = self.startpos[1]
+        # self.location.x = self.startpos[0]
+        # self.location.y = self.startpos[1]
 
         initial_states = np.zeros(self.nS)
         start_state = (self.location.y * self.x_dim) + self.location.x
@@ -152,9 +152,9 @@ class GridWorldEnv(discrete.DiscreteEnv):
 
                 # check for goal, build transition table
                 if next_state90 == self.goal.state:
-                    next_state90_list = (0.9,next_state90,100,1)
+                    next_state90_list = (0.9, next_state90, 100, 1)
                 else:
-                    next_state90_list = (0.9,next_state90,-1, 0)
+                    next_state90_list = (0.9, next_state90, -1, 0)
                 if next_state7 == self.goal.state:
                     next_state7_list = (0.07, next_state7, 100, 1)
                 else:
